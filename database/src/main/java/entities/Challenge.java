@@ -133,6 +133,8 @@ public class Challenge {
     }
 
 
+
+
     /**
      * Sets the quizUrl of the challenge.
      *
