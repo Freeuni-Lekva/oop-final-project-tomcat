@@ -2,7 +2,7 @@ package entities;
 
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 
 /**
@@ -28,7 +28,7 @@ public class Note {
 
     @Column(name = "date_time_column")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateTime;
+    private LocalDateTime dateTime;
 
     /**
      * Default constructor.
@@ -38,7 +38,7 @@ public class Note {
     }
 
 
-    public Note(User from, User to, String message, Date dateTime) {
+    public Note(User from, User to, String message, LocalDateTime dateTime) {
         this.from = from;
         this.to = to;
         this.message = message;
@@ -125,7 +125,7 @@ public class Note {
      *
      * @return the time
      */
-    public Date getTime() {
+    public LocalDateTime getTime() {
         return dateTime;
     }
 
@@ -134,7 +134,7 @@ public class Note {
      *
      * @param dateTime the dateTime of the note
      */
-    public void setTime(Date dateTime) {
+    public void setTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }
 
