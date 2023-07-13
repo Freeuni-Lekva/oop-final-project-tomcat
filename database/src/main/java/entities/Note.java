@@ -27,7 +27,7 @@ public class Note {
     private String message;
 
     @Column(name = "date_time_column")
-    @Temporal(TemporalType.TIMESTAMP)
+   // @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime dateTime;
 
     /**
