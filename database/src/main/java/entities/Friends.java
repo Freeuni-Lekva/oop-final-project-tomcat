@@ -39,26 +39,51 @@ public class Friends {
     }
 
     // getters and setters
+
+    /**
+     * sets the friendship id to the received value
+     * @param id to set
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * returns the value of the friendship's unique id
+     * @return the id of the friendship
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * returns the first friend
+     * @return firstUser the first friend
+     */
     public User getFirstUser() {
         return firstUser;
     }
 
+    /**
+     * sets the first friend's value to the received one.
+     * @param firstUser - first friend in this friendship
+     */
     public void setFirstUser(User firstUser) {
         this.firstUser = firstUser;
     }
 
+    /**
+     * returns the second friend
+     * @return secondUser - the second friend
+     */
     public User getSecondUser() {
         return secondUser;
     }
 
+    /**
+     * sets the second friend's value to the received one.
+     * @param secondUser - second friend in this friendship
+     */
     public void setSecondUser(User secondUser) {
         this.secondUser = secondUser;
     }

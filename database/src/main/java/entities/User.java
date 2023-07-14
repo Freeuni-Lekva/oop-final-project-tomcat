@@ -54,87 +54,98 @@ public class User {
 
 
     /**
-     * returns user's unique id
-     * @return user's id
+     * returns user's unique id.
+     *
+     * @return user's id.
      */
     public Long getId() {
         return id;
     }
 
     /**
-     * sets user's id
-     * @param id to set
+     * sets user's id.
+     *
+     * @param id to set.
      */
     public void setId(Long id) {
         this.id = id;
     }
 
     /**
-     * returns user's username
-     * @return username
+     * returns user's username.
+     *
+     * @return username.
      */
     public String getUsername() {
         return username;
     }
 
     /**
-     * sets new value of the user's username
-     * @param username to set
+     * sets new value of the user's username.
+     *
+     * @param username to set.
      */
     public void setUsername(String username) {
         this.username = username;
     }
 
     /**
-     *returns the first name of the user
-     * @return user's first name
+     * returns the first name of the user.
+     *
+     * @return user's first name.
      */
     public String getFirstName() {
         return firstName;
     }
 
     /**
-     * sets the user's first name to the new one
-     * @param firstName to set
+     * sets the user's first name to the received one.
+     *
+     * @param firstName to set.
      */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
     /**
-     * returns the last name of the user
-     * @return lastName of the user
+     * returns the last name of the user.
+     *
+     * @return lastName of the user.
      */
     public String getLastName() {
         return lastName;
     }
 
     /**
-     * sets the user's last name to the new one
-     * @param lastName to set
+     * sets the user's last name to the new one.
+     *
+     * @param lastName to set.
      */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
     /**
-     * returns the password hash of the user
-     * @return passwordHash
+     * returns the password hash of the user.
+     *
+     * @return passwordHash.
      */
     public String getPasswordHash() {
         return passwordHash;
     }
 
     /**
-     * sets the user's password hash to the new one
-     * @param passwordHash to set
+     * sets the user's password hash to the new one.
+     *
+     * @param passwordHash to set.
      */
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
     }
 
     /**
-     * returns the salt of the user
+     * returns the salt of the user.
+     *
      * @return salt
      */
     public String getSalt() {
@@ -142,8 +153,9 @@ public class User {
     }
 
     /**
-     * sets the salt value to the new one
-     * @param salt to set
+     * sets the salt value to the new one.
+     *
+     * @param salt to set.
      */
     public void setSalt(String salt) {
         this.salt = salt;
