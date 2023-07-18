@@ -2,6 +2,7 @@ package entities;
 
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "challenges")
@@ -9,23 +10,26 @@ public class Challenge {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "quiz_id")
+    @JoinColumn(name = "quiz_id", referencedColumnName = "id", nullable = false)
     private Quiz quiz;
 
-    @Column(name = "from_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "from_id", referencedColumnName = "id", nullable = false)
     private User from;
 
-    @Column(name = "to_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "to_id", referencedColumnName = "id", nullable = false)
     private User to;
 
-    @Column(name = "quiz_url")
+    @Column(name = "quiz_url", nullable = false)
     private String quizUrl;
 
-    @Column(name = "Sender_BestScore")
+    @Column(name = "Sender_BestScore", nullable = false)
     private int bestScore;
 
 
@@ -69,7 +73,7 @@ public class Challenge {
      *
      * @return the quiz of the challenge
      */
-    public Quiz getQuiz(){
+    public Quiz getQuiz() {
         return quiz;
     }
 
@@ -82,7 +86,6 @@ public class Challenge {
     public void setQuiz(Quiz quiz) {
         this.quiz = quiz;
     }
-
 
 
     /**
@@ -128,11 +131,9 @@ public class Challenge {
      *
      * @return the quizURL of the challenge
      */
-    public String getQuizUrl(){
+    public String getQuizUrl() {
         return quizUrl;
     }
-
-
 
 
     /**
@@ -150,7 +151,7 @@ public class Challenge {
      *
      * @return the bestScore of the challenge
      */
-    public int getBestScore(){
+    public int getBestScore() {
         return bestScore;
     }
 
@@ -164,4 +165,28 @@ public class Challenge {
         this.bestScore = bestScore;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Challenge challenge = (Challenge) o;
+        return bestScore == challenge.bestScore && Objects.equals(id, challenge.id) && Objects.equals(quiz, challenge.quiz) && Objects.equals(from, challenge.from) && Objects.equals(to, challenge.to) && Objects.equals(quizUrl, challenge.quizUrl);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, quiz, from, to, quizUrl, bestScore);
+    }
+
+    @Override
+    public String toString() {
+        return "Challenge{" +
+                "id=" + id +
+                ", quiz=" + quiz +
+                ", from=" + from +
+                ", to=" + to +
+                ", quizUrl='" + quizUrl + '\'' +
+                ", bestScore=" + bestScore +
+                '}';
+    }
 }

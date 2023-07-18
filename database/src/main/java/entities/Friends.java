@@ -1,6 +1,7 @@
 package entities;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 /**
  * Represents a friends' entity.
@@ -10,6 +11,7 @@ import javax.persistence.*;
 public class Friends {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @ManyToOne
@@ -86,5 +88,27 @@ public class Friends {
      */
     public void setSecondUser(User secondUser) {
         this.secondUser = secondUser;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Friends friends = (Friends) o;
+        return Objects.equals(id, friends.id) && Objects.equals(firstUser, friends.firstUser) && Objects.equals(secondUser, friends.secondUser);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstUser, secondUser);
+    }
+
+    @Override
+    public String toString() {
+        return "Friends{" +
+                "id=" + id +
+                ", firstUser=" + firstUser +
+                ", secondUser=" + secondUser +
+                '}';
     }
 }

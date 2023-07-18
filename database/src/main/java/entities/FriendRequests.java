@@ -1,7 +1,8 @@
 package entities;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.util.Objects;
 
 /**
  * Represents a friend requests entity.
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 public class FriendRequests {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @ManyToOne
@@ -21,8 +23,8 @@ public class FriendRequests {
     @JoinColumn(name = "recipient_user" , referencedColumnName = "id" , nullable = false)
     private User recipientUser;
 
-    @Column(name = "sent_time", nullable = false)
-    private LocalDateTime sentTime;
+    @Column(name = "sent_timestamp", nullable = false)
+    private Long sentTimestamp;
 
     // constructors
 
@@ -31,7 +33,7 @@ public class FriendRequests {
      * default constructor
      */
     public FriendRequests() {
-        this.sentTime = LocalDateTime.now();
+        this.sentTimestamp = Instant.now().toEpochMilli();
     }
 
     /**
@@ -43,7 +45,7 @@ public class FriendRequests {
     public FriendRequests(User senderUser, User recipientUser) {
         this.senderUser = senderUser;
         this.recipientUser = recipientUser;
-        this.sentTime = LocalDateTime.now();
+        this.sentTimestamp = Instant.now().toEpochMilli();
     }
 
     /**
@@ -104,18 +106,41 @@ public class FriendRequests {
     /**
      * returns the time at which the request was sent.
      *
-     * @return sentTime of the request.
+     * @return sent time of the request.
      */
-    public LocalDateTime getSentTime() {
-        return sentTime;
+    public Long getSentTimestamp() {
+        return sentTimestamp;
     }
 
     /**
      * sets the time of the request sending to the new value.
      *
-     * @param sentTime new value of the time sent.
+     * @param sentTimestamp new value of the time sent.
      */
-    public void setSentTime(LocalDateTime sentTime) {
-        this.sentTime = sentTime;
+    public void setSentTimestamp(Long sentTimestamp) {
+        this.sentTimestamp = sentTimestamp;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FriendRequests that = (FriendRequests) o;
+        return Objects.equals(id, that.id) && Objects.equals(senderUser, that.senderUser) && Objects.equals(recipientUser, that.recipientUser) && Objects.equals(sentTimestamp, that.sentTimestamp);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, senderUser, recipientUser, sentTimestamp);
+    }
+
+    @Override
+    public String toString() {
+        return "FriendRequests{" +
+                "id=" + id +
+                ", senderUser=" + senderUser +
+                ", recipientUser=" + recipientUser +
+                ", sentTimestamp=" + sentTimestamp +
+                '}';
     }
 }

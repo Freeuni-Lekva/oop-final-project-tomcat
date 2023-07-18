@@ -12,14 +12,15 @@ import javax.persistence.*;
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "quiz_id")
+    @JoinColumn(name = "quiz_id", referencedColumnName = "id", nullable = false)
     private Quiz quiz;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "question_type")
+    @Column(name = "question_type", nullable = false)
     private QuestionType questionType;
 
     @Column(name = "answer_1")

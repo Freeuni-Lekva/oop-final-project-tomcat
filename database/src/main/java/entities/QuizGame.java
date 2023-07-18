@@ -1,7 +1,7 @@
 package entities;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * Represents a quiz entity.
@@ -11,24 +11,25 @@ import java.time.LocalDateTime;
 public class QuizGame {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "quiz_id")
+    @JoinColumn(name = "quiz_id", referencedColumnName = "id", nullable = false)
     private Quiz quiz;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "player_id")
+    @JoinColumn(name = "player_id", referencedColumnName = "id", nullable = false)
     private User player;
 
-    @Column(name = "score")
+    @Column(name = "score", nullable = false)
     private int score;
 
-    @Column(name = "datetime_started")
-    private LocalDateTime datetimeStarted;
+    @Column(name = "start_timestamp")
+    private Long startTimestamp;
 
-    @Column(name = "datetime_finished")
-    private LocalDateTime datetimeFinished;
+    @Column(name = "finish_timestamp")
+    private Long finishTimestamp;
 
     /**
      * Default constructor.
@@ -37,20 +38,20 @@ public class QuizGame {
     }
 
     /**
-     * Constructs a QuizGame object with the specified quiz, player, score, datetime started, and datetime finished.
+     * Constructs a QuizGame object with the specified quiz, player, score, timestamp started, and timestamp finished.
      *
      * @param quiz            the quiz played in the game
      * @param player          the player who played the game
      * @param score           the score achieved in the game
-     * @param datetimeStarted the datetime when the game started
-     * @param datetimeFinished the datetime when the game finished
+     * @param startTimestamp the timestamp when the game started
+     * @param finishTimestamp the timestamp when the game finished
      */
-    public QuizGame(Quiz quiz, User player, int score, LocalDateTime datetimeStarted, LocalDateTime datetimeFinished) {
+    public QuizGame(Quiz quiz, User player, int score, Long startTimestamp, Long finishTimestamp) {
         this.quiz = quiz;
         this.player = player;
         this.score = score;
-        this.datetimeStarted = datetimeStarted;
-        this.datetimeFinished = datetimeFinished;
+        this.startTimestamp = startTimestamp;
+        this.finishTimestamp = finishTimestamp;
     }
 
     /**
@@ -126,38 +127,63 @@ public class QuizGame {
     }
 
     /**
-     * Gets the datetime when the game started.
+     * Gets the timestamp when the game started.
      *
-     * @return the datetime when the game started
+     * @return the timestamp when the game started
      */
-    public LocalDateTime getDatetimeStarted() {
-        return datetimeStarted;
+    public Long getStartTimestamp() {
+        return startTimestamp;
     }
 
     /**
-     * Sets the datetime when the game started.
+     * Sets the timestamp when the game started.
      *
-     * @param datetimeStarted the datetime when the game started
+     * @param startTimestamp the timestamp when the game started
      */
-    public void setDatetimeStarted(LocalDateTime datetimeStarted) {
-        this.datetimeStarted = datetimeStarted;
+    public void setStartTimestamp(Long startTimestamp) {
+        this.startTimestamp = startTimestamp;
     }
 
     /**
-     * Gets the datetime when the game finished.
+     * Gets the timestamp when the game finished.
      *
-     * @return the datetime when the game finished
+     * @return the timestamp when the game finished
      */
-    public LocalDateTime getDatetimeFinished() {
-        return datetimeFinished;
+    public Long getFinishTimestamp() {
+        return finishTimestamp;
     }
 
     /**
-     * Sets the datetime when the game finished.
+     * Sets the timestamp when the game finished.
      *
-     * @param datetimeFinished the datetime when the game finished
+     * @param finishTimestamp the timestamp when the game finished
      */
-    public void setDatetimeFinished(LocalDateTime datetimeFinished) {
-        this.datetimeFinished = datetimeFinished;
+    public void setFinishTimestamp(Long finishTimestamp) {
+        this.finishTimestamp = finishTimestamp;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        QuizGame quizGame = (QuizGame) o;
+        return score == quizGame.score && Objects.equals(id, quizGame.id) && Objects.equals(quiz, quizGame.quiz) && Objects.equals(player, quizGame.player) && Objects.equals(startTimestamp, quizGame.startTimestamp) && Objects.equals(finishTimestamp, quizGame.finishTimestamp);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, quiz, player, score, startTimestamp, finishTimestamp);
+    }
+
+    @Override
+    public String toString() {
+        return "QuizGame{" +
+                "id=" + id +
+                ", quiz=" + quiz +
+                ", player=" + player +
+                ", score=" + score +
+                ", startTimestamp=" + startTimestamp +
+                ", finishTimestamp=" + finishTimestamp +
+                '}';
     }
 }

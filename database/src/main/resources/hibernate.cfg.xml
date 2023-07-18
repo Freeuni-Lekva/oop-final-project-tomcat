@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-configuration SYSTEM
-        "classpath://org/hibernate/hibernate-configuration-3.0.dtd">
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <!-- Database connection settings -->
-        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/quizdb?createDatabaseIfNotExist=true</property>
-        <property name="hibernate.connection.username">admin</property>
-        <property name="hibernate.connection.password">password</property>
-
-        <!-- Hibernate dialect for MySQL -->
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-
-        <!-- Disable the second-level cache -->
-        <property name="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
-
-        <!-- Set the show_sql property to true to enable logging of SQL statements -->
-        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.connection.driver_class">org.sqlite.JDBC</property>
+        <property name="hibernate.connection.url">jdbc:sqlite:quizdb.db</property>
+        <property name="hibernate.dialect">org.sqlite.hibernate.dialect.SQLiteDialect</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <mapping class="entities.Challenge"/>
+        <mapping class="entities.FriendRequests"/>
+        <mapping class="entities.Friends"/>
+        <mapping class="entities.Note"/>
+        <mapping class="entities.Question"/>
+        <mapping class="entities.Quiz"/>
+        <mapping class="entities.QuizGame"/>
+        <mapping class="entities.User"/>
     </session-factory>
 </hibernate-configuration>

@@ -2,7 +2,7 @@ package entities;
 
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Objects;
 
 
 /**
@@ -14,21 +14,23 @@ public class Note {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "from_id")
+    @JoinColumn(name = "from_id", referencedColumnName = "id", nullable = false)
     private User from;
 
-    @Column(name = "to_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "to_id", referencedColumnName = "id", nullable = false)
     private User to;
 
     @Column(name = "message")
     private String message;
 
-    @Column(name = "date_time_column")
+    @Column(name = "timestamp")
    // @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime dateTime;
+    private Long timestamp;
 
     /**
      * Default constructor.
@@ -38,11 +40,11 @@ public class Note {
     }
 
 
-    public Note(User from, User to, String message, LocalDateTime dateTime) {
+    public Note(User from, User to, String message, Long timestamp) {
         this.from = from;
         this.to = to;
         this.message = message;
-        this.dateTime = dateTime;
+        this.timestamp = timestamp;
     }
 
     /**
@@ -125,17 +127,40 @@ public class Note {
      *
      * @return the time
      */
-    public LocalDateTime getTime() {
-        return dateTime;
+    public Long getTime() {
+        return timestamp;
     }
 
     /**
      * Sets the time.
      *
-     * @param dateTime the dateTime of the note
+     * @param timestamp the timestamp of the note
      */
-    public void setTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setTime(Long timestamp) {
+        this.timestamp = timestamp;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Note note = (Note) o;
+        return Objects.equals(id, note.id) && Objects.equals(from, note.from) && Objects.equals(to, note.to) && Objects.equals(message, note.message) && Objects.equals(timestamp, note.timestamp);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, from, to, message, timestamp);
+    }
+
+    @Override
+    public String toString() {
+        return "Note{" +
+                "id=" + id +
+                ", from=" + from +
+                ", to=" + to +
+                ", message='" + message + '\'' +
+                ", timestamp=" + timestamp +
+                '}';
+    }
 }
