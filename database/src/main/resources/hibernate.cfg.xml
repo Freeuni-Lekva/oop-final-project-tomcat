@@ -8,6 +8,7 @@
         <property name="hibernate.connection.url">jdbc:sqlite:quizdb.db</property>
         <property name="hibernate.dialect">org.sqlite.hibernate.dialect.SQLiteDialect</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
+        <mapping class="entities.Answer"/>
         <mapping class="entities.Challenge"/>
         <mapping class="entities.FriendRequests"/>
         <mapping class="entities.Friends"/>
