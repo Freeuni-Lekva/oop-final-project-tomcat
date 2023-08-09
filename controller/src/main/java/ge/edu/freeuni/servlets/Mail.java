@@ -1,4 +1,4 @@
-package servlets;
+package ge.edu.freeuni.servlets;
 
 import javax.servlet.annotation.WebServlet;
 

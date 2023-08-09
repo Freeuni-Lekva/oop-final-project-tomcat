@@ -1,6 +1,6 @@
-package servlets;
+package ge.edu.freeuni.servlets;
 
-import org.example.UserService;
+import ge.edu.freeuni.services.UserService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.nio.file.Files;
 
 /**
  * on this page user creates a challenge,
@@ -39,7 +38,7 @@ public class ChallengeSend extends HttpServlet {
                     "WEB-INF/UserDoesNotExist.jsp");
         }
 
-        if(userService.account_exists(to)){
+        if(userService.accountExists(to)){
             RequestDispatcher accountExistsDispatcher = httpServletRequest.getRequestDispatcher(
                     "WEB-INF/ChallengeSent.jsp");
             HttpSession httpSession = httpServletRequest.getSession();

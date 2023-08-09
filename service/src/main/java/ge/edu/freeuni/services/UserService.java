@@ -13,7 +13,15 @@ import java.util.List;
 public class UserService {
     private DAO<User> userDAO = DAOFactory.getInstance().getDAO(User.class);
 
-    public User getByUsername(String username) {
+    public UserModel searchUser(String username) {
+        User users = getByUsername(username);
+        if (users == null) {
+            return null;
+        }
+        return EntityToModelBridge.toUserModel(users);
+    }
+
+    private User getByUsername(String username) {
         List<User> users = userDAO.getByField("username", username);
         if (users == null || users.isEmpty()) {
             return null;
