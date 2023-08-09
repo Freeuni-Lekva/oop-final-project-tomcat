@@ -1,10 +1,10 @@
 package dao;
 
-import entities.User;
+import ge.edu.freeuni.entities.User;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
-import providers.DAO;
-import providers.DAOFactory;
+import ge.edu.freeuni.providers.DAO;
+import ge.edu.freeuni.providers.DAOFactory;
 
 import java.io.File;
 import java.util.List;

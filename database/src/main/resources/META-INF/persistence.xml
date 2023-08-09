@@ -6,7 +6,7 @@
              version="2.2">
 
     <persistence-unit name="my-persistence-unit" transaction-type="RESOURCE_LOCAL">
-        <class>entities.User</class> <!-- Your entity class package -->
+        <class>ge.edu.freeuni.entities.User</class> <!-- Your entity class package -->
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:C:\Users\muradi\Desktop\MACS\forWeb\oop-final-project-tomcat\database\quizdb.db"/>
             <property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC"/>
