@@ -13,7 +13,7 @@
 </head>
 <body>
 <h1>Challenge Sent</h1>
-<p>Your challenge has been successfully sent to the specified user.</p>
+<p>Your challenge has been successfully sent to the <%=session.getAttribute("to")%></p>
 <a href="index.jsp">Back to Home</a>
 </body>
 </html>
