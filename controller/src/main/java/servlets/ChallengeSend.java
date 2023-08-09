@@ -9,7 +9,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.nio.file.Files;
 
 /**
  * on this page user creates a challenge,
@@ -40,6 +42,8 @@ public class ChallengeSend extends HttpServlet {
         if(userService.account_exists(to)){
             RequestDispatcher accountExistsDispatcher = httpServletRequest.getRequestDispatcher(
                     "WEB-INF/ChallengeSent.jsp");
+            HttpSession httpSession = httpServletRequest.getSession();
+            httpSession.setAttribute("to", to);
             accountExistsDispatcher.forward(httpServletRequest,httpServletResponse);
         }else{
             RequestDispatcher accoundnotExist = httpServletRequest.getRequestDispatcher(
