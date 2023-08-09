@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * The visitor sees the login page and a link to the register one.
+ */
 @WebServlet(name = "LoginServlet",urlPatterns = "/login")
 public class LogIn extends HttpServlet {
     private final UserService userService = new UserService();
