@@ -4,14 +4,15 @@ import entities.User;
 import org.example.UserService;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+@WebServlet(name = "register new account", urlPatterns = "/register")
 public class Register extends HttpServlet {
     private final UserService userService = new UserService();
     @Override
@@ -22,10 +23,9 @@ public class Register extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        ServletContext servlet = getServletContext();
-        String username = httpServletRequest.getParameter("username");
-        String firstName = httpServletRequest.getParameter("firstName");
-        String lastName = httpServletRequest.getParameter("lastName");
+        String username = httpServletRequest.getParameter("username").toLowerCase();
+        String firstName = httpServletRequest.getParameter("firstName").toLowerCase();
+        String lastName = httpServletRequest.getParameter("lastName").toLowerCase();
         String password = httpServletRequest.getParameter("password");
 
         if(username.length() == 0  || password.length() == 0 ){
@@ -39,7 +39,7 @@ public class Register extends HttpServlet {
             accountExistsDispatcher.forward(httpServletRequest,httpServletResponse);
         }else{
             User newUser = new User(username,firstName,lastName,password);
-            userService.add_account(newUser);
+            userService.addAccount(newUser);
 
             HttpSession httpSession = httpServletRequest.getSession();
             httpSession.setAttribute("currentUser",username);

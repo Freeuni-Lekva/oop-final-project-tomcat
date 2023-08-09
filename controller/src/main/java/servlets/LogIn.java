@@ -4,14 +4,15 @@ import entities.User;
 import org.example.UserService;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+@WebServlet(name = "LoginServlet",urlPatterns = "/login")
 public class LogIn extends HttpServlet {
     private final UserService userService = new UserService();
     @Override
@@ -22,8 +23,7 @@ public class LogIn extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        ServletContext servlet = getServletContext();
-        String username = httpServletRequest.getParameter("username");
+        String username = httpServletRequest.getParameter("username").toLowerCase();
         String password = httpServletRequest.getParameter("password");
 
         User logInUser = userService.getUserEntity(username,password);
