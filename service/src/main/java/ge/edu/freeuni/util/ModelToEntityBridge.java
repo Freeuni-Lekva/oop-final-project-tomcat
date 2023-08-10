@@ -1,19 +1,7 @@
 package ge.edu.freeuni.util;
 
-import ge.edu.freeuni.entities.Answer;
-import ge.edu.freeuni.entities.FriendRequest;
-import ge.edu.freeuni.entities.Friendship;
-import ge.edu.freeuni.entities.Question;
-import ge.edu.freeuni.entities.Quiz;
-import ge.edu.freeuni.entities.QuizGame;
-import ge.edu.freeuni.entities.User;
-import ge.edu.freeuni.models.AnswerModel;
-import ge.edu.freeuni.models.FriendRequestModel;
-import ge.edu.freeuni.models.FriendshipModel;
-import ge.edu.freeuni.models.QuestionModel;
-import ge.edu.freeuni.models.QuizGameModel;
-import ge.edu.freeuni.models.QuizModel;
-import ge.edu.freeuni.models.UserModel;
+import ge.edu.freeuni.entities.*;
+import ge.edu.freeuni.models.*;
 import ge.edu.freeuni.providers.DAOFactory;
 
 import java.util.List;
@@ -97,6 +85,16 @@ public class ModelToEntityBridge {
                 quizGame.getScore(),
                 quizGame.getStartTimestamp(),
                 quizGame.getFinishTimestamp()
+        );
+    }
+
+    public static Challenge toChallengeEntity(ChallengeModel challengeModel) {
+        return new Challenge(
+                toQuizEntity(challengeModel.getQuiz()),
+                toUserEntity(challengeModel.getSender()),
+                toUserEntity(challengeModel.getReceiver()),
+                challengeModel.getQuizUrl(),
+                challengeModel.getBestScore()
         );
     }
 

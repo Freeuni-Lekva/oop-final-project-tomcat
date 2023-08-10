@@ -6,17 +6,27 @@ import ge.edu.freeuni.entities.User;
 import ge.edu.freeuni.providers.DAO;
 import ge.edu.freeuni.providers.DAOFactory;
 import ge.edu.freeuni.responses.ChallengeResponse;
-import ge.edu.freeuni.responses.QuizResponse;
+import ge.edu.freeuni.responses.ChallengesResponse;
+import ge.edu.freeuni.responses.ServiceActionResponse;
 import ge.edu.freeuni.util.EntityToModelBridge;
+import ge.edu.freeuni.util.ModelToEntityBridge;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ChallengeService {
 
     private DAO<User> userDAO = DAOFactory.getInstance().getDAO(User.class);
     private DAO<Quiz> quizDAO = DAOFactory.getInstance().getDAO(Quiz.class);
     private DAO<Challenge> challengeDAO = DAOFactory.getInstance().getDAO(Challenge.class);
+    private final Map<Long, ChallengeModel> allChallenges;
 
 
-    public ChallengeService(){}
+    public ChallengeService(Map<Long, ChallengeModel> allChallenges){
+        this.allChallenges = allChallenges;
+    }
 
 
     public void setUserDAO(DAO<User> userDAO) {
@@ -31,6 +41,21 @@ public class ChallengeService {
         this.challengeDAO = challengeDAO;
     }
 
+    public ServiceActionResponse createQuiz(ChallengeModel newChallenge) {
+        try {
+            if (newChallenge.getQuizUrl().isEmpty() || newChallenge.getSender() == null
+                    || newChallenge.getQuiz() == null || newChallenge.getReceiver() == null) {
+                return new ServiceActionResponse(false, "Invalid challenge credentials");
+            }
+            Challenge challenge = ModelToEntityBridge.toChallengeEntity(newChallenge);
+            Long id = (Long) challengeDAO.create(challenge);
+            allChallenges.put(id, newChallenge);
+            return new ServiceActionResponse(true, null);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return new ServiceActionResponse(false, e.getMessage());
+        }
+    }
 
 
     public ChallengeResponse getChallenge(Long id){
@@ -44,6 +69,18 @@ public class ChallengeService {
         }catch (RuntimeException e) {
             e.printStackTrace();
             return new ChallengeResponse(false, e.getMessage(), null);
+        }
+    }
+
+    public ChallengesResponse getAllChallenges(Long senderId) {
+        try {
+            List<ChallengeModel> challenges = allChallenges.values().stream()
+                    .filter(challenge -> Objects.equals(challenge.getSender().getId(), senderId))
+                    .collect(Collectors.toList());
+            return new ChallengesResponse(true, null, challenges);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return new ChallengesResponse(false, e.getMessage(), null);
         }
     }
 }
