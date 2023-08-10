@@ -5,11 +5,13 @@ import ge.edu.freeuni.entities.FriendRequest;
 import ge.edu.freeuni.entities.Friendship;
 import ge.edu.freeuni.entities.Question;
 import ge.edu.freeuni.entities.Quiz;
+import ge.edu.freeuni.entities.QuizGame;
 import ge.edu.freeuni.entities.User;
 import ge.edu.freeuni.models.AnswerModel;
 import ge.edu.freeuni.models.FriendRequestModel;
 import ge.edu.freeuni.models.FriendshipModel;
 import ge.edu.freeuni.models.QuestionModel;
+import ge.edu.freeuni.models.QuizGameModel;
 import ge.edu.freeuni.models.QuizModel;
 import ge.edu.freeuni.models.UserModel;
 
@@ -30,7 +32,8 @@ public class EntityToModelBridge {
                 answer.getId(),
                 answer.getQuestion().getId(),
                 answer.getAnswer(),
-                answer.getAccuracy().equalsIgnoreCase("t")
+                answer.getAccuracy().equalsIgnoreCase("t"),
+                answer.getPoints()
         );
     }
 
@@ -52,8 +55,7 @@ public class EntityToModelBridge {
                 question.getQuiz().getId(),
                 question.getQuestionType(),
                 answers,
-                question.getImageUrl(),
-                question.getPoints()
+                question.getImageUrl()
         );
     }
 
@@ -67,6 +69,30 @@ public class EntityToModelBridge {
                 quiz.getDescription(),
                 toUserModel(quiz.getOwner()),
                 questions
+        );
+    }
+
+    public static QuizGameModel toQuizGameModel(QuizGame quizGame) {
+        return new QuizGameModel(
+                quizGame.getId(),
+                toQuizModel(quizGame.getQuiz()),
+                toUserModel(quizGame.getPlayer()),
+                quizGame.getScore(),
+                null,
+                quizGame.getStartTimestamp(),
+                quizGame.getFinishTimestamp()
+        );
+    }
+
+    public static QuizGameModel toQuizGameModel(QuizGame quizGame, Long id) {
+        return new QuizGameModel(
+                id,
+                toQuizModel(quizGame.getQuiz()),
+                toUserModel(quizGame.getPlayer()),
+                quizGame.getScore(),
+                null,
+                quizGame.getStartTimestamp(),
+                quizGame.getFinishTimestamp()
         );
     }
 

@@ -16,12 +16,13 @@ public class DAO<T> {
         this.type = type;
     }
 
-    public void create(T entity) throws RuntimeException {
+    public Serializable create(T entity) throws RuntimeException {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
-            session.save(entity);
+            Serializable id = session.save(entity);
             transaction.commit();
+            return id;
         } catch (Exception e) {
             e.printStackTrace();
             if (HibernateUtil.allowRollBack(transaction)) {

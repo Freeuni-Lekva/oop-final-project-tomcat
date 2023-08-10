@@ -8,15 +8,18 @@ public class AnswerModel {
     private String answer;
     private boolean isCorrect;
 
+    private Integer points;
+
     public AnswerModel(Long id) {
         this.id = id;
     }
 
-    public AnswerModel(Long id, Long questionId, String answer, boolean isCorrect) {
+    public AnswerModel(Long id, Long questionId, String answer, boolean isCorrect, Integer points) {
         this.id = id;
         this.questionId = questionId;
         this.answer = answer;
         this.isCorrect = isCorrect;
+        this.points = points;
     }
 
     public Long getId() {
@@ -47,6 +50,14 @@ public class AnswerModel {
         isCorrect = correct;
     }
 
+    public Integer getPoints() {
+        return points;
+    }
+
+    public void setPoints(Integer points) {
+        this.points = points;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -57,7 +68,8 @@ public class AnswerModel {
         if (isCorrect != that.isCorrect) return false;
         if (!Objects.equals(id, that.id)) return false;
         if (!Objects.equals(questionId, that.questionId)) return false;
-        return Objects.equals(answer, that.answer);
+        if (!Objects.equals(answer, that.answer)) return false;
+        return Objects.equals(points, that.points);
     }
 
     @Override
@@ -66,6 +78,7 @@ public class AnswerModel {
         result = 31 * result + (questionId != null ? questionId.hashCode() : 0);
         result = 31 * result + (answer != null ? answer.hashCode() : 0);
         result = 31 * result + (isCorrect ? 1 : 0);
+        result = 31 * result + (points != null ? points.hashCode() : 0);
         return result;
     }
 
@@ -76,6 +89,7 @@ public class AnswerModel {
                 ", questionId=" + questionId +
                 ", answer='" + answer + '\'' +
                 ", isCorrect=" + isCorrect +
+                ", points=" + points +
                 '}';
     }
 }

@@ -11,19 +11,17 @@ public class QuestionModel {
     private QuestionType questionType;
     private List<AnswerModel> answers;
     private String imageUrl;
-    private int points;
 
     public QuestionModel(Long id) {
         this.id = id;
     }
 
-    public QuestionModel(Long id, Long quizId, QuestionType questionType, List<AnswerModel> answers, String imageUrl, int points) {
+    public QuestionModel(Long id, Long quizId, QuestionType questionType, List<AnswerModel> answers, String imageUrl) {
         this.id = id;
         this.quizId = quizId;
         this.questionType = questionType;
         this.answers = answers;
         this.imageUrl = imageUrl;
-        this.points = points;
     }
 
     public Long getId() {
@@ -62,14 +60,6 @@ public class QuestionModel {
         this.imageUrl = imageUrl;
     }
 
-    public int getPoints() {
-        return points;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -77,7 +67,6 @@ public class QuestionModel {
 
         QuestionModel that = (QuestionModel) o;
 
-        if (points != that.points) return false;
         if (!Objects.equals(id, that.id)) return false;
         if (!Objects.equals(quizId, that.quizId)) return false;
         if (questionType != that.questionType) return false;
@@ -92,7 +81,6 @@ public class QuestionModel {
         result = 31 * result + (questionType != null ? questionType.hashCode() : 0);
         result = 31 * result + (answers != null ? answers.hashCode() : 0);
         result = 31 * result + (imageUrl != null ? imageUrl.hashCode() : 0);
-        result = 31 * result + points;
         return result;
     }
 
@@ -104,7 +92,6 @@ public class QuestionModel {
                 ", questionType=" + questionType +
                 ", answers=" + answers +
                 ", imageUrl='" + imageUrl + '\'' +
-                ", points=" + points +
                 '}';
     }
 }

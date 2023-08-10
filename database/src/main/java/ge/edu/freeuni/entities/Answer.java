@@ -3,6 +3,7 @@ package ge.edu.freeuni.entities;
 import javax.persistence.*;
 
 import javax.persistence.Entity;
+import java.util.Objects;
 
 /**
  * Represents an answer entity.
@@ -16,7 +17,7 @@ public class Answer {
     @Column(name = "answer_id")
     private Long id;
 
-    @ManyToOne(fetch =  FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id", referencedColumnName = "id", nullable = false)
     private Question question;
 
@@ -26,13 +27,17 @@ public class Answer {
     @Column(name = "is_correct", nullable = false)
     private String accuracy;
 
+    @Column(name = "points")
+    private Integer points;
+
     public Answer() {
     }
 
-    public Answer(Question question, String answer, String accuracy) {
+    public Answer(Question question, String answer, String accuracy, Integer points) {
         this.question = question;
         this.answer = answer;
         this.accuracy = accuracy;
+        this.points = points;
     }
 
     /**
@@ -105,5 +110,58 @@ public class Answer {
      */
     public void setAccuracy(String accuracy) {
         this.accuracy = accuracy;
+    }
+
+    /**
+     * Gets the score player gets if they guess the question correctly.
+     *
+     * @return the score player gets if they guess the question correctly
+     */
+    public int getPoints() {
+        return points;
+    }
+
+    /**
+     * Sets the score player gets if they guess the question correctly.
+     *
+     * @param points the score player gets if they guess the question correctly
+     */
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Answer answer1 = (Answer) o;
+
+        if (!Objects.equals(id, answer1.id)) return false;
+        if (!Objects.equals(question, answer1.question)) return false;
+        if (!Objects.equals(answer, answer1.answer)) return false;
+        if (!Objects.equals(accuracy, answer1.accuracy)) return false;
+        return Objects.equals(points, answer1.points);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (question != null ? question.hashCode() : 0);
+        result = 31 * result + (answer != null ? answer.hashCode() : 0);
+        result = 31 * result + (accuracy != null ? accuracy.hashCode() : 0);
+        result = 31 * result + (points != null ? points.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Answer{" +
+                "id=" + id +
+                ", question=" + question +
+                ", answer='" + answer + '\'' +
+                ", accuracy='" + accuracy + '\'' +
+                ", points=" + points +
+                '}';
     }
 }

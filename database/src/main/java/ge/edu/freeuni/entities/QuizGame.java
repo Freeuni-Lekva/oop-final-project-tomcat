@@ -23,7 +23,7 @@ public class QuizGame {
     private User player;
 
     @Column(name = "score", nullable = false)
-    private int score;
+    private Integer score;
 
     @Column(name = "start_timestamp")
     private Long startTimestamp;
@@ -43,10 +43,10 @@ public class QuizGame {
      * @param quiz            the quiz played in the game
      * @param player          the player who played the game
      * @param score           the score achieved in the game
-     * @param startTimestamp the timestamp when the game started
+     * @param startTimestamp  the timestamp when the game started
      * @param finishTimestamp the timestamp when the game finished
      */
-    public QuizGame(Quiz quiz, User player, int score, Long startTimestamp, Long finishTimestamp) {
+    public QuizGame(Quiz quiz, User player, Integer score, Long startTimestamp, Long finishTimestamp) {
         this.quiz = quiz;
         this.player = player;
         this.score = score;
@@ -113,7 +113,7 @@ public class QuizGame {
      *
      * @return the score achieved in the game
      */
-    public int getScore() {
+    public Integer getScore() {
         return score;
     }
 
@@ -122,7 +122,7 @@ public class QuizGame {
      *
      * @param score the score achieved in the game
      */
-    public void setScore(int score) {
+    public void setScore(Integer score) {
         this.score = score;
     }
 
