@@ -8,6 +8,8 @@ import ge.edu.freeuni.models.FriendshipModel;
 import ge.edu.freeuni.providers.DAO;
 import ge.edu.freeuni.providers.DAOFactory;
 import ge.edu.freeuni.requests.CreateFriendshipRequest;
+import ge.edu.freeuni.responses.AllFriendRequestsResponse;
+import ge.edu.freeuni.responses.AllFriendshipsResponse;
 import ge.edu.freeuni.responses.ServiceActionResponse;
 import ge.edu.freeuni.util.EntityToModelBridge;
 
@@ -23,61 +25,84 @@ public class FriendshipService {
     private DAO<FriendRequest> friendRequestDAO = DAOFactory.getInstance().getDAO(FriendRequest.class);
 
     public ServiceActionResponse sendFriendshipRequest(CreateFriendshipRequest request) {
-        User sender = userDAO.read(request.getSenderId());
-        if (sender == null) {
-            return  new ServiceActionResponse(false, "Sender user doesn't exist");
-        }
+        try {
+            User sender = userDAO.read(request.getSenderId());
+            if (sender == null) {
+                return new ServiceActionResponse(false, "Sender user doesn't exist");
+            }
 
-        User recipient = userDAO.read(request.getSenderId());
-        if (recipient == null) {
-            return  new ServiceActionResponse(false, "Recipient user doesn't exist");
-        }
+            User recipient = userDAO.read(request.getSenderId());
+            if (recipient == null) {
+                return new ServiceActionResponse(false, "Recipient user doesn't exist");
+            }
 
-        friendRequestDAO.create(new FriendRequest(sender, recipient));
+            friendRequestDAO.create(new FriendRequest(sender, recipient));
+        } catch (RuntimeException e) {
+            return new ServiceActionResponse(false, e.getMessage());
+        }
         return new ServiceActionResponse(true, null);
     }
 
     public ServiceActionResponse approveFriendshipRequest(Long recipientId, Long requestId) {
-        FriendRequest request = friendRequestDAO.read(requestId);
-        if (request == null) {
-            return new ServiceActionResponse(false, "Friendship request doesn't exist");
-        }
+        try {
+            FriendRequest request = friendRequestDAO.read(requestId);
+            if (request == null) {
+                return new ServiceActionResponse(false, "Friendship request doesn't exist");
+            }
 
-        if (!Objects.equals(recipientId, request.getRecipientUser().getId())) {
-            return new ServiceActionResponse(false, "Approver and recipient user don't match");
-        }
+            if (!Objects.equals(recipientId, request.getRecipientUser().getId())) {
+                return new ServiceActionResponse(false, "Approver and recipient user don't match");
+            }
 
-        friendshipDAO.create(new Friendship(request.getSenderUser(), request.getRecipientUser()));
-        friendRequestDAO.delete(requestId);
+            friendshipDAO.create(new Friendship(request.getSenderUser(), request.getRecipientUser()));
+            friendRequestDAO.delete(requestId);
+        } catch (RuntimeException e) {
+            return new ServiceActionResponse(false, e.getMessage());
+        }
         return new ServiceActionResponse(true, null);
     }
 
     public ServiceActionResponse rejectFriendshipRequest(Long recipientId, Long requestId) {
-        FriendRequest request = friendRequestDAO.read(requestId);
-        if (request == null) {
-            return new ServiceActionResponse(false, "Friendship request doesn't exist");
-        }
+        try {
+            FriendRequest request = friendRequestDAO.read(requestId);
+            if (request == null) {
+                return new ServiceActionResponse(false, "Friendship request doesn't exist");
+            }
 
-        if (!Objects.equals(recipientId, request.getRecipientUser().getId())) {
-            return new ServiceActionResponse(false, "Rejector and recipient user don't match");
-        }
+            if (!Objects.equals(recipientId, request.getRecipientUser().getId())) {
+                return new ServiceActionResponse(false, "Rejector and recipient user don't match");
+            }
 
-        friendRequestDAO.delete(requestId);
+            friendRequestDAO.delete(requestId);
+        } catch (RuntimeException e) {
+            return new ServiceActionResponse(false, e.getMessage());
+        }
         return new ServiceActionResponse(true, null);
     }
 
-    public List<FriendRequestModel> getAllFriendRequests(Long userId) {
-        return friendRequestDAO.getByField("recipient_user", userId).stream()
-                .map(EntityToModelBridge::toFriendRequestModel)
-                .collect(Collectors.toList());
+    public AllFriendRequestsResponse getAllFriendRequests(Long userId) {
+        try {
+            List<FriendRequestModel> requests = friendRequestDAO.getByField("recipient_user", userId).stream()
+                    .map(EntityToModelBridge::toFriendRequestModel)
+                    .collect(Collectors.toList());
+            return new AllFriendRequestsResponse(true, null, requests);
+        } catch (RuntimeException e) {
+            return new AllFriendRequestsResponse(false, e.getMessage(), null);
+        }
+
     }
 
-    public List<FriendshipModel> getAllFriends(Long userId) {
+    public AllFriendshipsResponse getAllFriends(Long userId) {
         String[] fieldNames = {"first_user", "second_user"};
         Serializable[] values = {userId, userId};
-        return friendshipDAO.getByFields(fieldNames, values).stream()
-                .map(EntityToModelBridge::toFriendshipModel)
-                .collect(Collectors.toList());
+        try {
+            List<FriendshipModel> friends = friendshipDAO.getByFields(fieldNames, values).stream()
+                    .map(EntityToModelBridge::toFriendshipModel)
+                    .collect(Collectors.toList());
+            return new AllFriendshipsResponse(true, null, friends);
+        } catch (RuntimeException e) {
+            return new AllFriendshipsResponse(false, e.getMessage(), null);
+        }
     }
 
     public void setUserDAO(DAO<User> userDAO) {

@@ -16,7 +16,7 @@ public class DAO<T> {
         this.type = type;
     }
 
-    public void create(T entity) {
+    public void create(T entity) throws RuntimeException {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
@@ -27,19 +27,20 @@ public class DAO<T> {
             if (HibernateUtil.allowRollBack(transaction)) {
                 transaction.rollback();
             }
+            throw new RuntimeException(e.getMessage());
         }
     }
 
-    public T read(Serializable id) {
+    public T read(Serializable id) throws RuntimeException {
         try (Session session = HibernateUtil.getSession()) {
             return session.get(type, id);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 
-    public void update(T entity) {
+    public void update(T entity) throws RuntimeException {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
@@ -50,10 +51,11 @@ public class DAO<T> {
             if (HibernateUtil.allowRollBack(transaction)) {
                 transaction.rollback();
             }
+            throw new RuntimeException(e.getMessage());
         }
     }
 
-    public void delete(Serializable id) {
+    public void delete(Serializable id) throws RuntimeException {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
@@ -67,15 +69,16 @@ public class DAO<T> {
             if (HibernateUtil.allowRollBack(transaction)) {
                 transaction.rollback();
             }
+            throw new RuntimeException(e.getMessage());
         }
     }
 
-    public List<T> getAll() {
+    public List<T> getAll() throws RuntimeException {
         try (Session session = HibernateUtil.getSession()) {
             return session.createQuery("FROM " + type.getSimpleName(), type).list();
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -88,7 +91,7 @@ public class DAO<T> {
         }
     }
 
-    public void clearTable() {
+    public void clearTable() throws RuntimeException {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
@@ -99,10 +102,11 @@ public class DAO<T> {
             if (HibernateUtil.allowRollBack(transaction)) {
                 transaction.rollback();
             }
+            throw new RuntimeException(e.getMessage());
         }
     }
 
-    public List<T> getByField(String fieldName, Serializable value) {
+    public List<T> getByField(String fieldName, Serializable value) throws RuntimeException {
         try (Session session = HibernateUtil.getSession()) {
             String hql = "FROM " + type.getSimpleName() + " WHERE " + fieldName + " = :value";
             Query<T> query = session.createQuery(hql, type);
@@ -110,11 +114,11 @@ public class DAO<T> {
             return query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 
-    public List<T> getByFields(String[] fieldNames, Serializable[] values) {
+    public List<T> getByFields(String[] fieldNames, Serializable[] values) throws RuntimeException {
         try (Session session = HibernateUtil.getSession()) {
             if (fieldNames.length != values.length) {
                 throw new IllegalArgumentException("Field names and values must have the same length.");
@@ -136,7 +140,7 @@ public class DAO<T> {
             return query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 }

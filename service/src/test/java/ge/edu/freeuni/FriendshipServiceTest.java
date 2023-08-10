@@ -91,7 +91,7 @@ public class FriendshipServiceTest {
         friendRequests.add(new FriendRequest(new User(), recipient));
         when(friendRequestDAO.getByField(eq("recipient_user"), anyLong())).thenReturn(friendRequests);
 
-        List<FriendRequestModel> result = friendshipService.getAllFriendRequests(2L);
+        List<FriendRequestModel> result = friendshipService.getAllFriendRequests(2L).getAllFriendRequests();
         assertEquals(2, result.size());
     }
 
@@ -103,7 +103,7 @@ public class FriendshipServiceTest {
         friendships.add(new Friendship(user, new User()));
         when(friendshipDAO.getByFields(any(), any())).thenReturn(friendships);
 
-        List<FriendshipModel> result = friendshipService.getAllFriends(1L);
+        List<FriendshipModel> result = friendshipService.getAllFriends(1L).getAllFriends();
         assertEquals(2, result.size());
     }
 }

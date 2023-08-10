@@ -5,6 +5,7 @@ import ge.edu.freeuni.models.UserModel;
 import ge.edu.freeuni.responses.ServiceActionResponse;
 import ge.edu.freeuni.providers.DAO;
 import ge.edu.freeuni.providers.DAOFactory;
+import ge.edu.freeuni.responses.UserResponse;
 import ge.edu.freeuni.util.EntityToModelBridge;
 import ge.edu.freeuni.util.ModelToEntityBridge;
 
@@ -13,15 +14,19 @@ import java.util.List;
 public class UserService {
     private DAO<User> userDAO = DAOFactory.getInstance().getDAO(User.class);
 
-    public UserModel searchUser(String username) {
-        User users = getByUsername(username);
-        if (users == null) {
-            return null;
+    public UserResponse searchUser(String username) {
+        try {
+            User users = getByUsername(username);
+            if (users == null) {
+                return new UserResponse(false, "User doesn't exist", null);
+            }
+            return new UserResponse(true, null, EntityToModelBridge.toUserModel(users));
+        } catch (RuntimeException e) {
+            return new UserResponse(false, e.getMessage(), null);
         }
-        return EntityToModelBridge.toUserModel(users);
     }
 
-    private User getByUsername(String username) {
+    private User getByUsername(String username) throws RuntimeException {
         List<User> users = userDAO.getByField("username", username);
         if (users == null || users.isEmpty()) {
             return null;
@@ -29,31 +34,39 @@ public class UserService {
         return users.get(0);
     }
 
-    public ServiceActionResponse addAccount(UserModel newUser) {
+    public UserResponse addAccount(UserModel newUser) {
         if (newUser.getUsername().isEmpty() || newUser.getPassword().isEmpty()
                 || newUser.getFirstname().isEmpty() || newUser.getLastname().isEmpty()) {
-            return new ServiceActionResponse(false, "Incorrect credentials");
+            return new UserResponse(false, "Incorrect credentials", null);
         }
 
         if (accountExists(newUser.getUsername())) {
-            return new ServiceActionResponse(false, "Username is occupied");
+            return new UserResponse(false, "Username is occupied", null);
         }
 
-        userDAO.create(ModelToEntityBridge.toUserEntity(newUser));
-        return new ServiceActionResponse(true, null);
+        try {
+            userDAO.create(ModelToEntityBridge.toUserEntity(newUser));
+        } catch (RuntimeException e) {
+            return new UserResponse(false, e.getMessage(), null);
+        }
+        return new UserResponse(true, null, newUser);
     }
 
-    public UserModel getUserEntity(String username, String password) {
-        User user = getByUsername(username);
-        if (user == null) {
-            return null;
-        }
+    public UserResponse getUserEntity(String username, String password) {
+        try {
+            User user = getByUsername(username);
+            if (user == null) {
+                return new UserResponse(false, "User doesn't exist", null);
+            }
 
-        String hashedProvidedPassword = PasswordUtils.getPasswordCode(password, user.getSalt());
-        if (hashedProvidedPassword.equals(user.getPasswordHash())) {
-            return EntityToModelBridge.toUserModel(user);
-        } else {
-            return null;
+            String hashedProvidedPassword = PasswordUtils.getPasswordCode(password, user.getSalt());
+            if (hashedProvidedPassword.equals(user.getPasswordHash())) {
+                return new UserResponse(true, null, EntityToModelBridge.toUserModel(user));
+            } else {
+                return new UserResponse(false, "Incorrect password", null);
+            }
+        } catch (RuntimeException e) {
+            return new UserResponse(false, e.getMessage(), null);
         }
     }
 

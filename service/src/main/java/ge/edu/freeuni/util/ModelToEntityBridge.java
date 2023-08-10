@@ -12,6 +12,7 @@ import ge.edu.freeuni.models.FriendshipModel;
 import ge.edu.freeuni.models.QuestionModel;
 import ge.edu.freeuni.models.QuizModel;
 import ge.edu.freeuni.models.UserModel;
+import ge.edu.freeuni.providers.DAOFactory;
 
 public class ModelToEntityBridge {
     public static FriendRequest toFriendRequestEntity(FriendRequestModel request) {
@@ -23,14 +24,29 @@ public class ModelToEntityBridge {
 
     //TODO finish methods
     public static Answer toAnswerEntity(AnswerModel answer) {
-        return null;
+        Question question = DAOFactory.getInstance().getDAO(Question.class).read(answer.getQuestionId());
+        if (question == null) {
+            return null;
+        }
+        return new Answer(
+                question,
+                answer.getAnswer(),
+                answer.isCorrect() ? "t" : "f"
+        );
     }
 
     public static Friendship toFriendshipEntity(FriendshipModel friendship) {
-        return null;
+        return new Friendship(
+                toUserEntity(friendship.getUser1()),
+                toUserEntity(friendship.getUser2())
+        );
     }
 
     public static Question toQuestionEntity(QuestionModel question) {
+        Quiz quiz = DAOFactory.getInstance().getDAO(Quiz.class).read(question.getQuizId());
+        if (quiz == null) {
+            return null;
+        }
         return null;
     }
 

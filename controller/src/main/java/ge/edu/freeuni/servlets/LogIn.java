@@ -29,7 +29,7 @@ public class LogIn extends HttpServlet {
         String username = httpServletRequest.getParameter("username").toLowerCase();
         String password = httpServletRequest.getParameter("password");
 
-        UserModel logInUser = userService.getUserEntity(username,password);
+        UserModel logInUser = userService.getUserEntity(username,password).getUser();
         if(logInUser != null){
             HttpSession httpSession = httpServletRequest.getSession();
             httpSession.setAttribute("currentUser",username);
