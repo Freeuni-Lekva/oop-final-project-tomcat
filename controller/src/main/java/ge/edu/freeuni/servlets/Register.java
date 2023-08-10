@@ -1,6 +1,7 @@
 package ge.edu.freeuni.servlets;
 
 import ge.edu.freeuni.models.UserModel;
+import ge.edu.freeuni.responses.UserResponse;
 import ge.edu.freeuni.services.UserService;
 
 import javax.servlet.RequestDispatcher;
@@ -28,26 +29,23 @@ public class Register extends HttpServlet {
         String lastName = httpServletRequest.getParameter("lastName").toLowerCase();
         String password = httpServletRequest.getParameter("password");
 
-        if(username.length() == 0  || password.length() == 0 ){
-            RequestDispatcher accountExistsDispatcher = httpServletRequest.getRequestDispatcher(
-                    "WEB-INF/TryRegisterAgain.jsp");
-        }
+        UserResponse userResponse = userService.addAccount(new UserModel(null,username,firstName,lastName,password));
+        HttpSession httpSession = httpServletRequest.getSession();
+        httpSession.removeAttribute("errorMessage");
 
-        if(userService.accountExists(username)){
-            RequestDispatcher accountExistsDispatcher = httpServletRequest.getRequestDispatcher(
-                    "WEB-INF/TryRegisterAgain.jsp");
-            accountExistsDispatcher.forward(httpServletRequest,httpServletResponse);
-        }else{
-            UserModel newUser = new UserModel(null, username,firstName,lastName,password);
-            userService.addAccount(newUser);
-
-            HttpSession httpSession = httpServletRequest.getSession();
+        if(userResponse.isSuccess()){
             httpSession.setAttribute("currentUser",username);
-            httpSession.setAttribute("currentUserId",newUser.getId());
+            httpSession.setAttribute("currentUserId",userResponse.getUser().getId());
             RequestDispatcher homepageDispatcher = httpServletRequest.getRequestDispatcher(
                     "WEB-INF/Homepage.jsp");
             homepageDispatcher.forward(httpServletRequest,httpServletResponse);
+        }else{
+            httpSession.setAttribute("registerErrorMessage",userResponse.getErrorMessage());
+            RequestDispatcher registerDispatcher = httpServletRequest.getRequestDispatcher(
+                    "WEB-INF/RegisterNewAccount.jsp");
+            registerDispatcher.forward(httpServletRequest,httpServletResponse);
         }
+
     }
 
 }

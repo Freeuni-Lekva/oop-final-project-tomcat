@@ -25,6 +25,8 @@ public class Note {
     @JoinColumn(name = "to_id", referencedColumnName = "id", nullable = false)
     private User to;
 
+    @Column(name = "subject")
+    private String subject;
     @Column(name = "message")
     private String message;
 
@@ -40,11 +42,12 @@ public class Note {
     }
 
 
-    public Note(User from, User to, String message, Long timestamp) {
+    public Note(User from, User to, String message, String subject , Long timestamp) {
         this.from = from;
         this.to = to;
         this.message = message;
         this.timestamp = timestamp;
+        this.subject = subject;
     }
 
     /**
@@ -138,6 +141,14 @@ public class Note {
      */
     public void setTime(Long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     @Override

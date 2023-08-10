@@ -21,10 +21,10 @@ public class User {
     private String username;
 
     @Column(name = "first_name", nullable = false)
-    private String firstName;
+    private String firstname;
 
     @Column(name = "last_name", nullable = false)
-    private String lastName;
+    private String lastname;
 
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
@@ -45,8 +45,8 @@ public class User {
      */
     public User(String username, String firstName, String lastName, String password) {
         this.username = username;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.firstname = firstName;
+        this.lastname = lastName;
         this.salt = PasswordUtils.generatePasswordSalt();
         this.passwordHash = PasswordUtils.getPasswordCode(password,this.salt);
     }
@@ -95,8 +95,8 @@ public class User {
      *
      * @return user's first name.
      */
-    public String getFirstName() {
-        return firstName;
+    public String getFirstname() {
+        return firstname;
     }
 
     /**
@@ -104,8 +104,8 @@ public class User {
      *
      * @param firstName to set.
      */
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstname(String firstName) {
+        this.firstname = firstName;
     }
 
     /**
@@ -113,8 +113,8 @@ public class User {
      *
      * @return lastName of the user.
      */
-    public String getLastName() {
-        return lastName;
+    public String getLastname() {
+        return lastname;
     }
 
     /**
@@ -122,8 +122,8 @@ public class User {
      *
      * @param lastName to set.
      */
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastname(String lastName) {
+        this.lastname = lastName;
     }
 
     /**
@@ -167,12 +167,12 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(passwordHash, user.passwordHash) && Objects.equals(salt, user.salt);
+        return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(firstname, user.firstname) && Objects.equals(lastname, user.lastname) && Objects.equals(passwordHash, user.passwordHash) && Objects.equals(salt, user.salt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, firstName, lastName, passwordHash, salt);
+        return Objects.hash(id, username, firstname, lastname, passwordHash, salt);
     }
 
     @Override
@@ -180,8 +180,8 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstname + '\'' +
+                ", lastName='" + lastname + '\'' +
                 ", passwordHash='" + passwordHash + '\'' +
                 ", salt='" + salt + '\'' +
                 '}';

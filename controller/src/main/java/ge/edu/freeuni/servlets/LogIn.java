@@ -1,6 +1,6 @@
 package ge.edu.freeuni.servlets;
 
-import ge.edu.freeuni.models.UserModel;
+import ge.edu.freeuni.responses.UserResponse;
 import ge.edu.freeuni.services.UserService;
 
 import javax.servlet.RequestDispatcher;
@@ -29,18 +29,22 @@ public class LogIn extends HttpServlet {
         String username = httpServletRequest.getParameter("username").toLowerCase();
         String password = httpServletRequest.getParameter("password");
 
-        UserModel logInUser = userService.getUserEntity(username,password).getUser();
-        if(logInUser != null){
-            HttpSession httpSession = httpServletRequest.getSession();
+        UserResponse userResponse = userService.getUserModel(username,password);
+        HttpSession httpSession = httpServletRequest.getSession();
+        httpSession.removeAttribute("errorMessage");
+
+        if(userResponse.isSuccess()){
             httpSession.setAttribute("currentUser",username);
-            httpSession.setAttribute("currentUserId",logInUser.getId());
+            httpSession.setAttribute("currentUserId",userResponse.getUser().getId());
             RequestDispatcher homepageDispatcher = httpServletRequest.getRequestDispatcher(
                     "WEB-INF/Homepage.jsp");
             homepageDispatcher.forward(httpServletRequest,httpServletResponse);
         }else{
-            RequestDispatcher tryAgainLoginDispatcher = httpServletRequest.getRequestDispatcher(
-                    "WEB-INF/TryLoginAgain.jsp");
-            tryAgainLoginDispatcher.forward(httpServletRequest,httpServletResponse);
+            httpSession.setAttribute("loginErrorMessage",userResponse.getErrorMessage());
+            RequestDispatcher loginDispatcher = httpServletRequest.getRequestDispatcher(
+                    "WEB-INF/Login.jsp");
+            loginDispatcher.forward(httpServletRequest,httpServletResponse);
         }
+
     }
 }
