@@ -2,7 +2,6 @@ package ge.edu.freeuni.services;
 
 import ge.edu.freeuni.entities.User;
 import ge.edu.freeuni.models.UserModel;
-import ge.edu.freeuni.responses.ServiceActionResponse;
 import ge.edu.freeuni.providers.DAO;
 import ge.edu.freeuni.providers.DAOFactory;
 import ge.edu.freeuni.responses.UserResponse;
@@ -26,9 +25,29 @@ public class UserService {
         }
     }
 
+    public UserResponse searchUser(Long id) {
+        try {
+            User users = getById(id);
+            if (users == null) {
+                return new UserResponse(false, "User doesn't exist", null);
+            }
+            return new UserResponse(true, null, EntityToModelBridge.toUserModel(users));
+        } catch (RuntimeException e) {
+            return new UserResponse(false, e.getMessage(), null);
+        }
+    }
+
     private User getByUsername(String username) throws RuntimeException {
         List<User> users = userDAO.getByField("username", username);
         if (users == null || users.isEmpty()) {
+            return null;
+        }
+        return users.get(0);
+    }
+
+    private User getById(Long id){
+        List<User> users = userDAO.getByField("id",id);
+        if(users==null || users.isEmpty()){
             return null;
         }
         return users.get(0);
@@ -52,7 +71,7 @@ public class UserService {
         return new UserResponse(true, null, newUser);
     }
 
-    public UserResponse getUserEntity(String username, String password) {
+    public UserResponse getUserModel(String username, String password) {
         try {
             User user = getByUsername(username);
             if (user == null) {

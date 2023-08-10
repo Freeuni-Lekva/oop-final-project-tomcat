@@ -14,6 +14,8 @@ import ge.edu.freeuni.models.QuestionModel;
 import ge.edu.freeuni.models.QuizGameModel;
 import ge.edu.freeuni.models.QuizModel;
 import ge.edu.freeuni.models.UserModel;
+import ge.edu.freeuni.entities.*;
+import ge.edu.freeuni.models.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -100,9 +102,17 @@ public class EntityToModelBridge {
         return new UserModel(
                 user.getId(),
                 user.getUsername(),
-                user.getFirstName(),
-                user.getLastName(),
+                user.getFirstname(),
+                user.getLastname(),
                 null
         );
+    }
+
+    public static NoteModel toNoteModel(Note n) {
+        return new NoteModel(n.getId(),
+                EntityToModelBridge.toUserModel(n.getSender()),
+                EntityToModelBridge.toUserModel(n.getReceiver()),
+                n.getMessage(),
+                n.getTime());
     }
 }
