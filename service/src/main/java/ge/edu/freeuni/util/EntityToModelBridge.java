@@ -1,19 +1,7 @@
 package ge.edu.freeuni.util;
 
-import ge.edu.freeuni.entities.Answer;
-import ge.edu.freeuni.entities.FriendRequest;
-import ge.edu.freeuni.entities.Friendship;
-import ge.edu.freeuni.entities.Question;
-import ge.edu.freeuni.entities.Quiz;
-import ge.edu.freeuni.entities.QuizGame;
-import ge.edu.freeuni.entities.User;
-import ge.edu.freeuni.models.AnswerModel;
-import ge.edu.freeuni.models.FriendRequestModel;
-import ge.edu.freeuni.models.FriendshipModel;
-import ge.edu.freeuni.models.QuestionModel;
-import ge.edu.freeuni.models.QuizGameModel;
-import ge.edu.freeuni.models.QuizModel;
-import ge.edu.freeuni.models.UserModel;
+import ge.edu.freeuni.entities.*;
+import ge.edu.freeuni.models.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -96,6 +84,18 @@ public class EntityToModelBridge {
         );
     }
 
+
+    public static ChallengeModel toChallengeModel(Challenge challenge) {
+        return new ChallengeModel(
+                challenge.getId(),
+                toQuizModel(challenge.getQuiz()),
+                toUserModel(challenge.getSender()),
+                toUserModel(challenge.getReceiver()),
+                challenge.getQuizUrl(),
+                challenge.getBestScore()
+        );
+    }
+
     public static UserModel toUserModel(User user) {
         return new UserModel(
                 user.getId(),
@@ -105,4 +105,6 @@ public class EntityToModelBridge {
                 null
         );
     }
+
+
 }
