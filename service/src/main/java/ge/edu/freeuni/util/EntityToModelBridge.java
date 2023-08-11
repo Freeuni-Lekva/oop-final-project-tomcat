@@ -100,8 +100,8 @@ public class EntityToModelBridge {
         return new UserModel(
                 user.getId(),
                 user.getUsername(),
-                user.getFirstName(),
-                user.getLastName(),
+                user.getFirstname(),
+                user.getLastname(),
                 null
         );
     }
