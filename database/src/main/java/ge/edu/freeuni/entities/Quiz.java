@@ -28,6 +28,8 @@ public class Quiz {
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Question> questions;
 
+    @Column(name = "creation_timestamp")
+    private Long creationTimestamp;
     /**
      * Default constructor.
      */
@@ -41,11 +43,12 @@ public class Quiz {
      * @param owner     the owner of the quiz
      * @param questions the list of all questions of the quiz
      */
-    public Quiz(String name, String description, User owner, List<Question> questions) {
+    public Quiz(String name, String description, User owner, List<Question> questions, Long creationTimestamp) {
         this.name = name;
         this.description = description;
         this.owner = owner;
         this.questions = questions;
+        this.creationTimestamp = creationTimestamp;
     }
 
     /**
@@ -138,6 +141,14 @@ public class Quiz {
         this.questions = questions;
     }
 
+    public Long getCreationTimestamp() {
+        return creationTimestamp;
+    }
+
+    public void setCreationTimestamp(Long creationTimestamp) {
+        this.creationTimestamp = creationTimestamp;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -149,7 +160,8 @@ public class Quiz {
         if (!Objects.equals(name, quiz.name)) return false;
         if (!Objects.equals(description, quiz.description)) return false;
         if (!Objects.equals(owner, quiz.owner)) return false;
-        return Objects.equals(questions, quiz.questions);
+        if (!Objects.equals(questions, quiz.questions)) return false;
+        return Objects.equals(creationTimestamp, quiz.creationTimestamp);
     }
 
     @Override
@@ -159,6 +171,7 @@ public class Quiz {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (owner != null ? owner.hashCode() : 0);
         result = 31 * result + (questions != null ? questions.hashCode() : 0);
+        result = 31 * result + (creationTimestamp != null ? creationTimestamp.hashCode() : 0);
         return result;
     }
 
@@ -170,6 +183,7 @@ public class Quiz {
                 ", description='" + description + '\'' +
                 ", owner=" + owner +
                 ", questions=" + questions +
+                ", creationTimestamp=" + creationTimestamp +
                 '}';
     }
 }

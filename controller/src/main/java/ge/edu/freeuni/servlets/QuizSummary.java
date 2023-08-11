@@ -1,6 +1,15 @@
 package ge.edu.freeuni.servlets;
 
+import ge.edu.freeuni.models.QuizModel;
+import ge.edu.freeuni.provider.ServiceFactory;
+import ge.edu.freeuni.services.QuizService;
+
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Each quiz should have a summary page which includes
@@ -17,6 +26,18 @@ import javax.servlet.annotation.WebServlet;
  *  A way to start editing the quiz, if the user is the quiz owner.
  * (any time a user is listed it should be a link to that user's profile)
  */
-@WebServlet(name = "QuizSummary",urlPatterns = "/QuizSummary")
-public class QuizSummary {
+@WebServlet("/quizSummary")
+public class QuizSummary extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Long quizId = Long.parseLong(request.getParameter("quizId"));
+
+        // Retrieve quiz details from backend using QuizService
+        QuizService quizService = ServiceFactory.getInstance().getService(QuizService.class);
+        QuizModel quiz = quizService.getQuiz(quizId).getQuiz();
+        // Set attribute for JSP
+        request.setAttribute("quiz", quiz);
+
+        // Forward to JSP
+        request.getRequestDispatcher("QuizSummary.jsp").forward(request, response);
+    }
 }

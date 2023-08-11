@@ -1,6 +1,16 @@
 package ge.edu.freeuni.servlets;
 
+import ge.edu.freeuni.provider.ServiceFactory;
+import ge.edu.freeuni.responses.QuizzesResponse;
+import ge.edu.freeuni.services.QuizService;
+
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 /**
  * show user:
@@ -22,6 +32,22 @@ import javax.servlet.annotation.WebServlet;
  * and the quiz pages.
  * (any time a user is listed it should be a link to that user's profile)
  */
-@WebServlet(name = "Homepage",urlPatterns = "/Homepage")
-public class Homepage {
+@WebServlet("/home")
+public class Homepage extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        Long userId = (Long) session.getAttribute("currentUserId");
+
+        QuizService quizService = ServiceFactory.getInstance().getService(QuizService.class);
+        QuizzesResponse popularQuizzes = quizService.getMostPopularQuizzes();
+        QuizzesResponse recentQuizzes = quizService.getMostRecentQuizzes();
+        QuizzesResponse userRecentQuizzes = quizService.getMostRecentQuizzes(userId);
+
+        request.setAttribute("popularQuizzes", popularQuizzes.getQuizzes());
+        request.setAttribute("recentQuizzes", recentQuizzes.getQuizzes());
+        request.setAttribute("userRecentQuizzes", userRecentQuizzes.getQuizzes());
+
+        request.getRequestDispatcher("home.jsp").forward(request, response);
+        request.getRequestDispatcher("home.jsp").forward(request, response);
+    }
 }

@@ -34,11 +34,11 @@ public class DAOTest {
         assertEquals("username", user.getUsername());
 
         // test update
-        user.setFirstName("first name 1");
+        user.setFirstname("first name 1");
         dao.update(user);
         user = dao.read(1L);
         assertEquals("username", user.getUsername());
-        assertEquals("first name 1", user.getFirstName());
+        assertEquals("first name 1", user.getFirstname());
 
         // test delete
         dao.delete(1L);
@@ -52,6 +52,6 @@ public class DAOTest {
         List<User> users = dao.getAll();
         assertEquals(3, users.size());
         users.forEach(
-                user1 -> assertEquals("first name", user1.getFirstName()));
+                user1 -> assertEquals("first name", user1.getFirstname()));
     }
 }

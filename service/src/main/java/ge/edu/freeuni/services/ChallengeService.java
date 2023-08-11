@@ -1,8 +1,9 @@
-package ge.edu.freeuni.models;
+package ge.edu.freeuni.services;
 
 import ge.edu.freeuni.entities.Challenge;
 import ge.edu.freeuni.entities.Quiz;
 import ge.edu.freeuni.entities.User;
+import ge.edu.freeuni.models.ChallengeModel;
 import ge.edu.freeuni.providers.DAO;
 import ge.edu.freeuni.providers.DAOFactory;
 import ge.edu.freeuni.responses.ChallengeResponse;
@@ -11,9 +12,11 @@ import ge.edu.freeuni.responses.ServiceActionResponse;
 import ge.edu.freeuni.util.EntityToModelBridge;
 import ge.edu.freeuni.util.ModelToEntityBridge;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class ChallengeService {
@@ -24,8 +27,8 @@ public class ChallengeService {
     private final Map<Long, ChallengeModel> allChallenges;
 
 
-    public ChallengeService(Map<Long, ChallengeModel> allChallenges){
-        this.allChallenges = allChallenges;
+    public ChallengeService(){
+        this.allChallenges = getAllChallenges();
     }
 
 
@@ -41,7 +44,19 @@ public class ChallengeService {
         this.challengeDAO = challengeDAO;
     }
 
-    public ServiceActionResponse createQuiz(ChallengeModel newChallenge) {
+    private Map<Long, ChallengeModel> getAllChallenges() {
+        try {
+            List<Challenge> challenges = challengeDAO.getAll();
+            return challenges.stream()
+                    .map(EntityToModelBridge::toChallengeModel)
+                    .collect(Collectors.toMap(ChallengeModel::getId, Function.identity()));
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return new HashMap<>();
+        }
+    }
+
+    public ServiceActionResponse createChallenge(ChallengeModel newChallenge) {
         try {
             if (newChallenge.getQuizUrl().isEmpty() || newChallenge.getSender() == null
                     || newChallenge.getQuiz() == null || newChallenge.getReceiver() == null) {

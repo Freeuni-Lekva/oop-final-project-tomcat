@@ -1,5 +1,6 @@
 package ge.edu.freeuni.services;
 
+import ge.edu.freeuni.entities.Question;
 import ge.edu.freeuni.entities.Quiz;
 import ge.edu.freeuni.entities.QuizGame;
 import ge.edu.freeuni.entities.User;
@@ -17,6 +18,7 @@ import ge.edu.freeuni.util.DatetimeUtil;
 import ge.edu.freeuni.util.EntityToModelBridge;
 import ge.edu.freeuni.util.ModelToEntityBridge;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +27,9 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class QuizService {
-    private static final int NUM_OF_POPULAR_QUIZZES = 15;
+    private static final int NUM_OF_POPULAR_QUIZZES = 10;
+    private static final int NUM_OF_RECENT_QUIZZES = 10;
+    private static final int NUM_OF_RECENT_QUIZZES_OF_USER = 10;
     private DAO<User> userDAO = DAOFactory.getInstance().getDAO(User.class);
     private DAO<Quiz> quizDAO = DAOFactory.getInstance().getDAO(Quiz.class);
     private DAO<QuizGame> quizGameDAO = DAOFactory.getInstance().getDAO(QuizGame.class);
@@ -102,29 +106,105 @@ public class QuizService {
     }
 
     public QuizzesResponse getMostPopularQuizzes() {
-        try {
-            if (allQuizzes.isEmpty()) {
-                return new QuizzesResponse(false, "No quizzes available", null);
-            }
-            if (allGames.isEmpty()) {
-                return new QuizzesResponse(false, "No quizzes are played", null);
-            }
+//        try {
+//            if (allQuizzes.isEmpty()) {
+//                return new QuizzesResponse(false, "No quizzes available", new ArrayList<>());
+//            }
+//            if (allGames.isEmpty()) {
+//                return new QuizzesResponse(false, "No quizzes are played", new ArrayList<>());
+//            }
+//
+//            int numOfTopQuizzes = Math.min(NUM_OF_POPULAR_QUIZZES, allQuizzes.size());
+//            Map<QuizModel, Long> quizPlayCounts = allGames.values().stream()
+//                    .collect(Collectors.groupingBy(QuizGameModel::getQuiz, Collectors.counting()));
+//
+//            List<QuizModel> mostPlayedQuizzes = quizPlayCounts.entrySet().stream()
+//                    .sorted(Map.Entry.<QuizModel, Long>comparingByValue().reversed())
+//                    .limit(numOfTopQuizzes)
+//                    .map(Map.Entry::getKey)
+//                    .collect(Collectors.toList());
+//
+//            return new QuizzesResponse(true, null, mostPlayedQuizzes);
+//        } catch (RuntimeException e) {
+//            e.printStackTrace();
+//            return new QuizzesResponse(false, e.getMessage(), null);
+//        }
+        QuestionModel questionModel = new QuestionModel(1L);
+        QuestionModel questionModel1 = new QuestionModel(2L);
+        QuestionModel questionModel2 = new QuestionModel(2L);
+        QuestionModel questionModel3 = new QuestionModel(2L);
+        List<QuestionModel> list = new ArrayList<>();
+        list.add(questionModel);
+        list.add(questionModel1);
+        list.add(questionModel2);
+        list.add(questionModel3);
+        QuizModel quizModel = new QuizModel(1L,"1 quiz", "SUPER QUIZ", null, list, null);
+        QuizModel quizModel1 = new QuizModel(2L,"2 quiz", "SUPER QUIZ", null, list, null);
+        List<QuizModel> quizModels = new ArrayList<>();
+        quizModels.add(quizModel);
+        quizModels.add(quizModel1);
+        return new QuizzesResponse(true, null, quizModels);
+    }
 
-            int numOfTopQuizzes = Math.min(NUM_OF_POPULAR_QUIZZES, allQuizzes.size());
-            Map<QuizModel, Long> quizPlayCounts = allGames.values().stream()
-                    .collect(Collectors.groupingBy(QuizGameModel::getQuiz, Collectors.counting()));
+    public QuizzesResponse getMostRecentQuizzes() {
+//        try {
+//            if (allQuizzes.isEmpty()) {
+//                return new QuizzesResponse(false, "No quizzes available", null);
+//            }
+//
+//            List<QuizModel> mostRecentQuizzes = allQuizzes.values().stream()
+//                    .sorted(Comparator.comparing(QuizModel::getCreationTimestamp).reversed())
+//                    .limit(NUM_OF_RECENT_QUIZZES)
+//                    .collect(Collectors.toList());
+//
+//            return new QuizzesResponse(true, null, mostRecentQuizzes);
+//        } catch (RuntimeException e) {
+//            e.printStackTrace();
+//            return new QuizzesResponse(false, e.getMessage(), null);
+//        }
+        QuestionModel questionModel = new QuestionModel(1L);
+        QuestionModel questionModel1 = new QuestionModel(2L);
+        List<QuestionModel> list = new ArrayList<>();
+        list.add(questionModel);
+        list.add(questionModel1);
+        QuizModel quizModel = new QuizModel(3L,"3 quiz", "SUPER QUIZ", null, list, null);
+        QuizModel quizModel1 = new QuizModel(4L,"4 quiz", "SUPER QUIZ", null, list, null);
+        List<QuizModel> quizModels = new ArrayList<>();
+        quizModels.add(quizModel);
+        quizModels.add(quizModel1);
+        return new QuizzesResponse(true, null, quizModels);
+    }
 
-            List<QuizModel> mostPlayedQuizzes = quizPlayCounts.entrySet().stream()
-                    .sorted(Map.Entry.<QuizModel, Long>comparingByValue().reversed())
-                    .limit(numOfTopQuizzes)
-                    .map(Map.Entry::getKey)
-                    .collect(Collectors.toList());
-
-            return new QuizzesResponse(true, null, mostPlayedQuizzes);
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            return new QuizzesResponse(false, e.getMessage(), null);
-        }
+    public QuizzesResponse getMostRecentQuizzes(Long userId) {
+//        try {
+//            if (allQuizzes.isEmpty()) {
+//                return new QuizzesResponse(false, "No quizzes available", null);
+//            }
+//
+//            List<QuizModel> mostRecentQuizzes = allQuizzes.values().stream()
+//                    .filter(quiz -> Objects.equals(quiz.getOwner().getId(), userId))
+//                    .sorted(Comparator.comparing(QuizModel::getCreationTimestamp).reversed())
+//                    .limit(NUM_OF_RECENT_QUIZZES)
+//                    .collect(Collectors.toList());
+//
+//            return new QuizzesResponse(true, null, mostRecentQuizzes);
+//        } catch (RuntimeException e) {
+//            e.printStackTrace();
+//            return new QuizzesResponse(false, e.getMessage(), null);
+//        }
+        QuestionModel questionModel = new QuestionModel(1L);
+        QuestionModel questionModel1 = new QuestionModel(2L);
+        QuestionModel questionModel2 = new QuestionModel(3L);
+        List<QuestionModel> list = new ArrayList<>();
+        list.add(questionModel);
+        list.add(questionModel1);
+        list.add(questionModel2);
+        QuizModel quizModel = new QuizModel(5L,"5 quiz", "SUPER QUIZ", null, list, null);
+        QuizModel quizModel1 = new QuizModel(6L,"6 quiz", "SUPER QUIZ", null, list, null);
+        List<QuizModel> quizModels = new ArrayList<>();
+        quizModels.add(quizModel);
+        quizModels.add(quizModel1);
+        return new QuizzesResponse(true, null, quizModels);
     }
 
     public QuizGameResponse startQuiz(Long quizId, Long playerId) {

@@ -32,9 +32,13 @@
             <groupId>ge.edu.freeuni</groupId>
             <artifactId>service</artifactId>
         </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
-        <finalName>controller</finalName>
+        <finalName>quizapp</finalName>
     </build>
 </project>

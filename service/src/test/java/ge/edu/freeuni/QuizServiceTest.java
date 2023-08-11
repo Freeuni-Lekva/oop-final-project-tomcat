@@ -49,7 +49,7 @@ public class QuizServiceTest {
 
     @Test
     public void testCreateValidQuiz() {
-        QuizModel quizModel = new QuizModel(1L);
+        QuizModel quizModel = new QuizModel(1L, null);
         quizModel.setName("Test Quiz");
         quizModel.setDescription("A test quiz");
 

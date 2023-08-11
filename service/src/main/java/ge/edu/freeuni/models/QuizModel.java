@@ -10,16 +10,20 @@ public class QuizModel {
     private UserModel owner;
     private List<QuestionModel> questions;
 
-    public QuizModel(Long id) {
+    private final Long creationTimestamp;
+
+    public QuizModel(Long id, Long creationTimestamp) {
         this.id = id;
+        this.creationTimestamp = creationTimestamp;
     }
 
-    public QuizModel(Long id, String name, String description, UserModel owner, List<QuestionModel> questions) {
+    public QuizModel(Long id, String name, String description, UserModel owner, List<QuestionModel> questions, Long creationTimestamp) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.owner = owner;
         this.questions = questions;
+        this.creationTimestamp = creationTimestamp;
     }
 
     public Long getId() {
@@ -58,6 +62,10 @@ public class QuizModel {
         this.questions = questions;
     }
 
+    public Long getCreationTimestamp() {
+        return creationTimestamp;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -70,7 +78,8 @@ public class QuizModel {
         if (!Objects.equals(description, quizModel.description))
             return false;
         if (!Objects.equals(owner, quizModel.owner)) return false;
-        return Objects.equals(questions, quizModel.questions);
+        if (!Objects.equals(questions, quizModel.questions)) return false;
+        return Objects.equals(creationTimestamp, quizModel.creationTimestamp);
     }
 
     @Override
@@ -80,6 +89,7 @@ public class QuizModel {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (owner != null ? owner.hashCode() : 0);
         result = 31 * result + (questions != null ? questions.hashCode() : 0);
+        result = 31 * result + (creationTimestamp != null ? creationTimestamp.hashCode() : 0);
         return result;
     }
 
@@ -91,6 +101,7 @@ public class QuizModel {
                 ", description='" + description + '\'' +
                 ", owner=" + owner +
                 ", questions=" + questions +
+                ", creationTimestamp=" + creationTimestamp +
                 '}';
     }
 }

@@ -70,7 +70,8 @@ public class ModelToEntityBridge {
                     quiz.getName(),
                     quiz.getDescription(),
                     toUserEntity(quiz.getOwner()),
-                    questions
+                    questions,
+                    quiz.getCreationTimestamp()
             );
         } catch (RuntimeException e) {
             e.printStackTrace();

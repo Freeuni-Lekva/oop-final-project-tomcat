@@ -18,7 +18,7 @@ public class MailService {
         try{
             List<Note> receivedNotes = noteDAO.getByField("id", currentUserId);
             List<NoteModel> receivedNotesModel = receivedNotes.stream()
-                    .map(n -> EntityToModelBridge.toNoteModel(n))
+                    .map(EntityToModelBridge::toNoteModel)
                     .collect(Collectors.toList());
             return new MailResponse(true,null,receivedNotesModel);
         }catch(Exception e){
@@ -32,7 +32,7 @@ public class MailService {
         try{
             List<Note> sentNotes = noteDAO.getByField("from",userModel.getId());
             List<NoteModel> sentNotesModel = sentNotes.stream()
-                    .map(n->EntityToModelBridge.toNoteModel(n))
+                    .map(EntityToModelBridge::toNoteModel)
                     .collect(Collectors.toList());
             return new MailResponse(true,null,sentNotesModel);
         }catch(Exception e){

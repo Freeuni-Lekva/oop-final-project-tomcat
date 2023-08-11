@@ -56,8 +56,8 @@ public class EntityToModelBridge {
                 quiz.getName(),
                 quiz.getDescription(),
                 toUserModel(quiz.getOwner()),
-                questions
-        );
+                questions,
+                quiz.getCreationTimestamp());
     }
 
     public static QuizGameModel toQuizGameModel(QuizGame quizGame) {
