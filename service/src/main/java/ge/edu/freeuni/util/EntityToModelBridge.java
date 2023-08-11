@@ -107,4 +107,15 @@ public class EntityToModelBridge {
     }
 
 
+    public static NoteModel toNoteModel(Note note) {
+        return new NoteModel(
+                note.getId(),
+                EntityToModelBridge.toUserModel(note.getSender()),
+                EntityToModelBridge.toUserModel(note.getReceiver()),
+                note.getMessage(),
+                note.getTime(),
+                note.getSubject()
+
+        );
+    }
 }

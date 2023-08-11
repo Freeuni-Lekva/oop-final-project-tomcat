@@ -1,7 +1,7 @@
 package ge.edu.freeuni.servlets;
 
 import ge.edu.freeuni.responses.MailResponse;
-import ge.edu.freeuni.services.NoteService;
+import ge.edu.freeuni.services.MailService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,14 +18,14 @@ import java.io.IOException;
  */
 @WebServlet(name = "Mail",urlPatterns = "/Mail")
 public class Mail extends HttpServlet {
-    private final NoteService noteService = new NoteService();
+    private final MailService mailService = new MailService();
 
     @Override
     public void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
         HttpSession session = httpServletRequest.getSession();
         Long currentUserId = (Long) session.getAttribute("currentUserId");
 
-        MailResponse mailResponse = noteService.getUsersReceivedNotes(currentUserId);
+        MailResponse mailResponse = mailService.getUsersReceivedNotes(currentUserId);
         if(mailResponse.isSuccess()){
             httpServletRequest.setAttribute("receivedNotes",mailResponse.getNoteModels());
         }else{
