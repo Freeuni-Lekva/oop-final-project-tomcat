@@ -1,6 +1,16 @@
 package ge.edu.freeuni.servlets;
 
+import ge.edu.freeuni.responses.ChallengesResponse;
+import ge.edu.freeuni.services.ChallengeService;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 /**
  * on this pages user sees all the challenges other people have sent to him.
@@ -12,5 +22,23 @@ import javax.servlet.annotation.WebServlet;
  * before accepting ro declining the challenge.
  */
 @WebServlet(name = "Challenges",urlPatterns = "/Challenges")
-public class Challenges {
+public class Challenges extends HttpServlet {
+    private final ChallengeService challengeService = new ChallengeService();
+
+    @Override
+    public void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+        HttpSession session = httpServletRequest.getSession();
+        Long currentUserId = (Long) session.getAttribute("currentUserId");
+
+        ChallengesResponse challengesResponse = challengeService.getAllChallenges(currentUserId);
+        if(challengesResponse.isSuccess()){
+            httpServletRequest.setAttribute("Challenges", challengesResponse.getChallenges());
+        }else{
+            httpServletRequest.setAttribute("errorMessage", challengesResponse.getErrorMessage());
+        }
+
+        RequestDispatcher challengeDispatcher = httpServletRequest.getRequestDispatcher("WEB-INF/Challenges.jsp");
+        challengeDispatcher.forward(httpServletRequest,httpServletResponse);
+
+    }
 }

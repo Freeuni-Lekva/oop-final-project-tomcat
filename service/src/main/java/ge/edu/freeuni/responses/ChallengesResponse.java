@@ -14,7 +14,7 @@ public class ChallengesResponse extends ServiceActionResponse {
     }
 
 
-    public List<ChallengeModel> getQuizzes() {
+    public List<ChallengeModel> getChallenges() {
         return challenges;
     }
 
