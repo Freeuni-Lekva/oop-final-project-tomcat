@@ -3,8 +3,10 @@
 <html>
 <head>
     <title>Quiz Summary</title>
+    <style><%@include file="css/styles.css"%></style>
 </head>
 <body>
+    <jsp:include page="UserFooter.jsp" />
     <%
         QuizModel quiz = (QuizModel) request.getAttribute("quizDetails");
 

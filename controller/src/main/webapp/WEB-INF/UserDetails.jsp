@@ -2,9 +2,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <style><%@include file="css/styles.css"%></style>
     <title><%= ((UserModel) request.getAttribute("userdetails")).getUsername() %></title>
 </head>
 <body>
+<jsp:include page="UserFooter.jsp" />
 <%
     UserModel user = (UserModel) request.getAttribute("userdetails");
 

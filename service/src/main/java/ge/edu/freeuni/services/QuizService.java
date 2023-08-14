@@ -80,6 +80,7 @@ public class QuizService {
         }
     }
 
+    //FIXME commented parts are actual implementations, hardcoded parts are for testing GUI
     public QuizResponse getQuiz(Long id) {
 //        try {
 //            Quiz quiz = quizDAO.read(id);

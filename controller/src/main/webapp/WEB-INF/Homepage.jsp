@@ -7,45 +7,47 @@
 
 <html>
 <head>
-<title>Quiz Website</title>
+    <title>Quiz App</title>
+    <style><%@include file="css/styles.css"%></style>
 </head>
 <body>
+    <jsp:include page="UserFooter.jsp" />
+    <div class="contents">
+        <h1>Homepage</h1>
 
-<h1>Homepage</h1>
+        <h2>Most Popular Quizzes</h2>
 
-<h2>Most Popular Quizzes</h2>
+        <%
+            List<QuizModel> mostPopularQuizzes = (List<QuizModel>)request.getAttribute("popularQuizzes");
+            for (QuizModel quiz : mostPopularQuizzes) {
+        %>
+        <p><a href="<%=request.getContextPath()%>/quizdetails?id=<%=quiz.getId()%>"><%=quiz.getName()%></a></p>
+        <%
+        }
+        %>
 
-<%
-List<QuizModel> mostPopularQuizzes = (List<QuizModel>)request.getAttribute("popularQuizzes");
-for (QuizModel quiz : mostPopularQuizzes) {
-%>
-<p><a href="<%=request.getContextPath()%>/quizdetails?id=<%=quiz.getId()%>"><%=quiz.getName()%></a></p>
-<%
-}
-%>
+        <h2>Most Recent Quizzes</h2>
 
-<h2>Most Recent Quizzes</h2>
+        <%
+        List<QuizModel> mostRecentQuizzes = (List<QuizModel>)request.getAttribute("recentQuizzes");
+        for (QuizModel quiz : mostRecentQuizzes) {
+        %>
+        <p><a href="<%=request.getContextPath()%>/quizdetails?id=<%=quiz.getId()%>"><%=quiz.getName()%></a></p>
+        <%
+        }
+        %>
 
-<%
-List<QuizModel> mostRecentQuizzes = (List<QuizModel>)request.getAttribute("recentQuizzes");
-for (QuizModel quiz : mostRecentQuizzes) {
-%>
-<p><a href="<%=request.getContextPath()%>/quizdetails?id=<%=quiz.getId()%>"><%=quiz.getName()%></a></p>
-<%
-}
-%>
+        <h2>Recently Created Quizzes</h2>
 
-<h2>Recently Created Quizzes</h2>
-
-<%
-List<QuizModel> recentCreateQuizzes = (List<QuizModel>)request.getAttribute("userRecentQuizzes");
-for (QuizModel quiz : recentCreateQuizzes) {
-%>
-<p><a href="<%=request.getContextPath()%>/quizdetails?id=<%=quiz.getId()%>"><%=quiz.getName()%></a></p>
-<%
-}
-%>
-
+        <%
+        List<QuizModel> recentCreateQuizzes = (List<QuizModel>)request.getAttribute("userRecentQuizzes");
+        for (QuizModel quiz : recentCreateQuizzes) {
+        %>
+        <p><a href="<%=request.getContextPath()%>/quizdetails?id=<%=quiz.getId()%>"><%=quiz.getName()%></a></p>
+        <%
+        }
+        %>
+    </div>
 </body>
 </html>
 

@@ -13,6 +13,7 @@ import java.util.List;
 public class UserService {
     private DAO<User> userDAO = DAOFactory.getInstance().getDAO(User.class);
 
+    //FIXME commented parts are actual implementations, hardcoded parts are for testing GUI
     public UserResponse findUser(String username) {
 //        if (username == null || username.isEmpty()) {
 //            return new UserResponse(false, "Username is empty", null);

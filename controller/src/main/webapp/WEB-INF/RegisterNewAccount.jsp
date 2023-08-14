@@ -2,51 +2,12 @@
 <html lang="en">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Register New Account</title>
-<style>
-    h1 {
-        font-size: xxx-large;
-        color: indigo;
-        margin-bottom: 90px;
-        margin-right: 50px;
-    }
-    label {
-        display: block;
-        font-size: 14px;
-        color: #555;
-        margin-bottom: 5px;
-        text-align: left;
-    }
-    body {
-        background-color: lavenderblush;
-        font-family: Arial, sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-    }
-    input[type="text"],
-    input[type="password"] {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        margin-bottom: 15px;
-        font-size: 14px;
-    }
-    button[type="submit"] {
-        background-color: indigo;
-        color: white;
-        border-radius: 5px;
-        padding: 10px 15px;
-        font-size: 14px;
-        cursor: pointer;
-    }
-</style>
+<head>
+    <title>Register New Account</title>
+    <style><%@include file="css/styles.css"%></style>
 </head>
 <body>
-<jsp:include page="ErrorHeader.jsp" />
+<jsp:include page="ErrorFooter.jsp" />
 <h1>Create New Account</h1>
 <div style="margin-top: 20px;">
     <form action="register" method="post">
