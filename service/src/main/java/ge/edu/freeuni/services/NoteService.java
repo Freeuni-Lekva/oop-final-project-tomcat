@@ -37,11 +37,11 @@ public class NoteService {
 
     public NoteResponse createNewNote(Long sendersId, String recipientsUsername, String content, String subject) {
         try{
-            UserResponse recipientUserResponse = userService.searchUser(recipientsUsername);
+            UserResponse recipientUserResponse = userService.findUser(recipientsUsername);
             if(!recipientUserResponse.isSuccess()){
                 return new NoteResponse(false,"the recipient user does not exist",null);
             }
-            UserResponse senderUserResponse = userService.searchUser(sendersId);
+            UserResponse senderUserResponse = userService.findUser(sendersId);
             if(!senderUserResponse.isSuccess()){
                 return new NoteResponse(false,"a note can not be sent by this user",null);
             }

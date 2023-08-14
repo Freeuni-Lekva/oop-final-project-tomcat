@@ -8,6 +8,7 @@ import ge.edu.freeuni.models.AnswerModel;
 import ge.edu.freeuni.models.QuestionModel;
 import ge.edu.freeuni.models.QuizGameModel;
 import ge.edu.freeuni.models.QuizModel;
+import ge.edu.freeuni.models.UserModel;
 import ge.edu.freeuni.providers.DAO;
 import ge.edu.freeuni.providers.DAOFactory;
 import ge.edu.freeuni.responses.QuizGameResponse;
@@ -80,17 +81,28 @@ public class QuizService {
     }
 
     public QuizResponse getQuiz(Long id) {
-        try {
-            Quiz quiz = quizDAO.read(id);
-            if (quiz == null) {
-                return new QuizResponse(false, "Quiz doesn't exist", null);
-            }
-            QuizModel quizModel = EntityToModelBridge.toQuizModel(quiz);
-            return new QuizResponse(true, null, quizModel);
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            return new QuizResponse(false, e.getMessage(), null);
-        }
+//        try {
+//            Quiz quiz = quizDAO.read(id);
+//            if (quiz == null) {
+//                return new QuizResponse(false, "Quiz doesn't exist", null);
+//            }
+//            QuizModel quizModel = EntityToModelBridge.toQuizModel(quiz);
+//            return new QuizResponse(true, null, quizModel);
+//        } catch (RuntimeException e) {
+//            e.printStackTrace();
+//            return new QuizResponse(false, e.getMessage(), null);
+//        }
+        QuestionModel questionModel = new QuestionModel(1L);
+        QuestionModel questionModel1 = new QuestionModel(2L);
+        QuestionModel questionModel2 = new QuestionModel(2L);
+        QuestionModel questionModel3 = new QuestionModel(2L);
+        List<QuestionModel> list = new ArrayList<>();
+        list.add(questionModel);
+        list.add(questionModel1);
+        list.add(questionModel2);
+        list.add(questionModel3);
+        QuizModel quizModel = new QuizModel(id,"1 quiz", "SUPER QUIZ", new UserModel(1L, "saba", "saba", "saba", "saba"), list, null);
+        return new QuizResponse(true, null, quizModel);
     }
 
     public QuizzesResponse getAllQuizzes(Long ownerId) {

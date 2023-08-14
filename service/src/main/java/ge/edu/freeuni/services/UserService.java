@@ -13,9 +13,28 @@ import java.util.List;
 public class UserService {
     private DAO<User> userDAO = DAOFactory.getInstance().getDAO(User.class);
 
-    public UserResponse searchUser(String username) {
+    public UserResponse findUser(String username) {
+//        if (username == null || username.isEmpty()) {
+//            return new UserResponse(false, "Username is empty", null);
+//        }
+//        try {
+//            User users = getByUsername(username);
+//            if (users == null) {
+//                return new UserResponse(false, "User doesn't exist", null);
+//            }
+//            return new UserResponse(true, null, EntityToModelBridge.toUserModel(users));
+//        } catch (RuntimeException e) {
+//            return new UserResponse(false, e.getMessage(), null);
+//        }
+        return new UserResponse(true, null, new UserModel(1L, "styxbeneath", "saba", "khutsishvili", null));
+    }
+
+    public UserResponse findUser(Long id) {
+        if (id == null) {
+            return new UserResponse(false, "User identifier is empty", null);
+        }
         try {
-            User users = getByUsername(username);
+            User users = getById(id);
             if (users == null) {
                 return new UserResponse(false, "User doesn't exist", null);
             }
@@ -25,13 +44,19 @@ public class UserService {
         }
     }
 
-    public UserResponse searchUser(Long id) {
+    public UserResponse findUser(String username, String password) {
         try {
-            User users = getById(id);
-            if (users == null) {
+            User user = getByUsername(username);
+            if (user == null) {
                 return new UserResponse(false, "User doesn't exist", null);
             }
-            return new UserResponse(true, null, EntityToModelBridge.toUserModel(users));
+
+            String hashedProvidedPassword = PasswordUtils.getPasswordCode(password, user.getSalt());
+            if (hashedProvidedPassword.equals(user.getPasswordHash())) {
+                return new UserResponse(true, null, EntityToModelBridge.toUserModel(user));
+            } else {
+                return new UserResponse(false, "Incorrect password", null);
+            }
         } catch (RuntimeException e) {
             return new UserResponse(false, e.getMessage(), null);
         }
@@ -69,24 +94,6 @@ public class UserService {
             return new UserResponse(false, e.getMessage(), null);
         }
         return new UserResponse(true, null, newUser);
-    }
-
-    public UserResponse getUserModel(String username, String password) {
-        try {
-            User user = getByUsername(username);
-            if (user == null) {
-                return new UserResponse(false, "User doesn't exist", null);
-            }
-
-            String hashedProvidedPassword = PasswordUtils.getPasswordCode(password, user.getSalt());
-            if (hashedProvidedPassword.equals(user.getPasswordHash())) {
-                return new UserResponse(true, null, EntityToModelBridge.toUserModel(user));
-            } else {
-                return new UserResponse(false, "Incorrect password", null);
-            }
-        } catch (RuntimeException e) {
-            return new UserResponse(false, e.getMessage(), null);
-        }
     }
 
     public boolean accountExists(String username) {
