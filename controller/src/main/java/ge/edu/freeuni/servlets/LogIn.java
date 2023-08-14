@@ -36,11 +36,9 @@ public class LogIn extends HttpServlet {
         if(userResponse.isSuccess()){
             httpSession.setAttribute("currentUser",username);
             httpSession.setAttribute("currentUserId",userResponse.getUser().getId());
-            RequestDispatcher homepageDispatcher = httpServletRequest.getRequestDispatcher(
-                    "WEB-INF/Homepage.jsp");
-            homepageDispatcher.forward(httpServletRequest,httpServletResponse);
+            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/home");
         }else{
-            httpSession.setAttribute("loginErrorMessage",userResponse.getErrorMessage());
+            httpServletRequest.setAttribute("errorMessage",userResponse.getErrorMessage());
             RequestDispatcher loginDispatcher = httpServletRequest.getRequestDispatcher(
                     "WEB-INF/Login.jsp");
             loginDispatcher.forward(httpServletRequest,httpServletResponse);

@@ -29,7 +29,7 @@ public class AuthenticationFilter implements Filter {
 
         HttpSession session = httpRequest.getSession(false); // Do not create a new session if none exists
 
-        if (session != null && session.getAttribute("userId") != null) {
+        if (session != null && session.getAttribute("currentUserId") != null) {
             // User is logged in, allow access to requested page
             chain.doFilter(request, response);
         } else {

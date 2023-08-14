@@ -46,6 +46,7 @@
 </style>
 </head>
 <body>
+<jsp:include page="ErrorHeader.jsp" />
 <h1>Create New Account</h1>
 <div style="margin-top: 20px;">
     <form action="register" method="post">

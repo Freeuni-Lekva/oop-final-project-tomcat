@@ -52,6 +52,7 @@
     }
 </style>
 <body>
+<jsp:include page="ErrorHeader.jsp" />
 <h1>Welcome To Our Quiz Page</h1>
 <div style="margin-top: 20px;">
     <form action="login" method="post">

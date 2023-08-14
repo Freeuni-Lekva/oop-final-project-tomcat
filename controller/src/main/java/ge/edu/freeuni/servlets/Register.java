@@ -36,11 +36,9 @@ public class Register extends HttpServlet {
         if(userResponse.isSuccess()){
             httpSession.setAttribute("currentUser",username);
             httpSession.setAttribute("currentUserId",userResponse.getUser().getId());
-            RequestDispatcher homepageDispatcher = httpServletRequest.getRequestDispatcher(
-                    "WEB-INF/Homepage.jsp");
-            homepageDispatcher.forward(httpServletRequest,httpServletResponse);
+            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/login");
         }else{
-            httpSession.setAttribute("registerErrorMessage",userResponse.getErrorMessage());
+            httpServletRequest.setAttribute("errorMessage",userResponse.getErrorMessage());
             RequestDispatcher registerDispatcher = httpServletRequest.getRequestDispatcher(
                     "WEB-INF/RegisterNewAccount.jsp");
             registerDispatcher.forward(httpServletRequest,httpServletResponse);

@@ -47,7 +47,7 @@ public class Homepage extends HttpServlet {
         request.setAttribute("recentQuizzes", recentQuizzes.getQuizzes());
         request.setAttribute("userRecentQuizzes", userRecentQuizzes.getQuizzes());
 
-        request.getRequestDispatcher("home.jsp").forward(request, response);
-        request.getRequestDispatcher("home.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/Homepage.jsp").forward(request, response);
+
     }
 }
