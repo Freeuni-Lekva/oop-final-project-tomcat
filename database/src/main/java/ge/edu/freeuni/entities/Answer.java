@@ -1,5 +1,7 @@
 package ge.edu.freeuni.entities;
 
+import ge.edu.freeuni.enums.Bool;
+
 import javax.persistence.*;
 
 import javax.persistence.Entity;
@@ -18,14 +20,15 @@ public class Answer {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "question_id", referencedColumnName = "id")
     private Question question;
 
     @Column(name = "answer", nullable = false)
     private String answer;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "is_correct", nullable = false)
-    private String accuracy;
+    private Bool accuracy;
 
     @Column(name = "points")
     private Integer points;
@@ -33,7 +36,7 @@ public class Answer {
     public Answer() {
     }
 
-    public Answer(Question question, String answer, String accuracy, Integer points) {
+    public Answer(Question question, String answer, Bool accuracy, Integer points) {
         this.question = question;
         this.answer = answer;
         this.accuracy = accuracy;
@@ -99,7 +102,7 @@ public class Answer {
      *
      * @return if the answer is right or wrong : "yes" or "no".
      */
-    public String getAccuracy() {
+    public Bool getAccuracy() {
         return accuracy;
     }
 
@@ -108,7 +111,7 @@ public class Answer {
      *
      * @param accuracy - sets if the answer is right or not: "yes" or "no".
      */
-    public void setAccuracy(String accuracy) {
+    public void setAccuracy(Bool accuracy) {
         this.accuracy = accuracy;
     }
 

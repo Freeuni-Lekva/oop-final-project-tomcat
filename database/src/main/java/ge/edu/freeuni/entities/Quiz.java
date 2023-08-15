@@ -25,7 +25,7 @@ public class Quiz {
     @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = false)
     private User owner;
 
-    @OneToMany(mappedBy = "quiz", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Question> questions;
 
     @Column(name = "creation_timestamp")
@@ -43,12 +43,12 @@ public class Quiz {
      * @param owner     the owner of the quiz
      * @param questions the list of all questions of the quiz
      */
-    public Quiz(String name, String description, User owner, List<Question> questions, Long creationTimestamp) {
+    public Quiz(String name, String description, User owner, List<Question> questions) {
         this.name = name;
         this.description = description;
         this.owner = owner;
         this.questions = questions;
-        this.creationTimestamp = creationTimestamp;
+        this.creationTimestamp = System.currentTimeMillis();
     }
 
     /**

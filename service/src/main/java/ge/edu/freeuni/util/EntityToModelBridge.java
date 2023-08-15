@@ -20,7 +20,7 @@ public class EntityToModelBridge {
                 answer.getId(),
                 answer.getQuestion().getId(),
                 answer.getAnswer(),
-                answer.getAccuracy().equalsIgnoreCase("t"),
+                answer.getAccuracy().getValue(),
                 answer.getPoints()
         );
     }
@@ -91,7 +91,6 @@ public class EntityToModelBridge {
                 toQuizModel(challenge.getQuiz()),
                 toUserModel(challenge.getSender()),
                 toUserModel(challenge.getReceiver()),
-                challenge.getQuizUrl(),
                 challenge.getBestScore()
         );
     }
@@ -110,10 +109,10 @@ public class EntityToModelBridge {
     public static NoteModel toNoteModel(Note note) {
         return new NoteModel(
                 note.getId(),
-                EntityToModelBridge.toUserModel(note.getSender()),
-                EntityToModelBridge.toUserModel(note.getReceiver()),
+                EntityToModelBridge.toUserModel(note.getFrom()),
+                EntityToModelBridge.toUserModel(note.getTo()),
                 note.getMessage(),
-                note.getTime(),
+                note.getTimestamp(),
                 note.getSubject()
 
         );

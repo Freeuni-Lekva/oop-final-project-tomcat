@@ -17,11 +17,11 @@ public class Note {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "from_id", referencedColumnName = "id", nullable = false)
     private User from;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "to_id", referencedColumnName = "id", nullable = false)
     private User to;
 
@@ -31,7 +31,6 @@ public class Note {
     private String message;
 
     @Column(name = "timestamp")
-   // @Temporal(TemporalType.TIMESTAMP)
     private Long timestamp;
 
     /**
@@ -41,13 +40,12 @@ public class Note {
 
     }
 
-
-    public Note(User from, User to, String message, String subject , Long timestamp) {
+    public Note(User from, User to, String subject, String message) {
         this.from = from;
         this.to = to;
-        this.message = message;
-        this.timestamp = timestamp;
         this.subject = subject;
+        this.message = message;
+        this.timestamp = System.currentTimeMillis();
     }
 
     /**
@@ -74,7 +72,7 @@ public class Note {
      *
      * @return the sender of the note
      */
-    public User getSender() {
+    public User getFrom() {
         return from;
     }
 
@@ -83,7 +81,7 @@ public class Note {
      *
      * @param sender the from of the note
      */
-    public void setSender(User sender) {
+    public void setFrom(User sender) {
         this.from = sender;
     }
 
@@ -93,7 +91,7 @@ public class Note {
      *
      * @return the receiver of the note
      */
-    public User getReceiver() {
+    public User getTo() {
         return to;
     }
 
@@ -102,7 +100,7 @@ public class Note {
      *
      * @param receiver the receiver of the note
      */
-    public void setReceriver(User receiver) {
+    public void setTo(User receiver) {
         this.to = receiver;
     }
 
@@ -130,7 +128,7 @@ public class Note {
      *
      * @return the time
      */
-    public Long getTime() {
+    public Long getTimestamp() {
         return timestamp;
     }
 
@@ -139,7 +137,7 @@ public class Note {
      *
      * @param timestamp the timestamp of the note
      */
-    public void setTime(Long timestamp) {
+    public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
     }
 

@@ -1,6 +1,7 @@
 package ge.edu.freeuni.util;
 
 import ge.edu.freeuni.entities.*;
+import ge.edu.freeuni.enums.Bool;
 import ge.edu.freeuni.models.*;
 import ge.edu.freeuni.providers.DAOFactory;
 
@@ -24,7 +25,7 @@ public class ModelToEntityBridge {
             return new Answer(
                     question,
                     answer.getAnswer(),
-                    answer.isCorrect() ? "t" : "f",
+                    Bool.getByValue(answer.isCorrect()),
                     answer.getPoints()
             );
         } catch (RuntimeException e) {
@@ -94,7 +95,6 @@ public class ModelToEntityBridge {
                 toQuizEntity(challengeModel.getQuiz()),
                 toUserEntity(challengeModel.getSender()),
                 toUserEntity(challengeModel.getReceiver()),
-                challengeModel.getQuizUrl(),
                 challengeModel.getBestScore()
         );
     }
