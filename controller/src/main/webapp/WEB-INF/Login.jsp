@@ -12,10 +12,28 @@
 <head>
     <title>Login</title>
     <style><%@include file="css/styles.css"%></style>
+    <style>
+        h1 {
+            font-size: xxx-large;
+            color: indigo;
+            margin-bottom: 90px;
+            margin-right: 50px;
+        }
+        label {
+            display: block;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+        button[type="submit"] {
+            margin-top: 18px;
+        }
+    </style>
 </head>
 <body>
 <jsp:include page="ErrorFooter.jsp" />
-<h1>Welcome To Our Quiz Page</h1>
+<h1>Welcome To Exquizite</h1>
 <div style="margin-top: 20px;">
     <form action="login" method="post">
         <label for="username" style="display: inline-block; font-size: 14px;">User Name:</label>

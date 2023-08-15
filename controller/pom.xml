@@ -39,6 +39,6 @@
     </dependencies>
 
     <build>
-        <finalName>quizapp</finalName>
+        <finalName>exquizite</finalName>
     </build>
 </project>

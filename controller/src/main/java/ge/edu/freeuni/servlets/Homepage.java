@@ -43,9 +43,9 @@ public class Homepage extends HttpServlet {
         QuizzesResponse recentQuizzes = quizService.getMostRecentQuizzes();
         QuizzesResponse userRecentQuizzes = quizService.getMostRecentQuizzes(userId);
 
-        request.setAttribute("popularQuizzes", popularQuizzes.getQuizzes());
-        request.setAttribute("recentQuizzes", recentQuizzes.getQuizzes());
-        request.setAttribute("userRecentQuizzes", userRecentQuizzes.getQuizzes());
+        request.setAttribute("popularQuizzes", popularQuizzes);
+        request.setAttribute("recentQuizzes", recentQuizzes);
+        request.setAttribute("userRecentQuizzes", userRecentQuizzes);
 
         request.getRequestDispatcher("WEB-INF/Homepage.jsp").forward(request, response);
 

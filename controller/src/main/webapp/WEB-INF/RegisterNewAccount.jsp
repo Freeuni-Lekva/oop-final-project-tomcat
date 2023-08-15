@@ -5,6 +5,21 @@
 <head>
     <title>Register New Account</title>
     <style><%@include file="css/styles.css"%></style>
+    <style>
+        h1 {
+            font-size: xxx-large;
+            color: indigo;
+            margin-bottom: 90px;
+            margin-right: 50px;
+        }
+        label {
+            display: block;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
 <jsp:include page="ErrorFooter.jsp" />

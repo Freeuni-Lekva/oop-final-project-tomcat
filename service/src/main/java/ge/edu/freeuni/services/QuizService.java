@@ -20,6 +20,7 @@ import ge.edu.freeuni.util.EntityToModelBridge;
 import ge.edu.freeuni.util.ModelToEntityBridge;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -102,7 +103,14 @@ public class QuizService {
         list.add(questionModel1);
         list.add(questionModel2);
         list.add(questionModel3);
-        QuizModel quizModel = new QuizModel(id,"1 quiz", "SUPER QUIZ", new UserModel(1L, "saba", "saba", "saba", "saba"), list, null);
+        QuizModel quizModel = new QuizModel(id, "World War II: Expert Edition",
+                "\"Embark on a comprehensive journey through the pivotal events, strategies, " +
+                        "and stories that defined World War II with our expert-level quiz. " +
+                        "Test your historical knowledge as you delve into the intricacies of the most significant conflict in human history." +
+                        " From the battlefronts to the home fronts, challenge yourself to answer questions about leaders, " +
+                        "battles, innovations, and the global impact of World War II. Whether you're a history enthusiast or a scholar, " +
+                        "this quiz will put your expertise to the ultimate test and uncover the depths of your understanding of World War II.\"",
+                new UserModel(1L, "saba", "saba", "saba", "saba"), list, null);
         return new QuizResponse(true, null, quizModel);
     }
 
@@ -151,8 +159,14 @@ public class QuizService {
         list.add(questionModel1);
         list.add(questionModel2);
         list.add(questionModel3);
-        QuizModel quizModel = new QuizModel(1L,"1 quiz", "SUPER QUIZ", null, list, null);
-        QuizModel quizModel1 = new QuizModel(2L,"2 quiz", "SUPER QUIZ", null, list, null);
+        QuizModel quizModel = new QuizModel(1L, "World War II: Expert Edition",
+                "\"Embark on a comprehensive journey through the pivotal events, strategies, " +
+                        "and stories that defined World War II with our expert-level quiz. " +
+                        "Test your historical knowledge as you delve into the intricacies of the most significant conflict in human history." +
+                        " From the battlefronts to the home fronts, challenge yourself to answer questions about leaders, " +
+                        "battles, innovations, and the global impact of World War II. Whether you're a history enthusiast or a scholar, " +
+                        "this quiz will put your expertise to the ultimate test and uncover the depths of your understanding of World War II.\"", null, list, null);
+        QuizModel quizModel1 = new QuizModel(2L, "2 quiz", "SUPER QUIZ", null, list, null);
         List<QuizModel> quizModels = new ArrayList<>();
         quizModels.add(quizModel);
         quizModels.add(quizModel1);
@@ -160,32 +174,32 @@ public class QuizService {
     }
 
     public QuizzesResponse getMostRecentQuizzes() {
-//        try {
-//            if (allQuizzes.isEmpty()) {
-//                return new QuizzesResponse(false, "No quizzes available", null);
-//            }
-//
-//            List<QuizModel> mostRecentQuizzes = allQuizzes.values().stream()
-//                    .sorted(Comparator.comparing(QuizModel::getCreationTimestamp).reversed())
-//                    .limit(NUM_OF_RECENT_QUIZZES)
-//                    .collect(Collectors.toList());
-//
-//            return new QuizzesResponse(true, null, mostRecentQuizzes);
-//        } catch (RuntimeException e) {
-//            e.printStackTrace();
-//            return new QuizzesResponse(false, e.getMessage(), null);
-//        }
-        QuestionModel questionModel = new QuestionModel(1L);
-        QuestionModel questionModel1 = new QuestionModel(2L);
-        List<QuestionModel> list = new ArrayList<>();
-        list.add(questionModel);
-        list.add(questionModel1);
-        QuizModel quizModel = new QuizModel(3L,"3 quiz", "SUPER QUIZ", null, list, null);
-        QuizModel quizModel1 = new QuizModel(4L,"4 quiz", "SUPER QUIZ", null, list, null);
-        List<QuizModel> quizModels = new ArrayList<>();
-        quizModels.add(quizModel);
-        quizModels.add(quizModel1);
-        return new QuizzesResponse(true, null, quizModels);
+        try {
+            if (allQuizzes.isEmpty()) {
+                return new QuizzesResponse(false, "No quizzes available", null);
+            }
+
+            List<QuizModel> mostRecentQuizzes = allQuizzes.values().stream()
+                    .sorted(Comparator.comparing(QuizModel::getCreationTimestamp).reversed())
+                    .limit(NUM_OF_RECENT_QUIZZES)
+                    .collect(Collectors.toList());
+
+            return new QuizzesResponse(true, null, mostRecentQuizzes);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return new QuizzesResponse(false, e.getMessage(), null);
+        }
+//        QuestionModel questionModel = new QuestionModel(1L);
+//        QuestionModel questionModel1 = new QuestionModel(2L);
+//        List<QuestionModel> list = new ArrayList<>();
+//        list.add(questionModel);
+//        list.add(questionModel1);
+//        QuizModel quizModel = new QuizModel(3L,"3 quiz", "SUPER QUIZ", null, list, null);
+//        QuizModel quizModel1 = new QuizModel(4L,"4 quiz", "SUPER QUIZ", null, list, null);
+//        List<QuizModel> quizModels = new ArrayList<>();
+//        quizModels.add(quizModel);
+//        quizModels.add(quizModel1);
+//        return new QuizzesResponse(true, null, quizModels);
     }
 
     public QuizzesResponse getMostRecentQuizzes(Long userId) {
@@ -212,8 +226,8 @@ public class QuizService {
         list.add(questionModel);
         list.add(questionModel1);
         list.add(questionModel2);
-        QuizModel quizModel = new QuizModel(5L,"5 quiz", "SUPER QUIZ", null, list, null);
-        QuizModel quizModel1 = new QuizModel(6L,"6 quiz", "SUPER QUIZ", null, list, null);
+        QuizModel quizModel = new QuizModel(5L, "5 quiz", "SUPER QUIZ", null, list, null);
+        QuizModel quizModel1 = new QuizModel(6L, "6 quiz", "SUPER QUIZ", null, list, null);
         List<QuizModel> quizModels = new ArrayList<>();
         quizModels.add(quizModel);
         quizModels.add(quizModel1);
