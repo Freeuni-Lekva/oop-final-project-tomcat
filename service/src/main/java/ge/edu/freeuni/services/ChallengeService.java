@@ -56,22 +56,27 @@ public class ChallengeService {
         }
     }
 
-    public ServiceActionResponse createChallenge(ChallengeModel newChallenge) {
+    public ChallengeResponse createChallenge(ChallengeModel newChallenge) {
         try {
-            if (newChallenge.getQuizUrl().isEmpty() || newChallenge.getSender() == null
+            if (newChallenge.getSender() == null
                     || newChallenge.getQuiz() == null || newChallenge.getReceiver() == null) {
-                return new ServiceActionResponse(false, "Invalid challenge credentials");
+                return new ChallengeResponse(false, "Invalid challenge credentials", newChallenge);
             }
             Challenge challenge = ModelToEntityBridge.toChallengeEntity(newChallenge);
             Long id = (Long) challengeDAO.create(challenge);
             allChallenges.put(id, newChallenge);
-            return new ServiceActionResponse(true, null);
+            return new ChallengeResponse(true, null, newChallenge);
         } catch (RuntimeException e) {
             e.printStackTrace();
-            return new ServiceActionResponse(false, e.getMessage());
+            return new ChallengeResponse(false, e.getMessage(), newChallenge);
         }
     }
 
+    public ChallengeModel getById(Long id){
+        ChallengeModel challengeModel = allChallenges.get(id);
+
+        return challengeModel;
+    }
 
     public ChallengeResponse getChallenge(Long id){
         try{

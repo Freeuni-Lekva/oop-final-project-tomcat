@@ -43,7 +43,7 @@ public class QuizService {
         this.allGames = getAllQuizGames();
     }
 
-    private Map<Long, QuizModel> getAllQuizzes() {
+    public Map<Long, QuizModel> getAllQuizzes() {
         try {
             return quizDAO.getAll().stream()
                     .map(EntityToModelBridge::toQuizModel)
