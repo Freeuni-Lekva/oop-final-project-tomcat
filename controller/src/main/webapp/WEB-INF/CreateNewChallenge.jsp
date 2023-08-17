@@ -13,6 +13,7 @@
     </style>
 </head>
 <body>
+    <jsp:include page="UserFooter.jsp" />
     <div class="contents">
         <h1>Friend List</h1>
 
@@ -27,7 +28,7 @@
                         %>
                         <li class="friend-row">
                             <label>
-                                <input type="checkbox" name="selectedUsers" value="<%= friend %>">
+                                <input type="checkbox" name="receiverUsernames" value="<%= friend %>">
                                 <input type="hidden" name="quizId" value="<%= quizId %>">
                                 <a class="username" href="<%= request.getContextPath() %>/user?username=<%= friend %>">
                                     <%= friend %>

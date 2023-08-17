@@ -27,7 +27,7 @@ public class Challenge {
     private User to;
 
     @Column(name = "sender_best_score")
-    private int bestScore;
+    private Integer bestScore;
 
 
     /**
@@ -38,7 +38,7 @@ public class Challenge {
     }
 
 
-    public Challenge(Quiz quiz, User from, User to, int bestScore) {
+    public Challenge(Quiz quiz, User from, User to, Integer bestScore) {
         this.quiz = quiz;
         this.from = from;
         this.to = to;
@@ -126,7 +126,7 @@ public class Challenge {
      *
      * @return the bestScore of the challenge
      */
-    public int getBestScore() {
+    public Integer getBestScore() {
         return bestScore;
     }
 
@@ -136,7 +136,7 @@ public class Challenge {
      *
      * @param bestScore the bestScore of the challenge
      */
-    public void setBestScore(int bestScore) {
+    public void setBestScore(Integer bestScore) {
         this.bestScore = bestScore;
     }
 
@@ -145,7 +145,7 @@ public class Challenge {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Challenge challenge = (Challenge) o;
-        return bestScore == challenge.bestScore && Objects.equals(id, challenge.id) && Objects.equals(quiz, challenge.quiz) && Objects.equals(from, challenge.from) && Objects.equals(to, challenge.to);
+        return Objects.equals(bestScore, challenge.bestScore) && Objects.equals(id, challenge.id) && Objects.equals(quiz, challenge.quiz) && Objects.equals(from, challenge.from) && Objects.equals(to, challenge.to);
     }
 
     @Override

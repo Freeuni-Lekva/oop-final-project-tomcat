@@ -59,7 +59,7 @@ public class SendChallenge extends HttpServlet {
     public void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
         HttpSession session = httpServletRequest.getSession();
         String senderUsername = (String) session.getAttribute("currentUser");
-        String[] receiverUsernames = httpServletRequest.getParameterValues("friendUsername");
+        String[] receiverUsernames = httpServletRequest.getParameterValues("receiverUsernames");
         Long quizId = null;
 
         try {
@@ -73,6 +73,7 @@ public class SendChallenge extends HttpServlet {
 
         if (challengeResponse.isSuccess()) {
             httpServletRequest.setAttribute("quizId", quizId);
+            httpServletRequest.setAttribute("plural", challengeResponse.getChallenges().size() > 1);
             RequestDispatcher mailDispatcher = httpServletRequest.getRequestDispatcher("WEB-INF/ChallengeSent.jsp");
             mailDispatcher.forward(httpServletRequest, httpServletResponse);
         } else {

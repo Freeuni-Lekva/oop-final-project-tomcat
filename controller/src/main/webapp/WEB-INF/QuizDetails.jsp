@@ -17,22 +17,24 @@
         QuizModel quiz = (QuizModel) request.getAttribute("quizDetails");
     %>
     <jsp:include page="UserFooter.jsp" />
-    <div class="quiz-details">
-        <h1><%= quiz.getName() %></h1>
-        <div class="quiz-description">
-            <%= quiz.getDescription() %>
+    <div class="contents">
+        <div class="quiz-details">
+            <h1><%= quiz.getName() %></h1>
+            <div class="quiz-description">
+                <%= quiz.getDescription() %>
+            </div>
+            <div class="owner-link">
+                Quiz by <a href="<%=request.getContextPath()%>/user?username=<%=quiz.getOwner().getUsername()%>"><%=quiz.getOwner().getUsername() %></a>
+            </div>
+            <form action="startQuiz" method="post">
+                <input type="hidden" name="quizId" value="<%= quiz.getId()%>">
+                <button class="start-quiz-btn" type="submit">Start the Quiz</button>
+            </form>
+            <form action="sendChallenge" method="get">
+                <input type="hidden" name="quizId" value="<%= quiz.getId()%>">
+                <button class="send-challenge-btn" type="submit">Send Challenge</button>
+            </form>
         </div>
-        <div class="owner-link">
-            Quiz by <a href="<%=request.getContextPath()%>/user?username=<%=quiz.getOwner().getUsername()%>"><%=quiz.getOwner().getUsername() %></a>
-        </div>
-        <form action="startQuiz" method="post">
-            <input type="hidden" name="quizId" value="<%= quiz.getId()%>">
-            <button class="start-quiz-btn" type="submit">Start the Quiz</button>
-        </form>
-        <form action="sendChallenge" method="get">
-            <input type="hidden" name="quizId" value="<%= quiz.getId()%>">
-            <button class="send-challenge-btn" type="submit">Send Challenge</button>
-        </form>
     </div>
 </body>
 </html>

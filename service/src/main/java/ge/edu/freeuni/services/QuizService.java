@@ -214,6 +214,10 @@ public class QuizService {
                     .limit(NUM_OF_RECENT_QUIZZES)
                     .collect(Collectors.toList());
 
+            if (mostRecentQuizzes.isEmpty()) {
+                return new QuizzesResponse(false, "No quizzes available", null);
+            }
+
             return new QuizzesResponse(true, null, mostRecentQuizzes);
         } catch (RuntimeException e) {
             e.printStackTrace();

@@ -13,18 +13,18 @@
     <style><%@include file="css/styles.css"%></style>
     <style>
         h1 {
-            font-size: 36px;
+            font-size: 40px;
             margin-bottom: 20px;
             text-align: center;
         }
         h2 {
-            font-size: 24px;
+            font-size: 30px;
             margin-top: 40px;
             margin-bottom: 20px;
             color: indigo;
         }
         h3 {
-            font-size: 15px;
+            font-size: 18px;
             margin-top: 25px;
             margin-bottom: 10px;
             color: #757575;

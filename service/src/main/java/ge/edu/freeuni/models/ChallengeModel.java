@@ -7,13 +7,13 @@ public class ChallengeModel {
     private QuizModel quizModel;
     private UserModel from;
     private UserModel to;
-    private int bestScore;
+    private Integer bestScore;
 
     public ChallengeModel(Long id) {
         this.id = id;
     }
 
-    public ChallengeModel(Long id, QuizModel quizModel, UserModel from, UserModel to, int bestScore) {
+    public ChallengeModel(Long id, QuizModel quizModel, UserModel from, UserModel to, Integer bestScore) {
         this.id = id;
         this.quizModel = quizModel;
         this.from = from;
@@ -55,12 +55,12 @@ public class ChallengeModel {
     }
 
 
-    public int getBestScore() {
+    public Integer getBestScore() {
         return bestScore;
     }
 
 
-    public void setBestScore(int bestScore) {
+    public void setBestScore(Integer bestScore) {
         this.bestScore = bestScore;
     }
 
@@ -69,7 +69,7 @@ public class ChallengeModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ChallengeModel challenge = (ChallengeModel) o;
-        return bestScore == challenge.bestScore && Objects.equals(id, challenge.id) && Objects.equals(quizModel, challenge.quizModel) && Objects.equals(from, challenge.from) && Objects.equals(to, challenge.to);
+        return Objects.equals(bestScore, challenge.bestScore) && Objects.equals(id, challenge.id) && Objects.equals(quizModel, challenge.quizModel) && Objects.equals(from, challenge.from) && Objects.equals(to, challenge.to);
     }
 
     @Override

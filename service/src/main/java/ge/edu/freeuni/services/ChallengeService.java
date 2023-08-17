@@ -9,9 +9,7 @@ import ge.edu.freeuni.providers.DAO;
 import ge.edu.freeuni.providers.DAOFactory;
 import ge.edu.freeuni.responses.ChallengeResponse;
 import ge.edu.freeuni.responses.ChallengesResponse;
-import ge.edu.freeuni.responses.ServiceActionResponse;
 import ge.edu.freeuni.util.EntityToModelBridge;
-import ge.edu.freeuni.util.ModelToEntityBridge;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -120,7 +118,7 @@ public class ChallengeService {
             if (potentialReceivers == null || potentialReceivers.size() != 1) {
                 throw new RuntimeException("Invalid receiver parameters");
             }
-            User receiver = potentialSenders.get(0);
+            User receiver = potentialReceivers.get(0);
 
             //extract best score of the sender
             String[] fields = {"quiz_id", "player_id"};

@@ -25,16 +25,16 @@
 <h1>Create New Account</h1>
 <div style="margin-top: 20px;">
     <form action="register" method="post">
-        <label for="firstName" style="display: inline-block; font-size: 14px;">Firstname:</label>
+        <label for="firstName" style="display: inline-block; font-size: 18px;">Firstname:</label>
         <input type="text" id="firstName" name="firstName">
         <div style="margin-top: 10px;"></div>
-        <label for="lastName" style="display: inline-block; font-size: 14px;">Lastname:</label>
+        <label for="lastName" style="display: inline-block; font-size: 18px;">Lastname:</label>
         <input type="text" id="lastName" name="lastName">
         <div style="margin-top: 10px;"></div>
-        <label for="username" style="display: inline-block; font-size: 14px;">Username:</label>
+        <label for="username" style="display: inline-block; font-size: 18px;">Username:</label>
         <input type="text" id="username" name="username">
         <div style="margin-top: 10px;"></div>
-        <label for="password" style="font-size: 14px; display: inline-block">Password:</label>
+        <label for="password" style="font-size: 18px; display: inline-block">Password:</label>
         <input type="password" id="password" name="password" style="margin-bottom: 5px">
         <div style="margin-top: 10px;"></div>
 

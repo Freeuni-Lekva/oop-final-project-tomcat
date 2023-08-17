@@ -35,17 +35,17 @@
 <h1>Welcome To Exquizite</h1>
 <div style="margin-top: 20px;">
     <form action="login" method="post">
-        <label for="username" style="display: inline-block; font-size: 14px;">User Name:</label>
+        <label for="username" style="display: inline-block; font-size: 18px;">User Name:</label>
         <input type="text" id="username" name="username" >
         <div style="margin-top: 20px;"></div>
-        <label for="password" style="font-size: 14px; display: inline-block">Password:</label>
+        <label for="password" style="font-size: 18px; display: inline-block">Password:</label>
         <input type="password" id="password" name="password" style="margin-bottom: 5px">
 
         <button type="submit">Login</button>
     </form>
     <div style="margin-top: 20px;"></div>
     <div style="margin-top: 20px;">
-        <a href="register" style="color: darkmagenta; text-decoration: underline">Create New Account</a>
+        <a href="register" style="color: darkmagenta; text-decoration: underline; font-size: 25px; font-weight: bold">Create New Account</a>
     </div>
 </div>
 </body>
