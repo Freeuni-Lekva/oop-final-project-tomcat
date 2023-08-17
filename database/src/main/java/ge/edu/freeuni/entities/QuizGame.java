@@ -14,11 +14,11 @@ public class QuizGame {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "quiz_id", referencedColumnName = "id", nullable = false)
     private Quiz quiz;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "player_id", referencedColumnName = "id", nullable = false)
     private User player;
 

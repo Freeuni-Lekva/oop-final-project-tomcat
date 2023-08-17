@@ -41,6 +41,7 @@ public class EntityToModelBridge {
         return new QuestionModel(
                 question.getId(),
                 question.getQuiz().getId(),
+                question.getQuestion(),
                 question.getQuestionType(),
                 answers,
                 question.getImageUrl()

@@ -38,7 +38,8 @@ public class FriendshipService {
 
             friendRequestDAO.create(new FriendRequest(sender, recipient));
         } catch (RuntimeException e) {
-            return new ServiceActionResponse(false, e.getMessage());
+            e.printStackTrace();
+            return new ServiceActionResponse(false, "Error while sending a request. Try again later");
         }
         return new ServiceActionResponse(true, null);
     }
@@ -57,7 +58,7 @@ public class FriendshipService {
             friendshipDAO.create(new Friendship(request.getSenderUser(), request.getRecipientUser()));
             friendRequestDAO.delete(requestId);
         } catch (RuntimeException e) {
-            return new ServiceActionResponse(false, e.getMessage());
+            return new ServiceActionResponse(false, "Error while approving the request. Try again later");
         }
         return new ServiceActionResponse(true, null);
     }
@@ -75,7 +76,7 @@ public class FriendshipService {
 
             friendRequestDAO.delete(requestId);
         } catch (RuntimeException e) {
-            return new ServiceActionResponse(false, e.getMessage());
+            return new ServiceActionResponse(false, "Error while rejecting the request. Try again later");
         }
         return new ServiceActionResponse(true, null);
     }
@@ -87,7 +88,7 @@ public class FriendshipService {
                     .collect(Collectors.toList());
             return new AllFriendRequestsResponse(true, null, requests);
         } catch (RuntimeException e) {
-            return new AllFriendRequestsResponse(false, e.getMessage(), null);
+            return new AllFriendRequestsResponse(false, "Error while getting requests. Try again later", null);
         }
 
     }
@@ -96,12 +97,12 @@ public class FriendshipService {
         String[] fieldNames = {"first_user", "second_user"};
         Serializable[] values = {userId, userId};
         try {
-            List<FriendshipModel> friends = friendshipDAO.getByFields(fieldNames, values).stream()
+            List<FriendshipModel> friends = friendshipDAO.getByFields(fieldNames, values, false).stream()
                     .map(EntityToModelBridge::toFriendshipModel)
                     .collect(Collectors.toList());
             return new AllFriendshipsResponse(true, null, friends);
         } catch (RuntimeException e) {
-            return new AllFriendshipsResponse(false, e.getMessage(), null);
+            return new AllFriendshipsResponse(false, "Error while getting friends. Try again later", null);
         }
     }
 

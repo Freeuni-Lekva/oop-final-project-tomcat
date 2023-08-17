@@ -14,7 +14,6 @@
     <style>
         h1 {
             font-size: 36px;
-            color: indigo;
             margin-bottom: 20px;
             text-align: center;
         }
@@ -22,6 +21,7 @@
             font-size: 24px;
             margin-top: 40px;
             margin-bottom: 20px;
+            color: indigo;
         }
         h3 {
             font-size: 15px;
@@ -29,11 +29,6 @@
             margin-bottom: 10px;
             color: #757575;
             font-style: italic;
-        }
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
         }
     </style>
 </head>

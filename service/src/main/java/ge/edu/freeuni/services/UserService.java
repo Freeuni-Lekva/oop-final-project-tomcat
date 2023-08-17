@@ -15,19 +15,19 @@ public class UserService {
 
     //FIXME commented parts are actual implementations, hardcoded parts are for testing GUI
     public UserResponse findUser(String username) {
-//        if (username == null || username.isEmpty()) {
-//            return new UserResponse(false, "Username is empty", null);
-//        }
-//        try {
-//            User users = getByUsername(username);
-//            if (users == null) {
-//                return new UserResponse(false, "User doesn't exist", null);
-//            }
-//            return new UserResponse(true, null, EntityToModelBridge.toUserModel(users));
-//        } catch (RuntimeException e) {
-//            return new UserResponse(false, e.getMessage(), null);
-//        }
-        return new UserResponse(true, null, new UserModel(1L, "styxbeneath", "saba", "khutsishvili", null));
+        if (username == null || username.isEmpty()) {
+            return new UserResponse(false, "Username is empty", null);
+        }
+        try {
+            User users = getByUsername(username);
+            if (users == null) {
+                return new UserResponse(false, "User doesn't exist", null);
+            }
+            return new UserResponse(true, null, EntityToModelBridge.toUserModel(users));
+        } catch (RuntimeException e) {
+            return new UserResponse(false, "Error while finding the user. Try again later", null);
+        }
+        //return new UserResponse(true, null, new UserModel(1L, "styxbeneath", "saba", "khutsishvili", null));
     }
 
     public UserResponse findUser(Long id) {
@@ -41,7 +41,7 @@ public class UserService {
             }
             return new UserResponse(true, null, EntityToModelBridge.toUserModel(users));
         } catch (RuntimeException e) {
-            return new UserResponse(false, e.getMessage(), null);
+            return new UserResponse(false, "Error while finding the user. Try again later", null);
         }
     }
 
@@ -59,7 +59,7 @@ public class UserService {
                 return new UserResponse(false, "Incorrect password", null);
             }
         } catch (RuntimeException e) {
-            return new UserResponse(false, e.getMessage(), null);
+            return new UserResponse(false, "Error while finding the user. Try again later", null);
         }
     }
 
@@ -92,7 +92,7 @@ public class UserService {
         try {
             userDAO.create(ModelToEntityBridge.toUserEntity(newUser));
         } catch (RuntimeException e) {
-            return new UserResponse(false, e.getMessage(), null);
+            return new UserResponse(false, "Error while creating the account. Try again later", null);
         }
         return new UserResponse(true, null, newUser);
     }

@@ -73,7 +73,7 @@ public class DAOTest {
         String[] fields = {"firstname", "lastname"};
         String[] values = {"first name", "last name"};
 
-        users = dao.getByFields(fields, values);
+        users = dao.getByFields(fields, values, true);
         assertEquals(3, users.size());
         users.forEach(
                 u -> {
@@ -185,7 +185,7 @@ public class DAOTest {
         String[] fields = {"description", "owner_id"};
         Serializable[] values = {"description", ownerId};
 
-        quizzes = dao.getByFields(fields, values);
+        quizzes = dao.getByFields(fields, values, true);
         assertEquals(3, quizzes.size());
         quizzes.forEach(
                 q -> {
@@ -237,7 +237,7 @@ public class DAOTest {
         String[] fields = {"accuracy", "points"};
         Serializable[] values = {Bool.TRUE, 1};
 
-        answers = dao.getByFields(fields, values);
+        answers = dao.getByFields(fields, values, true);
         assertEquals(3, answers.size());
         answers.forEach(
                 a -> {
@@ -255,7 +255,7 @@ public class DAOTest {
         Question question;
 
         // test create and read
-        Serializable questionId = dao.create(new Question(null, QuestionType.QUESTION_RESPONSE, null, null));
+        Serializable questionId = dao.create(new Question(null, "question", QuestionType.QUESTION_RESPONSE, null, null));
         question = dao.read(questionId);
         assertEquals(QuestionType.QUESTION_RESPONSE, question.getQuestionType());
 
@@ -271,9 +271,9 @@ public class DAOTest {
         assertNull(question);
 
         // test getAll
-        dao.create(new Question(null, QuestionType.QUESTION_RESPONSE, null, "imageUrl1"));
-        dao.create(new Question(null, QuestionType.QUESTION_RESPONSE, null, "image url"));
-        dao.create(new Question(null, QuestionType.QUESTION_RESPONSE, null, "image url"));
+        dao.create(new Question(null, "question", QuestionType.QUESTION_RESPONSE, null, "imageUrl1"));
+        dao.create(new Question(null, "question", QuestionType.QUESTION_RESPONSE, null, "image url"));
+        dao.create(new Question(null, "question", QuestionType.QUESTION_RESPONSE, null, "image url"));
         List<Question> questions = dao.getAll();
         assertEquals(3, questions.size());
         questions.forEach(
@@ -288,7 +288,7 @@ public class DAOTest {
         String[] fields = {"question_type", "image_url"};
         Serializable[] values = {QuestionType.QUESTION_RESPONSE.toString(), "image url"};
 
-        questions = dao.getByFields(fields, values);
+        questions = dao.getByFields(fields, values, true);
         assertEquals(2, questions.size());
         questions.forEach(
                 q -> {
@@ -357,7 +357,7 @@ public class DAOTest {
         String[] fields = {"first_user", "second_user"};
         Serializable[] values = {user2Id, user1Id};
 
-        friendships = dao.getByFields(fields, values);
+        friendships = dao.getByFields(fields, values, true);
         assertEquals(1, friendships.size());
         assertEquals("username2", friendships.get(0).getFirstUser().getUsername());
         assertEquals("username1", friendships.get(0).getSecondUser().getUsername());
@@ -424,7 +424,7 @@ public class DAOTest {
         String[] fields = {"sender_user", "recipient_user"};
         Serializable[] values = {user2Id, user1Id};
 
-        friendRequests = dao.getByFields(fields, values);
+        friendRequests = dao.getByFields(fields, values, true);
         assertEquals(1, friendRequests.size());
         assertEquals("username2", friendRequests.get(0).getSenderUser().getUsername());
         assertEquals("username1", friendRequests.get(0).getRecipientUser().getUsername());
@@ -491,7 +491,7 @@ public class DAOTest {
         String[] fields = {"subject", "message"};
         Serializable[] values = {"subject", "message"};
 
-        notes = dao.getByFields(fields, values);
+        notes = dao.getByFields(fields, values, true);
         assertEquals(3, notes.size());
         notes.forEach(
                 n -> {
@@ -550,7 +550,7 @@ public class DAOTest {
         String[] fields = {"quiz_id", "player_id"};
         Serializable[] values = {quizId, userId};
 
-        quizGames = dao.getByFields(fields, values);
+        quizGames = dao.getByFields(fields, values, true);
         assertEquals(3, quizGames.size());
         quizGames.forEach(
                 q -> {
@@ -617,7 +617,7 @@ public class DAOTest {
         String[] fields = {"from_id", "sender_best_score"};
         Serializable[] values = {user1Id, 40};
 
-        challenges = dao.getByFields(fields, values);
+        challenges = dao.getByFields(fields, values, true);
         assertEquals(3, challenges.size());
         challenges.forEach(
                 c -> {

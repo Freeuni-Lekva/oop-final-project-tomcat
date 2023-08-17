@@ -26,7 +26,6 @@
             font-size: 28px;
             margin-bottom: 10px;
             text-align: center;
-            color: indigo;
         }
         .user-info {
             font-size: 16px;

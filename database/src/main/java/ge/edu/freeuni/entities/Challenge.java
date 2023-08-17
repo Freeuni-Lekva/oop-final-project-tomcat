@@ -26,10 +26,7 @@ public class Challenge {
     @JoinColumn(name = "to_id", referencedColumnName = "id", nullable = false)
     private User to;
 
-    @Column(name = "quiz_url", nullable = false)
-    private String quizUrl;
-
-    @Column(name = "Sender_BestScore", nullable = false)
+    @Column(name = "sender_best_score")
     private int bestScore;
 
 
@@ -41,11 +38,10 @@ public class Challenge {
     }
 
 
-    public Challenge(Quiz quiz, User from, User to, String quizUrl, int bestScore) {
+    public Challenge(Quiz quiz, User from, User to, int bestScore) {
         this.quiz = quiz;
         this.from = from;
         this.to = to;
-        this.quizUrl = quizUrl;
         this.bestScore = bestScore;
     }
 
@@ -121,30 +117,9 @@ public class Challenge {
      *
      * @param receiver the receiver of the challenge
      */
-    public void setReceriver(User receiver) {
+    public void setReceiver(User receiver) {
         this.to = receiver;
     }
-
-
-    /**
-     * Gets the  url
-     *
-     * @return the quizURL of the challenge
-     */
-    public String getQuizUrl() {
-        return quizUrl;
-    }
-
-
-    /**
-     * Sets the quizUrl of the challenge.
-     *
-     * @param quizUrl the quizUrl of the challenge
-     */
-    public void setQuizUrl(String quizUrl) {
-        this.quizUrl = quizUrl;
-    }
-
 
     /**
      * Gets the sender's best score
@@ -170,12 +145,12 @@ public class Challenge {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Challenge challenge = (Challenge) o;
-        return bestScore == challenge.bestScore && Objects.equals(id, challenge.id) && Objects.equals(quiz, challenge.quiz) && Objects.equals(from, challenge.from) && Objects.equals(to, challenge.to) && Objects.equals(quizUrl, challenge.quizUrl);
+        return bestScore == challenge.bestScore && Objects.equals(id, challenge.id) && Objects.equals(quiz, challenge.quiz) && Objects.equals(from, challenge.from) && Objects.equals(to, challenge.to);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, quiz, from, to, quizUrl, bestScore);
+        return Objects.hash(id, quiz, from, to, bestScore);
     }
 
     @Override
@@ -185,7 +160,6 @@ public class Challenge {
                 ", quiz=" + quiz +
                 ", from=" + from +
                 ", to=" + to +
-                ", quizUrl='" + quizUrl + '\'' +
                 ", bestScore=" + bestScore +
                 '}';
     }

@@ -52,6 +52,7 @@ public class ModelToEntityBridge {
                     .collect(Collectors.toList());
             return new Question(
                     quiz,
+                    question.getQuestion(),
                     question.getQuestionType(),
                     answers,
                     question.getImageUrl()
@@ -71,8 +72,7 @@ public class ModelToEntityBridge {
                     quiz.getName(),
                     quiz.getDescription(),
                     toUserEntity(quiz.getOwner()),
-                    questions,
-                    quiz.getCreationTimestamp()
+                    questions
             );
         } catch (RuntimeException e) {
             e.printStackTrace();

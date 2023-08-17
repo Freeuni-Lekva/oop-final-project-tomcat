@@ -11,6 +11,14 @@ form {
     margin: 0;
     padding: 0;
 }
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+h1 {
+    color: indigo;
+}
 input[type="text"],
 input[type="password"] {
     width: 100%;
@@ -30,6 +38,11 @@ button[type="submit"] {
     padding: 10px 15px;
     font-size: 14px;
     cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+button[type="submit"]:hover {
+    background-color: #23527c;
 }
 .user-footer {
     position: fixed;
@@ -130,6 +143,61 @@ button[type="submit"] {
     cursor: pointer;
     transition: background-color 0.3s;
 }
+.send-challenge-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #337ab7;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
 .start-quiz-btn:hover {
     background-color: #23527c;
+}
+.send-challenge {
+    max-width: 600px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.friend-list {
+    max-height: 650px;
+    width: 350px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+.friend-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: transform 0.2s;
+}
+.friend-row:hover {
+    transform: translateY(-2px);
+    background-color: #E5E5E5;
+}
+.username {
+    flex: 1;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    padding: 10px 0;
+    transition: background-color 0.2s, color 0.2s;
+}
+.username:hover {
+    background-color: #E5E5E5;
+    color: #555;
 }

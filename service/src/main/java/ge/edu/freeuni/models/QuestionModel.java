@@ -8,6 +8,7 @@ import java.util.Objects;
 public class QuestionModel {
     private final Long id;
     private Long quizId;
+    private String question;
     private QuestionType questionType;
     private List<AnswerModel> answers;
     private String imageUrl;
@@ -16,9 +17,10 @@ public class QuestionModel {
         this.id = id;
     }
 
-    public QuestionModel(Long id, Long quizId, QuestionType questionType, List<AnswerModel> answers, String imageUrl) {
+    public QuestionModel(Long id, Long quizId, String question, QuestionType questionType, List<AnswerModel> answers, String imageUrl) {
         this.id = id;
         this.quizId = quizId;
+        this.question = question;
         this.questionType = questionType;
         this.answers = answers;
         this.imageUrl = imageUrl;
@@ -34,6 +36,14 @@ public class QuestionModel {
 
     public void setQuizId(Long quizId) {
         this.quizId = quizId;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
     }
 
     public QuestionType getQuestionType() {
@@ -69,6 +79,7 @@ public class QuestionModel {
 
         if (!Objects.equals(id, that.id)) return false;
         if (!Objects.equals(quizId, that.quizId)) return false;
+        if (!Objects.equals(question, that.question)) return false;
         if (questionType != that.questionType) return false;
         if (!Objects.equals(answers, that.answers)) return false;
         return Objects.equals(imageUrl, that.imageUrl);
@@ -78,6 +89,7 @@ public class QuestionModel {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (quizId != null ? quizId.hashCode() : 0);
+        result = 31 * result + (question != null ? question.hashCode() : 0);
         result = 31 * result + (questionType != null ? questionType.hashCode() : 0);
         result = 31 * result + (answers != null ? answers.hashCode() : 0);
         result = 31 * result + (imageUrl != null ? imageUrl.hashCode() : 0);
@@ -89,6 +101,7 @@ public class QuestionModel {
         return "QuestionModel{" +
                 "id=" + id +
                 ", quizId=" + quizId +
+                ", question='" + question + '\'' +
                 ", questionType=" + questionType +
                 ", answers=" + answers +
                 ", imageUrl='" + imageUrl + '\'' +

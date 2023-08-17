@@ -15,7 +15,6 @@
     <style>
         h1 {
             font-size: xxx-large;
-            color: indigo;
             margin-bottom: 90px;
             margin-right: 50px;
         }

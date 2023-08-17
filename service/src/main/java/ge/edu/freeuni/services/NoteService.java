@@ -28,6 +28,7 @@ public class NoteService {
             NoteModel noteModel = EntityToModelBridge.toNoteModel(note);
             return new NoteResponse(true, null, noteModel);
         } catch (Exception e) {
+            e.printStackTrace();
             return new NoteResponse(false,
                     "this note can not be opened",
                     null);
@@ -53,6 +54,7 @@ public class NoteService {
 
             return new NoteResponse(true, null, null);
         } catch (Exception e) {
+            e.printStackTrace();
             return new NoteResponse(false,
                     "there was a problem with the note's creation, try again later",
                     null);

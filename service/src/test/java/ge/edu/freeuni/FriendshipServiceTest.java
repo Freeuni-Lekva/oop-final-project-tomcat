@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -108,7 +109,7 @@ public class FriendshipServiceTest {
         List<Friendship> friendships = new ArrayList<>();
         friendships.add(new Friendship(user, new User()));
         friendships.add(new Friendship(user, new User()));
-        when(friendshipDAO.getByFields(any(), any())).thenReturn(friendships);
+        when(friendshipDAO.getByFields(any(), any(), anyBoolean())).thenReturn(friendships);
 
         List<FriendshipModel> result = friendshipService.getAllFriends(1L).getAllFriends();
         assertEquals(2, result.size());

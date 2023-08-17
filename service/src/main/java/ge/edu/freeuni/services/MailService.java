@@ -22,6 +22,7 @@ public class MailService {
                     .collect(Collectors.toList());
             return new MailResponse(true,null,receivedNotesModel);
         }catch(Exception e){
+            e.printStackTrace();
             return new MailResponse(false,
                     "There is a problem with the mail system, please try again later",
                     null);
@@ -36,6 +37,7 @@ public class MailService {
                     .collect(Collectors.toList());
             return new MailResponse(true,null,sentNotesModel);
         }catch(Exception e){
+            e.printStackTrace();
             return new MailResponse(false,"There is a problem with the mail system, please try again later",
                     null);
         }

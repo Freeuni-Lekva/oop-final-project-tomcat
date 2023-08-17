@@ -21,7 +21,7 @@ public class Quiz {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = false)
     private User owner;
 

@@ -1,65 +1,51 @@
-<%@ page import="ge.edu.freeuni.models.QuizModel" %>
 <%@ page import="java.util.List" %>
-<%@ page import="ge.edu.freeuni.services.QuizService" %>
-<%@ page import="ge.edu.freeuni.servlets.Quiz" %><%--
-  Created by IntelliJ IDEA.
-  User: zuragrdzelidze
-  Date: 14.08.23
-  Time: 04:17
-  To change this template use File | Settings | File Templates.
---%>
-<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
-<%--<!DOCTYPE html>--%>
-<%--<html>--%>
-<%--<head>--%>
-<%--    <title>Create New Challenge</title>--%>
-<%--</head>--%>
-<%--<body>--%>
-<%--<h1>Create a New Challenge</h1>--%>
-<%--<form action="your_action_url_here" method="post">--%>
-<%--    <!-- Your form fields go here -->--%>
-<%--    <!-- For example: -->--%>
-<%--    <label for="challengeName">Challenge Name:</label>--%>
-<%--    <input type="text" id="challengeName" name="challengeName"><br><br>--%>
-<%--    <label for="description">Description:</label>--%>
-<%--    <textarea id="description" name="description"></textarea><br><br>--%>
-<%--    <button type="submit">Create Challenge</button>--%>
-<%--</form>--%>
-<%--</body>--%>
-<%--</html>--%>
-
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Create New Challenge</title>
+    <meta charset="UTF-8">
+    <title>Send Challenge</title>
+    <style><%@include file="css/styles.css"%></style>
+    <style>
+        h1 {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-<h1>Create New Challenge</h1>
+    <div class="contents">
+        <h1>Friend List</h1>
 
-<form action="/CreateChallenge" method="post">
-
-    <p>Select the quiz you want to challenge:</p>
-    <select name="quiz_id">
-        <%
-            QuizService quizService = new QuizService();
-            List<QuizModel> quizzes = (List<QuizModel>) quizService.getAllQuizzes();
-            for (QuizModel quiz : quizzes) {
-        %>
-        <option value="<%= quiz.getId() %>"><%= quiz.getName() %></option>
-        <%
-            }
-        %>
-    </select>
-
-    <p>Enter a message to the challenged user:</p>
-    <input type="text" name="message" />
-
-    <input type="submit" value="Create Challenge" />
-
-</form>
+            <form action="sendChallenge" method="post">
+                <div class="friend-list">
+                    <ul>
+                        <%
+                            Long quizId = (Long) request.getAttribute("quizId");
+                            List<String> friendList = (List<String>) request.getAttribute("friendList");
+                            if (friendList != null && !friendList.isEmpty()) {
+                                for (String friend : friendList) {
+                        %>
+                        <li class="friend-row">
+                            <label>
+                                <input type="checkbox" name="selectedUsers" value="<%= friend %>">
+                                <input type="hidden" name="quizId" value="<%= quizId %>">
+                                <a class="username" href="<%= request.getContextPath() %>/user?username=<%= friend %>">
+                                    <%= friend %>
+                                </a>
+                            </label>
+                        </li>
+                        <%
+                                }
+                            } else {
+                        %>
+                        <li>No friends available.</li>
+                        <%
+                            }
+                        %>
+                    </ul>
+                </div>
+                <button type="submit">Send Challenge</button>
+            </form>
+    </div>
 </body>
 </html>
-
-

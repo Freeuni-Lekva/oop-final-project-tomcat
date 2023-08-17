@@ -21,11 +21,14 @@ public class Question {
     @JoinColumn(name = "quiz_id", referencedColumnName = "id")
     private Quiz quiz;
 
+    @Column(name = "question", nullable = false)
+    private String question;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "question_type", nullable = false)
     private QuestionType questionType;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Answer> answers;
 
     @Column(name = "image_url")
@@ -45,9 +48,10 @@ public class Question {
      * @param answers      all the answers associated with this question
      * @param imageUrl     the image URL associated with the question (for picture-response type)
      */
-    public Question(Quiz quiz, QuestionType questionType, List<Answer> answers,
+    public Question(Quiz quiz, String question, QuestionType questionType, List<Answer> answers,
                     String imageUrl) {
         this.quiz = quiz;
+        this.question = question;
         this.questionType = questionType;
         this.answers = answers;
         this.imageUrl = imageUrl;
@@ -87,6 +91,24 @@ public class Question {
      */
     public void setQuiz(Quiz quiz) {
         this.quiz = quiz;
+    }
+
+    /**
+     * Gets the question.
+     *
+     * @return the question
+     */
+    public String getQuestion() {
+        return question;
+    }
+
+    /**
+     * Sets the question.
+     *
+     * @param question the question
+     */
+    public void setQuestion(String question) {
+        this.question = question;
     }
 
     /**
@@ -148,19 +170,21 @@ public class Question {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Question question = (Question) o;
+        Question question1 = (Question) o;
 
-        if (!Objects.equals(id, question.id)) return false;
-        if (!Objects.equals(quiz, question.quiz)) return false;
-        if (questionType != question.questionType) return false;
-        if (!Objects.equals(answers, question.answers)) return false;
-        return Objects.equals(imageUrl, question.imageUrl);
+        if (!Objects.equals(id, question1.id)) return false;
+        if (!Objects.equals(quiz, question1.quiz)) return false;
+        if (!Objects.equals(question, question1.question)) return false;
+        if (questionType != question1.questionType) return false;
+        if (!Objects.equals(answers, question1.answers)) return false;
+        return Objects.equals(imageUrl, question1.imageUrl);
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (quiz != null ? quiz.hashCode() : 0);
+        result = 31 * result + (question != null ? question.hashCode() : 0);
         result = 31 * result + (questionType != null ? questionType.hashCode() : 0);
         result = 31 * result + (answers != null ? answers.hashCode() : 0);
         result = 31 * result + (imageUrl != null ? imageUrl.hashCode() : 0);
@@ -171,7 +195,8 @@ public class Question {
     public String toString() {
         return "Question{" +
                 "id=" + id +
-                ", quiz=" + quiz +
+                ", quiz=" + quiz.getId() +
+                ", question='" + question + '\'' +
                 ", questionType=" + questionType +
                 ", answers=" + answers +
                 ", imageUrl='" + imageUrl + '\'' +

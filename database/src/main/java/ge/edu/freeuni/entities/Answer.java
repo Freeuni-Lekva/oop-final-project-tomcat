@@ -161,7 +161,7 @@ public class Answer {
     public String toString() {
         return "Answer{" +
                 "id=" + id +
-                ", question=" + question +
+                ", question=" + question.getId() +
                 ", answer='" + answer + '\'' +
                 ", accuracy='" + accuracy + '\'' +
                 ", points=" + points +

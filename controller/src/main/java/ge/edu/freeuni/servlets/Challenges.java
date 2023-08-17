@@ -21,7 +21,7 @@ import java.io.IOException;
  * the quiz name should also be a link to the summary of the quz so the user will be able to see the summary
  * before accepting ro declining the challenge.
  */
-@WebServlet(name = "Challenges",urlPatterns = "/Challenges")
+@WebServlet(name = "Challenges",urlPatterns = "/challenges")
 public class Challenges extends HttpServlet {
     private final ChallengeService challengeService = new ChallengeService();
 

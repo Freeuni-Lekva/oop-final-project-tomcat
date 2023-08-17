@@ -43,7 +43,7 @@ public class QuizService {
         this.allGames = getAllQuizGames();
     }
 
-    public Map<Long, QuizModel> getAllQuizzes() {
+    private Map<Long, QuizModel> getAllQuizzes() {
         try {
             return quizDAO.getAll().stream()
                     .map(EntityToModelBridge::toQuizModel)
@@ -77,41 +77,41 @@ public class QuizService {
             return new ServiceActionResponse(true, null);
         } catch (RuntimeException e) {
             e.printStackTrace();
-            return new ServiceActionResponse(false, e.getMessage());
+            return new ServiceActionResponse(false, "Error while creating a quiz. Try again later");
         }
     }
 
     //FIXME commented parts are actual implementations, hardcoded parts are for testing GUI
     public QuizResponse getQuiz(Long id) {
-//        try {
-//            Quiz quiz = quizDAO.read(id);
-//            if (quiz == null) {
-//                return new QuizResponse(false, "Quiz doesn't exist", null);
-//            }
-//            QuizModel quizModel = EntityToModelBridge.toQuizModel(quiz);
-//            return new QuizResponse(true, null, quizModel);
-//        } catch (RuntimeException e) {
-//            e.printStackTrace();
-//            return new QuizResponse(false, e.getMessage(), null);
-//        }
-        QuestionModel questionModel = new QuestionModel(1L);
-        QuestionModel questionModel1 = new QuestionModel(2L);
-        QuestionModel questionModel2 = new QuestionModel(2L);
-        QuestionModel questionModel3 = new QuestionModel(2L);
-        List<QuestionModel> list = new ArrayList<>();
-        list.add(questionModel);
-        list.add(questionModel1);
-        list.add(questionModel2);
-        list.add(questionModel3);
-        QuizModel quizModel = new QuizModel(id, "World War II: Expert Edition",
-                "\"Embark on a comprehensive journey through the pivotal events, strategies, " +
-                        "and stories that defined World War II with our expert-level quiz. " +
-                        "Test your historical knowledge as you delve into the intricacies of the most significant conflict in human history." +
-                        " From the battlefronts to the home fronts, challenge yourself to answer questions about leaders, " +
-                        "battles, innovations, and the global impact of World War II. Whether you're a history enthusiast or a scholar, " +
-                        "this quiz will put your expertise to the ultimate test and uncover the depths of your understanding of World War II.\"",
-                new UserModel(1L, "saba", "saba", "saba", "saba"), list, null);
-        return new QuizResponse(true, null, quizModel);
+        try {
+            Quiz quiz = quizDAO.read(id);
+            if (quiz == null) {
+                return new QuizResponse(false, "Quiz doesn't exist", null);
+            }
+            QuizModel quizModel = EntityToModelBridge.toQuizModel(quiz);
+            return new QuizResponse(true, null, quizModel);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return new QuizResponse(false, "Error while getting the quiz. Try again later", null);
+        }
+//        QuestionModel questionModel = new QuestionModel(1L);
+//        QuestionModel questionModel1 = new QuestionModel(2L);
+//        QuestionModel questionModel2 = new QuestionModel(2L);
+//        QuestionModel questionModel3 = new QuestionModel(2L);
+//        List<QuestionModel> list = new ArrayList<>();
+//        list.add(questionModel);
+//        list.add(questionModel1);
+//        list.add(questionModel2);
+//        list.add(questionModel3);
+//        QuizModel quizModel = new QuizModel(id, "World War II: Expert Edition",
+//                "\"Embark on a comprehensive journey through the pivotal events, strategies, " +
+//                        "and stories that defined World War II with our expert-level quiz. " +
+//                        "Test your historical knowledge as you delve into the intricacies of the most significant conflict in human history." +
+//                        " From the battlefronts to the home fronts, challenge yourself to answer questions about leaders, " +
+//                        "battles, innovations, and the global impact of World War II. Whether you're a history enthusiast or a scholar, " +
+//                        "this quiz will put your expertise to the ultimate test and uncover the depths of your understanding of World War II.\"",
+//                new UserModel(1L, "saba", "saba", "saba", "saba"), list, null);
+//        return new QuizResponse(true, null, quizModel);
     }
 
     public QuizzesResponse getAllQuizzes(Long ownerId) {
@@ -122,55 +122,55 @@ public class QuizService {
             return new QuizzesResponse(true, null, quizzes);
         } catch (RuntimeException e) {
             e.printStackTrace();
-            return new QuizzesResponse(false, e.getMessage(), null);
+            return new QuizzesResponse(false, "Error while getting quizzes. Try again later", null);
         }
     }
 
     public QuizzesResponse getMostPopularQuizzes() {
-//        try {
-//            if (allQuizzes.isEmpty()) {
-//                return new QuizzesResponse(false, "No quizzes available", new ArrayList<>());
-//            }
-//            if (allGames.isEmpty()) {
-//                return new QuizzesResponse(false, "No quizzes are played", new ArrayList<>());
-//            }
-//
-//            int numOfTopQuizzes = Math.min(NUM_OF_POPULAR_QUIZZES, allQuizzes.size());
-//            Map<QuizModel, Long> quizPlayCounts = allGames.values().stream()
-//                    .collect(Collectors.groupingBy(QuizGameModel::getQuiz, Collectors.counting()));
-//
-//            List<QuizModel> mostPlayedQuizzes = quizPlayCounts.entrySet().stream()
-//                    .sorted(Map.Entry.<QuizModel, Long>comparingByValue().reversed())
-//                    .limit(numOfTopQuizzes)
-//                    .map(Map.Entry::getKey)
-//                    .collect(Collectors.toList());
-//
-//            return new QuizzesResponse(true, null, mostPlayedQuizzes);
-//        } catch (RuntimeException e) {
-//            e.printStackTrace();
-//            return new QuizzesResponse(false, e.getMessage(), null);
-//        }
-        QuestionModel questionModel = new QuestionModel(1L);
-        QuestionModel questionModel1 = new QuestionModel(2L);
-        QuestionModel questionModel2 = new QuestionModel(2L);
-        QuestionModel questionModel3 = new QuestionModel(2L);
-        List<QuestionModel> list = new ArrayList<>();
-        list.add(questionModel);
-        list.add(questionModel1);
-        list.add(questionModel2);
-        list.add(questionModel3);
-        QuizModel quizModel = new QuizModel(1L, "World War II: Expert Edition",
-                "\"Embark on a comprehensive journey through the pivotal events, strategies, " +
-                        "and stories that defined World War II with our expert-level quiz. " +
-                        "Test your historical knowledge as you delve into the intricacies of the most significant conflict in human history." +
-                        " From the battlefronts to the home fronts, challenge yourself to answer questions about leaders, " +
-                        "battles, innovations, and the global impact of World War II. Whether you're a history enthusiast or a scholar, " +
-                        "this quiz will put your expertise to the ultimate test and uncover the depths of your understanding of World War II.\"", null, list, null);
-        QuizModel quizModel1 = new QuizModel(2L, "2 quiz", "SUPER QUIZ", null, list, null);
-        List<QuizModel> quizModels = new ArrayList<>();
-        quizModels.add(quizModel);
-        quizModels.add(quizModel1);
-        return new QuizzesResponse(true, null, quizModels);
+        try {
+            if (allQuizzes.isEmpty()) {
+                return new QuizzesResponse(false, "No quizzes available", new ArrayList<>());
+            }
+            if (allGames.isEmpty()) {
+                return new QuizzesResponse(false, "No quizzes are played", new ArrayList<>());
+            }
+
+            int numOfTopQuizzes = Math.min(NUM_OF_POPULAR_QUIZZES, allQuizzes.size());
+            Map<QuizModel, Long> quizPlayCounts = allGames.values().stream()
+                    .collect(Collectors.groupingBy(QuizGameModel::getQuiz, Collectors.counting()));
+
+            List<QuizModel> mostPlayedQuizzes = quizPlayCounts.entrySet().stream()
+                    .sorted(Map.Entry.<QuizModel, Long>comparingByValue().reversed())
+                    .limit(numOfTopQuizzes)
+                    .map(Map.Entry::getKey)
+                    .collect(Collectors.toList());
+
+            return new QuizzesResponse(true, null, mostPlayedQuizzes);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return new QuizzesResponse(false, "Error while getting quizzes. Try again later", null);
+        }
+//        QuestionModel questionModel = new QuestionModel(1L);
+//        QuestionModel questionModel1 = new QuestionModel(2L);
+//        QuestionModel questionModel2 = new QuestionModel(2L);
+//        QuestionModel questionModel3 = new QuestionModel(2L);
+//        List<QuestionModel> list = new ArrayList<>();
+//        list.add(questionModel);
+//        list.add(questionModel1);
+//        list.add(questionModel2);
+//        list.add(questionModel3);
+//        QuizModel quizModel = new QuizModel(1L, "World War II: Expert Edition",
+//                "\"Embark on a comprehensive journey through the pivotal events, strategies, " +
+//                        "and stories that defined World War II with our expert-level quiz. " +
+//                        "Test your historical knowledge as you delve into the intricacies of the most significant conflict in human history." +
+//                        " From the battlefronts to the home fronts, challenge yourself to answer questions about leaders, " +
+//                        "battles, innovations, and the global impact of World War II. Whether you're a history enthusiast or a scholar, " +
+//                        "this quiz will put your expertise to the ultimate test and uncover the depths of your understanding of World War II.\"", null, list, null);
+//        QuizModel quizModel1 = new QuizModel(2L, "2 quiz", "SUPER QUIZ", null, list, null);
+//        List<QuizModel> quizModels = new ArrayList<>();
+//        quizModels.add(quizModel);
+//        quizModels.add(quizModel1);
+//        return new QuizzesResponse(true, null, quizModels);
     }
 
     public QuizzesResponse getMostRecentQuizzes() {
@@ -187,7 +187,7 @@ public class QuizService {
             return new QuizzesResponse(true, null, mostRecentQuizzes);
         } catch (RuntimeException e) {
             e.printStackTrace();
-            return new QuizzesResponse(false, e.getMessage(), null);
+            return new QuizzesResponse(false, "Error while getting quizzes. Try again later", null);
         }
 //        QuestionModel questionModel = new QuestionModel(1L);
 //        QuestionModel questionModel1 = new QuestionModel(2L);
@@ -203,35 +203,35 @@ public class QuizService {
     }
 
     public QuizzesResponse getMostRecentQuizzes(Long userId) {
-//        try {
-//            if (allQuizzes.isEmpty()) {
-//                return new QuizzesResponse(false, "No quizzes available", null);
-//            }
-//
-//            List<QuizModel> mostRecentQuizzes = allQuizzes.values().stream()
-//                    .filter(quiz -> Objects.equals(quiz.getOwner().getId(), userId))
-//                    .sorted(Comparator.comparing(QuizModel::getCreationTimestamp).reversed())
-//                    .limit(NUM_OF_RECENT_QUIZZES)
-//                    .collect(Collectors.toList());
-//
-//            return new QuizzesResponse(true, null, mostRecentQuizzes);
-//        } catch (RuntimeException e) {
-//            e.printStackTrace();
-//            return new QuizzesResponse(false, e.getMessage(), null);
-//        }
-        QuestionModel questionModel = new QuestionModel(1L);
-        QuestionModel questionModel1 = new QuestionModel(2L);
-        QuestionModel questionModel2 = new QuestionModel(3L);
-        List<QuestionModel> list = new ArrayList<>();
-        list.add(questionModel);
-        list.add(questionModel1);
-        list.add(questionModel2);
-        QuizModel quizModel = new QuizModel(5L, "5 quiz", "SUPER QUIZ", null, list, null);
-        QuizModel quizModel1 = new QuizModel(6L, "6 quiz", "SUPER QUIZ", null, list, null);
-        List<QuizModel> quizModels = new ArrayList<>();
-        quizModels.add(quizModel);
-        quizModels.add(quizModel1);
-        return new QuizzesResponse(true, null, quizModels);
+        try {
+            if (allQuizzes.isEmpty()) {
+                return new QuizzesResponse(false, "No quizzes available", null);
+            }
+
+            List<QuizModel> mostRecentQuizzes = allQuizzes.values().stream()
+                    .filter(quiz -> Objects.equals(quiz.getOwner().getId(), userId))
+                    .sorted(Comparator.comparing(QuizModel::getCreationTimestamp).reversed())
+                    .limit(NUM_OF_RECENT_QUIZZES)
+                    .collect(Collectors.toList());
+
+            return new QuizzesResponse(true, null, mostRecentQuizzes);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return new QuizzesResponse(false, e.getMessage(), null);
+        }
+//        QuestionModel questionModel = new QuestionModel(1L);
+//        QuestionModel questionModel1 = new QuestionModel(2L);
+//        QuestionModel questionModel2 = new QuestionModel(3L);
+//        List<QuestionModel> list = new ArrayList<>();
+//        list.add(questionModel);
+//        list.add(questionModel1);
+//        list.add(questionModel2);
+//        QuizModel quizModel = new QuizModel(5L, "5 quiz", "SUPER QUIZ", null, list, null);
+//        QuizModel quizModel1 = new QuizModel(6L, "6 quiz", "SUPER QUIZ", null, list, null);
+//        List<QuizModel> quizModels = new ArrayList<>();
+//        quizModels.add(quizModel);
+//        quizModels.add(quizModel1);
+//        return new QuizzesResponse(true, null, quizModels);
     }
 
     public QuizGameResponse startQuiz(Long quizId, Long playerId) {
@@ -258,7 +258,7 @@ public class QuizService {
             return new QuizGameResponse(true, null, gameModel);
         } catch (RuntimeException e) {
             e.printStackTrace();
-            return new QuizGameResponse(false, e.getMessage(), null);
+            return new QuizGameResponse(false, "Error while starting the quiz. Try again later", null);
         }
     }
 
@@ -296,7 +296,7 @@ public class QuizService {
             allGames.replace(gameModel.getId(), gameModel);
             return new QuizGameResponse(true, null, gameModel);
         } catch (RuntimeException e) {
-            return new QuizGameResponse(false, e.getMessage(), null);
+            return new QuizGameResponse(false, "Error while finishing the quiz. Try again later", null);
         }
     }
 
