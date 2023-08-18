@@ -12,11 +12,7 @@ import ge.edu.freeuni.responses.ChallengesResponse;
 import ge.edu.freeuni.util.EntityToModelBridge;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -29,8 +25,8 @@ public class ChallengeService {
     private final Map<Long, ChallengeModel> allChallenges;
 
 
-    public ChallengeService() {
-        this.allChallenges = getAllChallenges();
+    public ChallengeService(){
+        this.allChallenges = getSentChallenges();
     }
 
 
@@ -50,7 +46,7 @@ public class ChallengeService {
         this.challengeDAO = challengeDAO;
     }
 
-    private Map<Long, ChallengeModel> getAllChallenges() {
+    private Map<Long, ChallengeModel> getSentChallenges() {
         try {
             List<Challenge> challenges = challengeDAO.getAll();
             return challenges.stream()
@@ -148,11 +144,24 @@ public class ChallengeService {
             return new ChallengeResponse(true, null, challengeModel);
         } catch (RuntimeException e) {
             e.printStackTrace();
-            return new ChallengeResponse(false, "Error while getting a challenge. Try again later", null);
+            return new ChallengeResponse(false, "This challenge can not be viewed right now,\\n\" +\n" +
+                    "                    \"please, try again later", null);
         }
     }
 
-    public ChallengesResponse getAllChallenges(Long receiverId) {
+    public ChallengesResponse getSentChallenges(Long senderId) {
+        try {
+            List<ChallengeModel> challenges = allChallenges.values().stream()
+                    .filter(challenge -> Objects.equals(challenge.getSender().getId(), senderId))
+                    .collect(Collectors.toList());
+            return new ChallengesResponse(true, null, challenges);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return new ChallengesResponse(false,"your sent challenges can not be viewed right now,\\n\" +\n" +
+                    "                    \"please, try again later", null);
+        }
+    }
+    public ChallengesResponse getReceivedChallenges(Long receiverId) {
         try {
             List<ChallengeModel> challenges = allChallenges.values().stream()
                     .filter(challenge -> Objects.equals(challenge.getReceiver().getId(), receiverId))
@@ -160,7 +169,9 @@ public class ChallengeService {
             return new ChallengesResponse(true, null, challenges);
         } catch (RuntimeException e) {
             e.printStackTrace();
-            return new ChallengesResponse(false, "Error while getting challenges. Try again later", null);
+            return new ChallengesResponse(false, "your received challenges can not be viewed right now,\n" +
+                    "please, try again later", null);
         }
     }
+
 }

@@ -16,7 +16,7 @@ public class MailService {
 
     public MailResponse getUsersReceivedNotes(Long currentUserId) {
         try{
-            List<Note> receivedNotes = noteDAO.getByField("id", currentUserId);
+            List<Note> receivedNotes = noteDAO.getByField("to.id", currentUserId);
             List<NoteModel> receivedNotesModel = receivedNotes.stream()
                     .map(EntityToModelBridge::toNoteModel)
                     .collect(Collectors.toList());

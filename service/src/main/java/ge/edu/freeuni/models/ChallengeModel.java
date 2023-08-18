@@ -1,19 +1,35 @@
 package ge.edu.freeuni.models;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-public class ChallengeModel {
+public class ChallengeModel extends NotificationModel{
     private final Long id;
     private QuizModel quizModel;
     private UserModel from;
     private UserModel to;
     private Integer bestScore;
 
-    public ChallengeModel(Long id) {
+    public ChallengeModel(Long id, Long timestamp) {
+        super(timestamp);
         this.id = id;
     }
 
-    public ChallengeModel(Long id, QuizModel quizModel, UserModel from, UserModel to, Integer bestScore) {
+    @Override
+    public String getNotificationType() {
+        return "Challenge";
+    }
+
+    @Override
+    public List<String> getNotificationLabel() {
+        List<String> result = new ArrayList<>();
+        result.add(this.getSender().getUsername());
+        return result;
+    }
+
+    public ChallengeModel(Long id, QuizModel quizModel, UserModel from, UserModel to, int bestScore, Long timestamp) {
+        super(timestamp);
         this.id = id;
         this.quizModel = quizModel;
         this.from = from;

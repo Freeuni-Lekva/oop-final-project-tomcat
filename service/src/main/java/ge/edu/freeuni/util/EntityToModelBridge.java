@@ -11,7 +11,8 @@ public class EntityToModelBridge {
         return new FriendRequestModel(
                 request.getId(),
                 toUserModel(request.getSenderUser()),
-                toUserModel(request.getRecipientUser())
+                toUserModel(request.getRecipientUser()),
+                request.getSentTimestamp()
         );
     }
 
@@ -92,7 +93,8 @@ public class EntityToModelBridge {
                 toQuizModel(challenge.getQuiz()),
                 toUserModel(challenge.getSender()),
                 toUserModel(challenge.getReceiver()),
-                challenge.getBestScore()
+                challenge.getBestScore(),
+                challenge.getTimestamp()
         );
     }
 
@@ -109,11 +111,11 @@ public class EntityToModelBridge {
 
     public static NoteModel toNoteModel(Note note) {
         return new NoteModel(
+                note.getTimestamp(),
                 note.getId(),
                 EntityToModelBridge.toUserModel(note.getFrom()),
                 EntityToModelBridge.toUserModel(note.getTo()),
                 note.getMessage(),
-                note.getTimestamp(),
                 note.getSubject()
 
         );

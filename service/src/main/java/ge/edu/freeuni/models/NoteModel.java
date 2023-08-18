@@ -1,19 +1,21 @@
 package ge.edu.freeuni.models;
 
-public class NoteModel {
+import java.util.ArrayList;
+import java.util.List;
+
+public class NoteModel extends NotificationModel{
     private Long id;
     private UserModel from;
     private UserModel to;
     private String subject;
     private String message;
-    private Long timestamp;
 
-    public NoteModel(Long id, UserModel from, UserModel to, String message, Long timestamp, String subject) {
+    public NoteModel(Long timestamp, Long id, UserModel from, UserModel to, String message, String subject) {
+        super(timestamp);
         this.id = id;
         this.from = from;
         this.to = to;
         this.message = message;
-        this.timestamp = timestamp;
         this.subject = subject;
     }
 
@@ -49,12 +51,17 @@ public class NoteModel {
         this.message = message;
     }
 
-    public Long getTimestamp() {
-        return timestamp;
+    @Override
+    public String getNotificationType() {
+        return "Note";
     }
 
-    public void setTimestamp(Long timestamp) {
-        this.timestamp = timestamp;
+    @Override
+    public List<String> getNotificationLabel() {
+        List<String> result = new ArrayList<>();
+        result.add(this.getFrom().getUsername());
+        result.add(this.getSubject());
+        return result;
     }
 
     public String getSubject() {

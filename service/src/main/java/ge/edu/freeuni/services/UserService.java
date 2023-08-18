@@ -63,7 +63,7 @@ public class UserService {
         }
     }
 
-    private User getByUsername(String username) throws RuntimeException {
+    public User getByUsername(String username) throws RuntimeException {
         List<User> users = userDAO.getByField("username", username);
         if (users == null || users.isEmpty()) {
             return null;
@@ -71,7 +71,7 @@ public class UserService {
         return users.get(0);
     }
 
-    private User getById(Long id){
+    public User getById(Long id){
         List<User> users = userDAO.getByField("id",id);
         if(users==null || users.isEmpty()){
             return null;

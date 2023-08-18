@@ -8,12 +8,12 @@ import ge.edu.freeuni.providers.DAOFactory;
 import ge.edu.freeuni.responses.NoteResponse;
 import ge.edu.freeuni.responses.UserResponse;
 import ge.edu.freeuni.util.EntityToModelBridge;
-import ge.edu.freeuni.util.ModelToEntityBridge;
 
 import java.util.List;
 
 public class NoteService {
     private final DAO<Note> noteDAO = DAOFactory.getInstance().getDAO(Note.class);
+
 
     private final UserService userService = new UserService();
 
@@ -47,11 +47,10 @@ public class NoteService {
                 return new NoteResponse(false, "a note can not be sent by this user", null);
             }
 
-            User sender = ModelToEntityBridge.toUserEntity(senderUserResponse.getUser());
-            User recipient = ModelToEntityBridge.toUserEntity(recipientUserResponse.getUser());
-
-            noteDAO.create(new Note(sender, recipient, content, subject));
-
+            User sender = userService.getById(sendersId);
+            User recipient = userService.getByUsername(recipientsUsername);
+            Note newNote = new Note(sender,recipient,content,subject);
+            noteDAO.create(newNote);
             return new NoteResponse(true, null, null);
         } catch (Exception e) {
             e.printStackTrace();

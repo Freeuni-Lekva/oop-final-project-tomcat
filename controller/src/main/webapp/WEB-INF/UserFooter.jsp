@@ -14,6 +14,9 @@
             <input type="hidden" name="username" value="<%= currentUser %>">
             <button type="submit">Profile</button>
         </form>
+        <form id="notificationsForm" action="<%=contextPath%>/Notifications" method="get">
+            <button type="submit">Notifications</button>
+        </form>
         <form id="logoutForm" action="<%=contextPath%>/logout" method="post">
             <button type="submit">Logout</button>
         </form>

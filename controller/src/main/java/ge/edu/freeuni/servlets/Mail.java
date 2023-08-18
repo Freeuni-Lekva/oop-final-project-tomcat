@@ -1,9 +1,9 @@
 package ge.edu.freeuni.servlets;
 
-import ge.edu.freeuni.responses.MailResponse;
-import ge.edu.freeuni.services.MailService;
+import ge.edu.freeuni.models.InboxModel;
+import ge.edu.freeuni.responses.NotificationsResponse;
+import ge.edu.freeuni.services.NotificationsService;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,22 +18,23 @@ import java.io.IOException;
  */
 @WebServlet(name = "Mail",urlPatterns = "/Mail")
 public class Mail extends HttpServlet {
-    private final MailService mailService = new MailService();
+    private final NotificationsService notificationsService = new NotificationsService();
 
     @Override
     public void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
         HttpSession session = httpServletRequest.getSession();
         Long currentUserId = (Long) session.getAttribute("currentUserId");
 
-        MailResponse mailResponse = mailService.getUsersReceivedNotes(currentUserId);
+        NotificationsResponse mailResponse = notificationsService.getMail(currentUserId);
         if(mailResponse.isSuccess()){
-            httpServletRequest.setAttribute("receivedNotes",mailResponse.getNoteModels());
+            InboxModel inboxModel = mailResponse.getInboxModel();
+            httpServletRequest.setAttribute("inboxModel", inboxModel);
+            httpServletRequest.setAttribute("createNewURL","/CreateNewNote");
+            httpServletRequest.setAttribute("location", "Mail");
+            httpServletRequest.getRequestDispatcher("WEB-INF/Notifications.jsp").forward(httpServletRequest, httpServletResponse);
         }else{
-            httpServletRequest.setAttribute("mailErrorMessage",mailResponse.getErrorMessage());
+            httpServletRequest.setAttribute("errorMessage",mailResponse.getErrorMessage());
         }
-
-        RequestDispatcher mailDispatcher = httpServletRequest.getRequestDispatcher("WEB-INF/Mail.jsp");
-        mailDispatcher.forward(httpServletRequest,httpServletResponse);
     }
 
 }

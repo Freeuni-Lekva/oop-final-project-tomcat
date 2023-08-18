@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-@WebServlet(name = "SendChallenge", urlPatterns = "/sendChallenge")
+@WebServlet(name = "SendChallenge", urlPatterns = "/SendChallenge")
 public class SendChallenge extends HttpServlet {
 
     private final ChallengeService challengeService = ServiceFactory.getInstance().getService(ChallengeService.class);

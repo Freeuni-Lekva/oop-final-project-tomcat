@@ -12,29 +12,25 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-/**
- * this page shows every friend request of the user,
- * a user should be able to click on the link and see the senders profile
- * and they should also be able to accept or reject the request.
- */
-@WebServlet(name = "FriendRequests",urlPatterns = "/FriendRequests")
-public class FriendRequests extends HttpServlet {
+@WebServlet(name = "Notifications", urlPatterns = "/Notifications")
+public class Notifications extends HttpServlet {
     private final NotificationsService notificationsService = new NotificationsService();
 
     @Override
     public void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
         HttpSession session = httpServletRequest.getSession();
         Long currentUserId = (Long) session.getAttribute("currentUserId");
+        NotificationsResponse serviceActionResponse = notificationsService.getNotifications(currentUserId);
 
-        NotificationsResponse friendRequestsResponse = notificationsService.getReceivedFriendRequests(currentUserId);
-        if(friendRequestsResponse.isSuccess()){
-            InboxModel inboxModel = friendRequestsResponse.getInboxModel();
+        if(serviceActionResponse.isSuccess()){
+            InboxModel inboxModel = serviceActionResponse.getInboxModel();
             httpServletRequest.setAttribute("inboxModel", inboxModel);
-            httpServletRequest.setAttribute("createNewURL","/FriendRequest");
-            httpServletRequest.setAttribute("location","FriendRequests");
+            httpServletRequest.setAttribute("createNewURL", "/CreateNewNotification");
+            httpServletRequest.setAttribute("location", "Notifications");
             httpServletRequest.getRequestDispatcher("WEB-INF/Notifications.jsp").forward(httpServletRequest, httpServletResponse);
         }else{
-            httpServletRequest.setAttribute("errorMessage",friendRequestsResponse.getErrorMessage());
+            System.out.println(serviceActionResponse.getErrorMessage());
+            httpServletRequest.setAttribute("errorMessage",serviceActionResponse.getErrorMessage());
         }
     }
 }

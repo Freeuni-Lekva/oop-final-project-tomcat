@@ -29,6 +29,8 @@ public class Challenge {
     @Column(name = "sender_best_score")
     private Integer bestScore;
 
+    @Column(name = "timestamp", nullable = false)
+    private Long timestamp;
 
     /**
      * Default constructor.
@@ -162,5 +164,13 @@ public class Challenge {
                 ", to=" + to +
                 ", bestScore=" + bestScore +
                 '}';
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
     }
 }

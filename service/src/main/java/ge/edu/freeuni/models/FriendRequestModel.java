@@ -1,17 +1,33 @@
 package ge.edu.freeuni.models;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-public class FriendRequestModel {
+public class FriendRequestModel extends NotificationModel{
     private final Long id;
     private UserModel sender;
     private UserModel recipient;
 
-    public FriendRequestModel(Long id) {
+    public FriendRequestModel(Long id, Long timeStamp) {
+        super(timeStamp);
         this.id = id;
     }
 
-    public FriendRequestModel(Long id, UserModel sender, UserModel recipient) {
+    @Override
+    public String getNotificationType() {
+        return "FriendRequest";
+    }
+
+    @Override
+    public List<String> getNotificationLabel() {
+        List<String> result = new ArrayList<>();
+        result.add(this.getSender().getUsername());
+        return result;
+    }
+
+    public FriendRequestModel(Long id, UserModel sender, UserModel recipient, Long timestamp) {
+        super(timestamp);
         this.id = id;
         this.sender = sender;
         this.recipient = recipient;
@@ -65,4 +81,5 @@ public class FriendRequestModel {
                 ", recipient=" + recipient +
                 '}';
     }
+
 }

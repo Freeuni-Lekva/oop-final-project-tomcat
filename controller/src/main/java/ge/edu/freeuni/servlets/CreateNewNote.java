@@ -20,6 +20,9 @@ public class CreateNewNote extends HttpServlet {
     private final NoteService noteService = new NoteService();
     @Override
     public void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+        httpServletRequest.setAttribute("noteSubject", "");
+        httpServletRequest.setAttribute("noteRecipient", "");
+        httpServletRequest.setAttribute("noteContent", "");
         RequestDispatcher dispatcher = httpServletRequest.getRequestDispatcher("WEB-INF/CreateNewNote.jsp");
         dispatcher.forward(httpServletRequest,httpServletResponse);
     }
@@ -29,17 +32,16 @@ public class CreateNewNote extends HttpServlet {
         HttpSession session = httpServletRequest.getSession();
         Long sendersId = (Long)session.getAttribute("currentUserId");
 
-        String subject = httpServletRequest.getParameter("noteContent");
+        String subject = httpServletRequest.getParameter("noteSubject");
         String recipientsUsername = httpServletRequest.getParameter("noteRecipient");
         String content = httpServletRequest.getParameter("noteContent");
 
         NoteResponse noteResponse = noteService.createNewNote(sendersId,recipientsUsername,content,subject);
 
         if(noteResponse.isSuccess()){
-            RequestDispatcher mailDispatcher = httpServletRequest.getRequestDispatcher("WEB-INF/Mail.jsp");
-            mailDispatcher.forward(httpServletRequest,httpServletResponse);
+            httpServletResponse.sendRedirect("/Notifications");
         }else{
-            httpServletRequest.setAttribute("NoteCreationErrorMessage", noteResponse.getErrorMessage());
+            httpServletRequest.setAttribute("errorMessage", noteResponse.getErrorMessage());
             httpServletRequest.setAttribute("noteSubject", subject);
             httpServletRequest.setAttribute("noteRecipient", recipientsUsername);
             httpServletRequest.setAttribute("noteContent", content);

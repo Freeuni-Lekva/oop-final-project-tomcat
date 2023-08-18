@@ -1,9 +1,9 @@
 package ge.edu.freeuni.servlets;
 
-import ge.edu.freeuni.responses.ChallengesResponse;
-import ge.edu.freeuni.services.ChallengeService;
+import ge.edu.freeuni.models.InboxModel;
+import ge.edu.freeuni.responses.NotificationsResponse;
+import ge.edu.freeuni.services.NotificationsService;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,24 +21,25 @@ import java.io.IOException;
  * the quiz name should also be a link to the summary of the quz so the user will be able to see the summary
  * before accepting ro declining the challenge.
  */
-@WebServlet(name = "Challenges",urlPatterns = "/challenges")
+@WebServlet(name = "Challenges",urlPatterns = "/Challenges")
 public class Challenges extends HttpServlet {
-    private final ChallengeService challengeService = new ChallengeService();
+    private final NotificationsService challengeService = new NotificationsService();
 
     @Override
     public void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
         HttpSession session = httpServletRequest.getSession();
         Long currentUserId = (Long) session.getAttribute("currentUserId");
 
-        ChallengesResponse challengesResponse = challengeService.getAllChallenges(currentUserId);
+        NotificationsResponse challengesResponse = challengeService.getReceivedChallenges(currentUserId);
         if(challengesResponse.isSuccess()){
-            httpServletRequest.setAttribute("Challenges", challengesResponse.getChallenges());
+            InboxModel inboxModel = challengesResponse.getInboxModel();
+            httpServletRequest.setAttribute("inboxModel", inboxModel);
+            httpServletRequest.setAttribute("createNewURL", "/SendChallenge");
+            httpServletRequest.setAttribute("location","Challenges");
+            httpServletRequest.getRequestDispatcher("WEB-INF/Notifications.jsp").forward(httpServletRequest, httpServletResponse);
         }else{
             httpServletRequest.setAttribute("errorMessage", challengesResponse.getErrorMessage());
         }
-
-        RequestDispatcher challengeDispatcher = httpServletRequest.getRequestDispatcher("WEB-INF/Challenges.jsp");
-        challengeDispatcher.forward(httpServletRequest,httpServletResponse);
 
     }
 }
