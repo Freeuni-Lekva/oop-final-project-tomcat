@@ -25,6 +25,7 @@ public class ChallengeModel extends NotificationModel{
     public List<String> getNotificationLabel() {
         List<String> result = new ArrayList<>();
         result.add(this.getSender().getUsername());
+        result.add(this.getQuiz().getName());
         return result;
     }
 

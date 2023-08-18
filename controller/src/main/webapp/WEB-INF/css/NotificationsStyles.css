@@ -60,13 +60,6 @@ body {
     font-size: 16px;
 }
 
-.create-new-button-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-}
-
 .create-new-button {
     background-color: blueviolet;
     color: white;
@@ -127,42 +120,11 @@ body {
     text-decoration: none;
     padding: 8px 15px;
 }
-.notification {
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #e0e0e0;
-    border-radius: 5px;
-    background-color: #f7f7f7;
-}
-.notification-label-main {
-    font-weight: bold;
-    font-size: 18px;
-    margin-bottom: 5px;
-}
-.notification-label-small {
-    font-size: 14px;
-    color: #555;
-}
 .no-notifications {
     text-align: center;
     color: #555;
     font-size: 16px;
     margin-top: 20px;
-}
-
-.navigation-bar {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background-color: indigo;
-    padding: 10px 0;
-}
-
-.nav-button {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 16px;
 }
 
 .notifications-header {
@@ -176,18 +138,6 @@ body {
     align-items: center;
     margin-top: 20px;
 }
-
-.create-new-button {
-    background-color: blueviolet;
-    color: white;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none;
-    padding: 8px 15px;
-}
-
 .big-button-container {
     display: flex;
     justify-content: space-between;

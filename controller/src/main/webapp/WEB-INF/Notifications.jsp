@@ -8,7 +8,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notifications</title>
-        <style><%@include file="css/NotificationsStyles.css"%></style>
+    <style>
+        <%@include file="css/NotificationsStyles.css"%></style>
+    </style>
 </head>
 <body>
 <jsp:include page="UserFooter.jsp" />

@@ -23,6 +23,7 @@ public class FriendRequestModel extends NotificationModel{
     public List<String> getNotificationLabel() {
         List<String> result = new ArrayList<>();
         result.add(this.getSender().getUsername());
+        result.add(this.getTimestamp().toString());
         return result;
     }
 
