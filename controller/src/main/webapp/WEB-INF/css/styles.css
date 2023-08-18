@@ -212,6 +212,7 @@ button[type="submit"]:hover {
     margin-bottom: 20px;
     color: #0a8167;
 }
+.back-to-user-btn,
 .back-to-quiz-btn {
     display: inline-block;
     padding: 10px 20px;
@@ -226,6 +227,7 @@ button[type="submit"]:hover {
     text-decoration: none;
     margin-top: 10px;
 }
+back-to-user-btn:hover,
 back-to-quiz-btn:hover {
     background-color: #23527c;
 }

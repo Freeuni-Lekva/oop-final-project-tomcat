@@ -6,7 +6,6 @@ import ge.edu.freeuni.entities.User;
 import ge.edu.freeuni.models.FriendRequestModel;
 import ge.edu.freeuni.models.FriendshipModel;
 import ge.edu.freeuni.providers.DAO;
-import ge.edu.freeuni.requests.CreateFriendshipRequest;
 import ge.edu.freeuni.responses.ServiceActionResponse;
 import ge.edu.freeuni.services.FriendshipService;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,8 +51,7 @@ public class FriendshipServiceTest {
         when(userDAO.read(1L)).thenReturn(sender);
         when(userDAO.read(2L)).thenReturn(recipient);
 
-        CreateFriendshipRequest request = new CreateFriendshipRequest(1L, 2L);
-        ServiceActionResponse response = friendshipService.sendFriendshipRequest(request);
+        ServiceActionResponse response = friendshipService.sendFriendshipRequest(1L, 2L);
 
         verify(friendRequestDAO, times(1)).create(any(FriendRequest.class));
         assertTrue(response.isSuccess());
@@ -106,10 +104,17 @@ public class FriendshipServiceTest {
     @Test
     public void testGetAllFriends() {
         User user = new User();
+        user.setId(1L);
         List<Friendship> friendships = new ArrayList<>();
-        friendships.add(new Friendship(user, new User()));
-        friendships.add(new Friendship(user, new User()));
-        when(friendshipDAO.getByFields(any(), any(), anyBoolean())).thenReturn(friendships);
+        Friendship friendship1 = new Friendship(user, new User());
+        Friendship friendship2 = new Friendship(user, new User());
+        friendship1.setId(1L);
+        friendship2.setId(2L);
+        friendships.add(friendship1);
+        friendships.add(friendship2);
+
+        when(friendshipDAO.getAll()).thenReturn(friendships);
+        friendshipService = new FriendshipService(userDAO, friendshipDAO, friendRequestDAO);
 
         List<FriendshipModel> result = friendshipService.getAllFriends(1L).getAllFriends();
         assertEquals(2, result.size());

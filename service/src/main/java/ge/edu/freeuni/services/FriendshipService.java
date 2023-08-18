@@ -7,31 +7,60 @@ import ge.edu.freeuni.models.FriendRequestModel;
 import ge.edu.freeuni.models.FriendshipModel;
 import ge.edu.freeuni.providers.DAO;
 import ge.edu.freeuni.providers.DAOFactory;
-import ge.edu.freeuni.requests.CreateFriendshipRequest;
 import ge.edu.freeuni.responses.AllFriendRequestsResponse;
 import ge.edu.freeuni.responses.AllFriendshipsResponse;
 import ge.edu.freeuni.responses.ServiceActionResponse;
 import ge.edu.freeuni.util.EntityToModelBridge;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class FriendshipService {
-    private DAO<User> userDAO = DAOFactory.getInstance().getDAO(User.class);
-    private DAO<Friendship> friendshipDAO = DAOFactory.getInstance().getDAO(Friendship.class);
+    private DAO<User> userDAO;
+    private DAO<Friendship> friendshipDAO;
 
-    private DAO<FriendRequest> friendRequestDAO = DAOFactory.getInstance().getDAO(FriendRequest.class);
+    private DAO<FriendRequest> friendRequestDAO;
 
-    public ServiceActionResponse sendFriendshipRequest(CreateFriendshipRequest request) {
+    private final Map<Serializable, FriendshipModel> allFriendships;
+
+    public FriendshipService() {
+        this.userDAO = DAOFactory.getInstance().getDAO(User.class);
+        this.friendshipDAO = DAOFactory.getInstance().getDAO(Friendship.class);
+        this.friendRequestDAO = DAOFactory.getInstance().getDAO(FriendRequest.class);
+        this.allFriendships = getAllFriendships();
+    }
+
+    public FriendshipService(DAO<User> userDAO, DAO<Friendship> friendshipDAO, DAO<FriendRequest> friendRequestDAO) {
+        this.userDAO = userDAO;
+        this.friendshipDAO = friendshipDAO;
+        this.friendRequestDAO = friendRequestDAO;
+        this.allFriendships = getAllFriendships();
+    }
+
+    private Map<Serializable, FriendshipModel> getAllFriendships() {
         try {
-            User sender = userDAO.read(request.getSenderId());
+            return friendshipDAO.getAll().stream()
+                    .map(EntityToModelBridge::toFriendshipModel)
+                    .collect(Collectors.toMap(FriendshipModel::getId, Function.identity()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new HashMap<>();
+        }
+    }
+
+    public ServiceActionResponse sendFriendshipRequest(Long senderId, Long receiverId) {
+        try {
+            User sender = userDAO.read(senderId);
             if (sender == null) {
                 return new ServiceActionResponse(false, "Sender user doesn't exist");
             }
 
-            User recipient = userDAO.read(request.getSenderId());
+            User recipient = userDAO.read(receiverId);
             if (recipient == null) {
                 return new ServiceActionResponse(false, "Recipient user doesn't exist");
             }
@@ -55,7 +84,9 @@ public class FriendshipService {
                 return new ServiceActionResponse(false, "Approver and recipient user don't match");
             }
 
-            friendshipDAO.create(new Friendship(request.getSenderUser(), request.getRecipientUser()));
+            Friendship friendship = new Friendship(request.getSenderUser(), request.getRecipientUser());
+            Serializable id = friendshipDAO.create(friendship);
+            allFriendships.put(id, EntityToModelBridge.toFriendshipModel(friendship));
             friendRequestDAO.delete(requestId);
         } catch (RuntimeException e) {
             return new ServiceActionResponse(false, "Error while approving the request. Try again later");
@@ -94,16 +125,43 @@ public class FriendshipService {
     }
 
     public AllFriendshipsResponse getAllFriends(Long userId) {
-        String[] fieldNames = {"first_user", "second_user"};
-        Serializable[] values = {userId, userId};
         try {
-            List<FriendshipModel> friends = friendshipDAO.getByFields(fieldNames, values, false).stream()
-                    .map(EntityToModelBridge::toFriendshipModel)
+            List<FriendshipModel> friends = allFriendships.values().stream()
+                    .filter(friendship -> Objects.equals(userId, friendship.getUser1().getId()) || Objects.equals(userId, friendship.getUser2().getId()))
                     .collect(Collectors.toList());
             return new AllFriendshipsResponse(true, null, friends);
         } catch (RuntimeException e) {
             return new AllFriendshipsResponse(false, "Error while getting friends. Try again later", null);
         }
+    }
+
+    public boolean areFriends(String username1, String username2) {
+        return getFriendship(username1, username2) != null;
+    }
+
+    private FriendshipModel getFriendship(String username1, String username2) {
+        return allFriendships.values().stream()
+                .filter(friendship ->
+                        (Objects.equals(username1, friendship.getUser1().getUsername()) && Objects.equals(username2, friendship.getUser2().getUsername()))
+                                || (Objects.equals(username1, friendship.getUser2().getUsername()) && Objects.equals(username2, friendship.getUser1().getUsername()))
+                )
+                .findAny().orElse(null);
+    }
+
+    public ServiceActionResponse deleteFriend(String senderUsername, String secondUsername) {
+        FriendshipModel friendshipModel = getFriendship(senderUsername, secondUsername);
+        if (friendshipModel == null) {
+            return new ServiceActionResponse(false, "Friendship doesn't exist");
+        }
+
+        try {
+            friendshipDAO.delete(friendshipModel.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ServiceActionResponse(false, "Can't  remove the friend. Please try again later");
+        }
+        allFriendships.remove(friendshipModel.getId());
+        return new ServiceActionResponse(true, null);
     }
 
     public void setUserDAO(DAO<User> userDAO) {
