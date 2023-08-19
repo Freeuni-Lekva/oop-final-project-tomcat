@@ -34,7 +34,7 @@ public class Challenges extends HttpServlet {
         if(challengesResponse.isSuccess()){
             InboxModel inboxModel = challengesResponse.getInboxModel();
             httpServletRequest.setAttribute("inboxModel", inboxModel);
-            httpServletRequest.setAttribute("createNewURL", "/SendChallenge");
+            httpServletRequest.setAttribute("createNewURL", "./SendChallenge");
             httpServletRequest.setAttribute("location","Challenges");
             httpServletRequest.getRequestDispatcher("WEB-INF/Notifications.jsp").forward(httpServletRequest, httpServletResponse);
         }else{

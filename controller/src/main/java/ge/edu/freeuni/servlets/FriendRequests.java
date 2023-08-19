@@ -30,7 +30,7 @@ public class FriendRequests extends HttpServlet {
         if(friendRequestsResponse.isSuccess()){
             InboxModel inboxModel = friendRequestsResponse.getInboxModel();
             httpServletRequest.setAttribute("inboxModel", inboxModel);
-            httpServletRequest.setAttribute("createNewURL","/FriendRequest");
+            httpServletRequest.setAttribute("createNewURL","./FriendRequest");
             httpServletRequest.setAttribute("location","FriendRequests");
             httpServletRequest.getRequestDispatcher("WEB-INF/Notifications.jsp").forward(httpServletRequest, httpServletResponse);
         }else{

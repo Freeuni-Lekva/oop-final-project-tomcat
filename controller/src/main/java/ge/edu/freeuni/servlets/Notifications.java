@@ -25,7 +25,7 @@ public class Notifications extends HttpServlet {
         if(serviceActionResponse.isSuccess()){
             InboxModel inboxModel = serviceActionResponse.getInboxModel();
             httpServletRequest.setAttribute("inboxModel", inboxModel);
-            httpServletRequest.setAttribute("createNewURL", "/CreateNewNotification");
+            httpServletRequest.setAttribute("createNewURL", "./CreateNewNotification");
             httpServletRequest.setAttribute("location", "Notifications");
             httpServletRequest.getRequestDispatcher("WEB-INF/Notifications.jsp").forward(httpServletRequest, httpServletResponse);
         }else{

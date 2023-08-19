@@ -16,10 +16,10 @@
 <jsp:include page="UserFooter.jsp" />
 <div class="notifications-container">
     <div class="navigation-bar">
-        <a class="nav-button <%= "Notifications".equals(request.getAttribute("location")) ? "active" : "" %>" href="/Notifications">Notifications</a>
-        <a class="nav-button <%= "FriendRequests".equals(request.getAttribute("location")) ? "active" : "" %>" href="/FriendRequests">Friend Requests</a>
-        <a class="nav-button <%= "Mail".equals(request.getAttribute("location")) ? "active" : "" %>" href="/Mail">Mail</a>
-        <a class="nav-button <%= "Challenges".equals(request.getAttribute("location")) ? "active" : "" %>" href="/Challenges">Challenges</a>
+        <a class="nav-button <%= "Notifications".equals(request.getAttribute("location")) ? "active" : "" %>" href="./Notifications">Notifications</a>
+        <a class="nav-button <%= "FriendRequests".equals(request.getAttribute("location")) ? "active" : "" %>" href="./FriendRequests">Friend Requests</a>
+        <a class="nav-button <%= "Mail".equals(request.getAttribute("location")) ? "active" : "" %>" href="./Mail">Mail</a>
+        <a class="nav-button <%= "Challenges".equals(request.getAttribute("location")) ? "active" : "" %>" href="./Challenges">Challenges</a>
     </div>
     <div class="create-new-button-container">
         <h2 style="margin: 0;">Notifications</h2>

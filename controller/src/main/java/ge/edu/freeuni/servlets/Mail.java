@@ -29,7 +29,7 @@ public class Mail extends HttpServlet {
         if(mailResponse.isSuccess()){
             InboxModel inboxModel = mailResponse.getInboxModel();
             httpServletRequest.setAttribute("inboxModel", inboxModel);
-            httpServletRequest.setAttribute("createNewURL","/CreateNewNote");
+            httpServletRequest.setAttribute("createNewURL","./CreateNewNote");
             httpServletRequest.setAttribute("location", "Mail");
             httpServletRequest.getRequestDispatcher("WEB-INF/Notifications.jsp").forward(httpServletRequest, httpServletResponse);
         }else{
