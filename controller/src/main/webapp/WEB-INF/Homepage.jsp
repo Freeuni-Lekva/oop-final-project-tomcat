@@ -33,6 +33,7 @@
     </style>
 </head>
 <body>
+    <jsp:include page="SearchUser.jsp" />
     <jsp:include page="UserFooter.jsp" />
     <div class="contents">
         <h1>Exquizite</h1>

@@ -46,6 +46,23 @@ button[type="submit"] {
 button[type="submit"]:hover {
     background-color: #23527c;
 }
+
+.search-user {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #ddf9f4;
+    padding: 15px 0px 0px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.search-button {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
 .user-footer {
     position: fixed;
     bottom: 0;
