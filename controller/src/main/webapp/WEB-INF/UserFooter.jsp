@@ -17,6 +17,9 @@
         <form id="notificationsForm" action="<%=contextPath%>/Notifications" method="get">
             <button type="submit">Notifications</button>
         </form>
+        <form id="createNewQuizForm" action="<%=contextPath%>/CreateQuiz" method="get">
+            <button type="submit">Create quiz</button>
+        </form>
         <form id="logoutForm" action="<%=contextPath%>/logout" method="post">
             <button type="submit">Logout</button>
         </form>
