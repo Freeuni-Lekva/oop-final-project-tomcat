@@ -57,6 +57,18 @@
                 <p class="notification-label-main"><%= challenge.getSender().getUsername() %> sent you a challenge to the quiz: <%= challenge.getQuiz().getName() %></p>
                 <p class="notification-label-small"><%= challenge.getDatetime() %></p>
             </div>
+            <div class="child">
+                <form id="acceptChallenge" action="AcceptChallenge" method="post">
+                    <input type="hidden" name="id" value="<%= challenge.getId() %>">
+                    <input type="hidden" name="location" value="<%= location %>">
+                    <button type="submit" style="font-size: 16px; background: #004500; margin-bottom: 3px;">Accept</button>
+                </form>
+                <form id="declineChallenge" action="DeclineChallenge" method="post">
+                    <input type="hidden" name="id" value="<%= challenge.getId() %>">
+                    <input type="hidden" name="location" value="<%= location %>">
+                    <button type="submit" style="font-size: 16px; background: #610000; margin-top: 3px;">Decline</button>
+                </form>
+            </div>
         </a>
     <%
             } else if (notification instanceof FriendRequestModel) {
