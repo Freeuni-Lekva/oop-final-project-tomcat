@@ -53,10 +53,12 @@ public class ModelToEntityBridge {
             return new Question(
                     quiz,
                     question.getQuestion(),
+                    question.getBeforeBlank(),
+                    question.getAfterBlank(),
                     question.getQuestionType(),
                     answers,
                     question.getImageUrl()
-            );
+                    );
         } catch (RuntimeException e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
@@ -72,7 +74,11 @@ public class ModelToEntityBridge {
                     quiz.getName(),
                     quiz.getDescription(),
                     toUserEntity(quiz.getOwner()),
-                    questions
+                    questions,
+                    quiz.getRandomizeQuestions(),
+                    quiz.getOnePage(),
+                    quiz.getImmediateCorrection(),
+                    quiz.getPracticeMode()
             );
         } catch (RuntimeException e) {
             e.printStackTrace();

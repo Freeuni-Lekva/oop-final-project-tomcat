@@ -1,6 +1,5 @@
 package ge.edu.freeuni.services;
 
-import ge.edu.freeuni.entities.Question;
 import ge.edu.freeuni.entities.Quiz;
 import ge.edu.freeuni.entities.QuizGame;
 import ge.edu.freeuni.entities.User;
@@ -8,23 +7,17 @@ import ge.edu.freeuni.models.AnswerModel;
 import ge.edu.freeuni.models.QuestionModel;
 import ge.edu.freeuni.models.QuizGameModel;
 import ge.edu.freeuni.models.QuizModel;
-import ge.edu.freeuni.models.UserModel;
 import ge.edu.freeuni.providers.DAO;
 import ge.edu.freeuni.providers.DAOFactory;
 import ge.edu.freeuni.responses.QuizGameResponse;
-import ge.edu.freeuni.responses.QuizzesResponse;
 import ge.edu.freeuni.responses.QuizResponse;
+import ge.edu.freeuni.responses.QuizzesResponse;
 import ge.edu.freeuni.responses.ServiceActionResponse;
 import ge.edu.freeuni.util.DatetimeUtil;
 import ge.edu.freeuni.util.EntityToModelBridge;
 import ge.edu.freeuni.util.ModelToEntityBridge;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -314,5 +307,34 @@ public class QuizService {
 
     public void setQuizGameDAO(DAO<QuizGame> quizGameDAO) {
         this.quizGameDAO = quizGameDAO;
+    }
+
+
+    public Quiz createQuizEntity(Integer randomizeQuestion, Integer onePage, Integer immediateCorrection, Integer practiceMode, String quizTitle, String quizDescription, Long currentUserId) {
+        Quiz newQuiz = new Quiz();
+        newQuiz.setOnePage(onePage);
+        newQuiz.setImmediateCorrection(immediateCorrection);
+        newQuiz.setPracticeMode(practiceMode);
+        newQuiz.setRandomizeQuestions(randomizeQuestion);
+        newQuiz.setDescription(quizDescription);
+        newQuiz.setName(quizTitle);
+
+        List<User> userDAOByField = userDAO.getByField("id",currentUserId);
+        if(userDAOByField == null || userDAOByField.isEmpty()){
+            return null;
+        }
+        User owner = userDAOByField.get(0);
+        newQuiz.setOwner(owner);
+        return newQuiz;
+    }
+
+    public QuizResponse createQuiz(Quiz quiz) {
+        try{
+            quizDAO.create(quiz);
+            return new QuizResponse(true,null,EntityToModelBridge.toQuizModel(quiz));
+        }catch(Exception e){
+            return new QuizResponse(false,"the quiz could not be created,\n" +
+                    "please try again later.",null);
+        }
     }
 }

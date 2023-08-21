@@ -45,7 +45,9 @@ public class EntityToModelBridge {
                 question.getQuestion(),
                 question.getQuestionType(),
                 answers,
-                question.getImageUrl()
+                question.getImageUrl(),
+                question.getBeforeBlank(),
+                question.getAfterBlank()
         );
     }
 
@@ -59,6 +61,10 @@ public class EntityToModelBridge {
                 quiz.getDescription(),
                 toUserModel(quiz.getOwner()),
                 questions,
+                quiz.getRandomizeQuestions(),
+                quiz.getOnePage(),
+                quiz.getImmediateCorrection(),
+                quiz.getPracticeMode(),
                 quiz.getCreationTimestamp());
     }
 
