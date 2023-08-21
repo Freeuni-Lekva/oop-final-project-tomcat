@@ -46,28 +46,26 @@ button[type="submit"] {
 button[type="submit"]:hover {
     background-color: #23527c;
 }
-
 .search-user {
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: #ddf9f4;
+    background-color: thistle;
     padding: 15px 0px 0px 0px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.search-button {
+#searchUserForm {
     display: flex;
-    gap: 15px;
-    margin-bottom: 10px;
+    align-items: center;
+    justify-content: center;
 }
-
 .user-footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color: #ddf9f4;
+    background-color: thistle;
     padding: 15px 0px 0px 0px;
     display: flex;
     justify-content: center;
@@ -185,7 +183,7 @@ button[type="submit"]:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .friend-list {
-    max-height: 650px;
+    max-height: 500px;
     width: 350px;
     overflow-y: auto;
     border: 1px solid #ccc;

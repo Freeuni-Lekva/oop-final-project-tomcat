@@ -9,16 +9,11 @@
 <!DOCTYPE html>
 <style><%@include file="css/styles.css"%></style>
 <div class="search-user">
-
-    <div class="search-button">
-        <%
-            String contextPath = (String) session.getServletContext().getContextPath();
-        %>
-        <form id="profileForm" action="<%=contextPath%>/user" method="get">
-            <label for="textInput">Username: </label>
-            <input type="text" id="textInput" name="username">
-            <button type="submit">Search User</button>
-        </form>
-
-    </div>
+    <%
+        String contextPath = (String) session.getServletContext().getContextPath();
+    %>
+    <form id="searchUserForm" action="<%=contextPath%>/user" method="get">
+        <input type="text" style="width: 300px;" id="textInput" name="username" placeholder="Enter username">
+        <button type="submit" style="margin-bottom: 15px; margin-left: 20px;">Search User</button>
+    </form>
 </div>

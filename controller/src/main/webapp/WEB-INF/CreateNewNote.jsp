@@ -83,16 +83,17 @@
 <body>
 <jsp:include page="ErrorFooter.jsp" />
 <jsp:include page="UserFooter.jsp" />
+<jsp:include page="SearchUser.jsp" />
 <div class="notifications-container">
     <div class="navigation-bar">
-        <a class="nav-button" href="/Notifications">Notifications</a>
-        <a class="nav-button" href="/FriendRequests">Friend Requests</a>
-        <a class="nav-button" href="/Mail">Mail</a>
-        <a class="nav-button" href="/Challenges">Challenges</a>
+        <a class="nav-button" href="Notifications">Notifications</a>
+        <a class="nav-button" href="FriendRequests">Friend Requests</a>
+        <a class="nav-button" href="Mail">Mail</a>
+        <a class="nav-button" href="Challenges">Challenges</a>
     </div>
 
     <div class="create-new-form">
-        <form action="/CreateNewNote" method="post">
+        <form action="CreateNewNote" method="post">
             <label for="noteRecipient">Recipient Username:</label>
             <input type="text" id="noteRecipient" name="noteRecipient" required value="<%=request.getAttribute("noteRecipient")%>">
             <br>

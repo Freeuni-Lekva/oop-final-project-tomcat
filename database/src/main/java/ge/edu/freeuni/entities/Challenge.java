@@ -14,15 +14,15 @@ public class Challenge {
     private Long id;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "quiz_id", referencedColumnName = "id", nullable = false)
     private Quiz quiz;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "from_id", referencedColumnName = "id", nullable = false)
     private User from;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "to_id", referencedColumnName = "id", nullable = false)
     private User to;
 
@@ -45,6 +45,7 @@ public class Challenge {
         this.from = from;
         this.to = to;
         this.bestScore = bestScore;
+        this.timestamp = System.currentTimeMillis() / 1000L;
     }
 
     /**
@@ -147,7 +148,9 @@ public class Challenge {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Challenge challenge = (Challenge) o;
-        return Objects.equals(bestScore, challenge.bestScore) && Objects.equals(id, challenge.id) && Objects.equals(quiz, challenge.quiz) && Objects.equals(from, challenge.from) && Objects.equals(to, challenge.to);
+        return Objects.equals(bestScore, challenge.bestScore) && Objects.equals(id, challenge.id)
+                && Objects.equals(quiz, challenge.quiz) && Objects.equals(from, challenge.from)
+                && Objects.equals(to, challenge.to) && Objects.equals(timestamp, challenge.getTimestamp());
     }
 
     @Override

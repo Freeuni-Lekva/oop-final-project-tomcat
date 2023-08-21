@@ -17,7 +17,7 @@ public class Question {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "quiz_id", referencedColumnName = "id")
     private Quiz quiz;
 

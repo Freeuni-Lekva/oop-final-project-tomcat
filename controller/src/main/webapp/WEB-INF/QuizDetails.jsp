@@ -17,6 +17,7 @@
         QuizModel quiz = (QuizModel) request.getAttribute("quizDetails");
     %>
     <jsp:include page="UserFooter.jsp" />
+    <jsp:include page="SearchUser.jsp" />
     <div class="contents">
         <div class="quiz-details">
             <h1><%= quiz.getName() %></h1>
@@ -30,7 +31,7 @@
                 <input type="hidden" name="quizId" value="<%= quiz.getId()%>">
                 <button class="start-quiz-btn" type="submit">Start the Quiz</button>
             </form>
-            <form action="sendChallenge" method="get">
+            <form action="SendChallenge" method="get">
                 <input type="hidden" name="quizId" value="<%= quiz.getId()%>">
                 <button class="send-challenge-btn" type="submit">Send Challenge</button>
             </form>

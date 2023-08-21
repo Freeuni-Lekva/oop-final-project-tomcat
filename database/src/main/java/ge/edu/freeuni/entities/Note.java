@@ -45,7 +45,7 @@ public class Note {
         this.to = to;
         this.subject = subject;
         this.message = message;
-        this.timestamp = System.currentTimeMillis();
+        this.timestamp = System.currentTimeMillis() / 1000L;
     }
 
     /**

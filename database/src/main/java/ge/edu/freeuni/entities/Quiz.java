@@ -48,7 +48,7 @@ public class Quiz {
         this.description = description;
         this.owner = owner;
         this.questions = questions;
-        this.creationTimestamp = System.currentTimeMillis();
+        this.creationTimestamp = System.currentTimeMillis() / 1000L;
     }
 
     /**

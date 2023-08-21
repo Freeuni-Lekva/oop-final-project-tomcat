@@ -39,7 +39,7 @@ public class CreateNewNote extends HttpServlet {
         NoteResponse noteResponse = noteService.createNewNote(sendersId,recipientsUsername,content,subject);
 
         if(noteResponse.isSuccess()){
-            httpServletResponse.sendRedirect("/Notifications");
+            httpServletResponse.sendRedirect("Notifications");
         }else{
             httpServletRequest.setAttribute("errorMessage", noteResponse.getErrorMessage());
             httpServletRequest.setAttribute("noteSubject", subject);

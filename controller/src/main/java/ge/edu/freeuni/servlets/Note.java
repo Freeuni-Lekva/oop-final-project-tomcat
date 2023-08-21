@@ -21,12 +21,12 @@ public class Note extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        Long noteId = (Long)httpServletRequest.getAttribute("noteId");
+        Long noteId = Long.parseLong(httpServletRequest.getParameter("noteId"));
         NoteResponse noteResponse = noteService.getNoteById(noteId);
         if(noteResponse.isSuccess()){
             httpServletRequest.setAttribute("noteSender",noteResponse.getNoteModel().getFrom().getUsername());
             httpServletRequest.setAttribute("noteSubject",noteResponse.getNoteModel().getSubject());
-            httpServletRequest.setAttribute("noteTimeStamp",noteResponse.getNoteModel().getTimestamp());
+            httpServletRequest.setAttribute("noteDatetime",noteResponse.getNoteModel().getDatetime());
             httpServletRequest.setAttribute("noteContent",noteResponse.getNoteModel().getMessage());
 
             RequestDispatcher noteDispatcher = httpServletRequest.getRequestDispatcher("WEB-INF/Note.jsp");

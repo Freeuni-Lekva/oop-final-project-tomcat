@@ -1,22 +1,19 @@
 package ge.edu.freeuni.models;
 
+import ge.edu.freeuni.util.DatetimeUtil;
+
 import java.util.List;
 
 public abstract class NotificationModel {
-    private Long timestamp;
-
-    private String notificationLabel;
+    private final String datetime;
 
     public NotificationModel(Long timestamp) {
-        this.timestamp = timestamp;
-        this.notificationLabel = notificationLabel;
+        this.datetime = DatetimeUtil.convertTimestampToString(timestamp);
     }
 
-    public abstract String getNotificationType();
-
-    public Long getTimestamp() {
-        return timestamp;
+    public String getDatetime() {
+        return datetime;
     }
-    public abstract List<String> getNotificationLabel();
+
     public abstract Long getId();
 }

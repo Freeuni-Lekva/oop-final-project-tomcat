@@ -14,19 +14,6 @@ public class FriendRequestModel extends NotificationModel{
         this.id = id;
     }
 
-    @Override
-    public String getNotificationType() {
-        return "FriendRequest";
-    }
-
-    @Override
-    public List<String> getNotificationLabel() {
-        List<String> result = new ArrayList<>();
-        result.add(this.getSender().getUsername());
-        result.add(this.getTimestamp().toString());
-        return result;
-    }
-
     public FriendRequestModel(Long id, UserModel sender, UserModel recipient, Long timestamp) {
         super(timestamp);
         this.id = id;

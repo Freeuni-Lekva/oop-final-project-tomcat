@@ -16,20 +16,7 @@ public class ChallengeModel extends NotificationModel{
         this.id = id;
     }
 
-    @Override
-    public String getNotificationType() {
-        return "Challenge";
-    }
-
-    @Override
-    public List<String> getNotificationLabel() {
-        List<String> result = new ArrayList<>();
-        result.add(this.getSender().getUsername());
-        result.add(this.getQuiz().getName());
-        return result;
-    }
-
-    public ChallengeModel(Long id, QuizModel quizModel, UserModel from, UserModel to, int bestScore, Long timestamp) {
+    public ChallengeModel(Long id, QuizModel quizModel, UserModel from, UserModel to, Integer bestScore, Long timestamp) {
         super(timestamp);
         this.id = id;
         this.quizModel = quizModel;

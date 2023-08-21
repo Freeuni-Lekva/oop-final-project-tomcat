@@ -14,10 +14,11 @@
 </head>
 <body>
     <jsp:include page="UserFooter.jsp" />
+    <jsp:include page="SearchUser.jsp" />
     <div class="contents">
         <h1>Friend List</h1>
 
-            <form action="sendChallenge" method="post">
+            <form action="SendChallenge" method="post">
                 <div class="friend-list">
                     <ul>
                         <%

@@ -51,19 +51,6 @@ public class NoteModel extends NotificationModel{
         this.message = message;
     }
 
-    @Override
-    public String getNotificationType() {
-        return "Note";
-    }
-
-    @Override
-    public List<String> getNotificationLabel() {
-        List<String> result = new ArrayList<>();
-        result.add(this.getFrom().getUsername());
-        result.add(this.getSubject());
-        return result;
-    }
-
     public String getSubject() {
         return subject;
     }

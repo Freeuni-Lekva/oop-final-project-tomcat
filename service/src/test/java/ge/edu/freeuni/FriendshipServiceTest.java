@@ -83,7 +83,7 @@ public class FriendshipServiceTest {
         when(request.getId()).thenReturn(1L);
         when(request.getRecipientUser()).thenReturn(recipient);
 
-        ServiceActionResponse response = friendshipService.rejectFriendshipRequest(2L, 1L);
+        ServiceActionResponse response = friendshipService.removeFriendshipRequest(2L, 1L);
 
         verify(friendRequestDAO, times(1)).delete(1L);
         assertTrue(response.isSuccess());

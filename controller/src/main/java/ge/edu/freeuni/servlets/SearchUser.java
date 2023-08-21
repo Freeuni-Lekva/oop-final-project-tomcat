@@ -24,11 +24,13 @@ public class SearchUser extends HttpServlet {
         String currentUser = (String) httpServletRequest.getSession().getAttribute("currentUser");
 
         UserResponse userResponse = userService.findUser(username);
-        boolean areFriends = friendshipService.areFriends(username, currentUser);
 
         if (userResponse.isSuccess()) {
+            boolean areFriends = friendshipService.areFriends(username, currentUser);
+            Long friendRequestId = friendshipService.getFriendRequestId(currentUser, username);
             httpServletRequest.setAttribute("userdetails", userResponse.getUser());
             httpServletRequest.setAttribute("areFriends", areFriends);
+            httpServletRequest.setAttribute("friendRequestId", friendRequestId);
             httpServletRequest.getRequestDispatcher("WEB-INF/UserDetails.jsp").forward(httpServletRequest, httpServletResponse);
         } else {
             httpServletRequest.setAttribute("errorMessage", userResponse.getErrorMessage());

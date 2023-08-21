@@ -39,6 +39,7 @@ public class Challenges extends HttpServlet {
             httpServletRequest.getRequestDispatcher("WEB-INF/Notifications.jsp").forward(httpServletRequest, httpServletResponse);
         }else{
             httpServletRequest.setAttribute("errorMessage", challengesResponse.getErrorMessage());
+            httpServletRequest.getRequestDispatcher("WEB-INF/ErrorPage.jsp").forward(httpServletRequest, httpServletResponse);
         }
 
     }

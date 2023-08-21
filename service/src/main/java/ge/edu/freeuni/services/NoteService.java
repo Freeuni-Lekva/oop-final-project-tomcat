@@ -49,7 +49,7 @@ public class NoteService {
 
             User sender = userService.getById(sendersId);
             User recipient = userService.getByUsername(recipientsUsername);
-            Note newNote = new Note(sender,recipient,content,subject);
+            Note newNote = new Note(sender,recipient,subject,content);
             noteDAO.create(newNote);
             return new NoteResponse(true, null, null);
         } catch (Exception e) {

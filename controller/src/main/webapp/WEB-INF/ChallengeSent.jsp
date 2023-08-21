@@ -8,6 +8,7 @@
 </head>
 <body>
     <jsp:include page="UserFooter.jsp" />
+    <jsp:include page="SearchUser.jsp" />
     <div class="contents">
         <div class="notification-container">
             <%

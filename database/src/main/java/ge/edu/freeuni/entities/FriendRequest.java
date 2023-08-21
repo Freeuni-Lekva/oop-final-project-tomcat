@@ -33,7 +33,7 @@ public class FriendRequest {
      * default constructor
      */
     public FriendRequest() {
-        this.sentTimestamp = Instant.now().toEpochMilli();
+        this.sentTimestamp = System.currentTimeMillis() / 1000L;
     }
 
     /**
@@ -45,7 +45,7 @@ public class FriendRequest {
     public FriendRequest(User senderUser, User recipientUser) {
         this.senderUser = senderUser;
         this.recipientUser = recipientUser;
-        this.sentTimestamp = Instant.now().toEpochMilli();
+        this.sentTimestamp = System.currentTimeMillis() / 1000L;
     }
 
     /**

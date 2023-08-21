@@ -253,7 +253,7 @@ public class QuizService {
                     quiz,
                     player,
                     null,
-                    System.currentTimeMillis(),
+                    System.currentTimeMillis() / 1000L,
                     null
             );
             Long gameId = (Long) quizGameDAO.create(quizGame);
@@ -287,7 +287,7 @@ public class QuizService {
             }
 
             QuizGame quizGame = quizGameDAO.read(gameModel.getId());
-            long finishTimestamp = System.currentTimeMillis();
+            long finishTimestamp = System.currentTimeMillis() / 1000L;
             quizGame.setFinishTimestamp(finishTimestamp);
             quizGame.setScore(actualScore);
             quizGameDAO.update(quizGame);

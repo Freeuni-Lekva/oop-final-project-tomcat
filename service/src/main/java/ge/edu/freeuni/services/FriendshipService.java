@@ -94,20 +94,20 @@ public class FriendshipService {
         return new ServiceActionResponse(true, null);
     }
 
-    public ServiceActionResponse rejectFriendshipRequest(Long recipientId, Long requestId) {
+    public ServiceActionResponse removeFriendshipRequest(Long initiatorId, Long requestId) {
         try {
             FriendRequest request = friendRequestDAO.read(requestId);
             if (request == null) {
                 return new ServiceActionResponse(false, "Friendship request doesn't exist");
             }
 
-            if (!Objects.equals(recipientId, request.getRecipientUser().getId())) {
-                return new ServiceActionResponse(false, "Rejector and recipient user don't match");
+            if (!Objects.equals(initiatorId, request.getRecipientUser().getId()) && !Objects.equals(initiatorId, request.getSenderUser().getId())) {
+                return new ServiceActionResponse(false, "You don't have permission to reject/cancel the request");
             }
 
             friendRequestDAO.delete(requestId);
         } catch (RuntimeException e) {
-            return new ServiceActionResponse(false, "Error while rejecting the request. Try again later");
+            return new ServiceActionResponse(false, "Error while rejecting/cancelling the request. Try again later");
         }
         return new ServiceActionResponse(true, null);
     }
@@ -162,6 +162,18 @@ public class FriendshipService {
         }
         allFriendships.remove(friendshipModel.getId());
         return new ServiceActionResponse(true, null);
+    }
+
+    public Long getFriendRequestId(String from, String to) {
+        try {
+            User sender = userDAO.getByField("Username", from).get(0);
+            User recipient = userDAO.getByField("Username", to).get(0);
+            String[] fields = {"sender_user", "recipient_user"};
+            Serializable[] values = {sender.getId(), recipient.getId()};
+            return friendRequestDAO.getByFields(fields, values, true).get(0).getId();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public void setUserDAO(DAO<User> userDAO) {
