@@ -13,6 +13,7 @@ import ge.edu.freeuni.responses.ServiceActionResponse;
 import ge.edu.freeuni.util.EntityToModelBridge;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -116,6 +117,7 @@ public class FriendshipService {
         try {
             List<FriendRequestModel> requests = friendRequestDAO.getByField("recipient_user", userId).stream()
                     .map(EntityToModelBridge::toFriendRequestModel)
+                    .sorted(Comparator.comparingLong(FriendRequestModel::getTimestamp).reversed())
                     .collect(Collectors.toList());
             return new AllFriendRequestsResponse(true, null, requests);
         } catch (RuntimeException e) {

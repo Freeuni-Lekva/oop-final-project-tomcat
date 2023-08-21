@@ -1,6 +1,8 @@
 package ge.edu.freeuni.entities;
 
 import ge.edu.freeuni.enums.QuestionType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.List;
@@ -29,6 +31,7 @@ public class Question {
     private QuestionType questionType;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, orphanRemoval = true)
+    @Fetch(FetchMode.SELECT)
     private List<Answer> answers;
 
     @Column(name = "image_url")

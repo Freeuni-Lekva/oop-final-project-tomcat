@@ -27,7 +27,7 @@
             <div class="owner-link">
                 Quiz by <a href="<%=request.getContextPath()%>/user?username=<%=quiz.getOwner().getUsername()%>"><%=quiz.getOwner().getUsername() %></a>
             </div>
-            <form action="startQuiz" method="post">
+            <form action="TakeQuiz" method="post">
                 <input type="hidden" name="quizId" value="<%= quiz.getId()%>">
                 <button class="start-quiz-btn" type="submit">Start the Quiz</button>
             </form>

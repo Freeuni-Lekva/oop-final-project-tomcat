@@ -20,13 +20,15 @@
 <jsp:include page="UserFooter.jsp" />
 <jsp:include page="SearchUser.jsp" />
 <div class="note-container">
-  <div class="note-header">Note Details</div>
-  <% String sender = (String) request.getAttribute("noteSender");%>
-  <div class="note-sender">From: <a href="<%=request.getContextPath()%>/user?username=<%=sender%>"><%= sender %></a></div>
-  <div class="note-subject">Subject: <%= request.getAttribute("noteSubject") %></div>
-  <div class="note-content"><%= request.getAttribute("noteContent") %></div>
-  <div class="note-timestamp">Sent at: <%= request.getAttribute("noteDatetime") %></div>
-  <a class="reply-button" href="CreateNewNote">Reply</a>
+    <div class="note-header">Note Details</div>
+    <% String sender = (String) request.getAttribute("noteSender");%>
+    <div class="note-contents">
+        <div class="note-sender">From: <a href="<%=request.getContextPath()%>/user?username=<%=sender%>"><%= sender %></a></div>
+        <div class="note-subject">Subject: <%= request.getAttribute("noteSubject") %></div>
+        <div class="note-content"><%= request.getAttribute("noteContent") %></div>
+        <div class="note-timestamp">Sent at: <%= request.getAttribute("noteDatetime") %></div>
+    </div>
+<a class="reply-button" href="CreateNewNote">Reply</a>
 </div>
 </body>
 </html>

@@ -10,6 +10,10 @@
             margin-bottom: 10px;
             text-align: center;
         }
+        p {
+            background-color: lavenderblush;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>

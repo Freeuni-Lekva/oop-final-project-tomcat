@@ -30,6 +30,10 @@
             color: #757575;
             font-style: italic;
         }
+        li {
+            border-radius: 10px;
+            background-color: lavenderblush;
+        }
     </style>
 </head>
 <body>

@@ -252,7 +252,7 @@ public class QuizService {
             QuizGame quizGame = new QuizGame(
                     quiz,
                     player,
-                    null,
+                    0,
                     System.currentTimeMillis() / 1000L,
                     null
             );

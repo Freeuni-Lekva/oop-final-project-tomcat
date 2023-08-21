@@ -1,5 +1,8 @@
 package ge.edu.freeuni.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -26,6 +29,7 @@ public class Quiz {
     private User owner;
 
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
     private List<Question> questions;
 
     @Column(name = "creation_timestamp")

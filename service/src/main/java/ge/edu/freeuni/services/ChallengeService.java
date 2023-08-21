@@ -5,6 +5,7 @@ import ge.edu.freeuni.entities.Quiz;
 import ge.edu.freeuni.entities.QuizGame;
 import ge.edu.freeuni.entities.User;
 import ge.edu.freeuni.models.ChallengeModel;
+import ge.edu.freeuni.models.FriendRequestModel;
 import ge.edu.freeuni.providers.DAO;
 import ge.edu.freeuni.providers.DAOFactory;
 import ge.edu.freeuni.responses.ChallengeResponse;
@@ -153,6 +154,7 @@ public class ChallengeService {
         try {
             List<ChallengeModel> challenges = allChallenges.values().stream()
                     .filter(challenge -> Objects.equals(challenge.getSender().getId(), senderId))
+                    .sorted(Comparator.comparingLong(ChallengeModel::getTimestamp).reversed())
                     .collect(Collectors.toList());
             return new ChallengesResponse(true, null, challenges);
         } catch (RuntimeException e) {
@@ -165,6 +167,7 @@ public class ChallengeService {
         try {
             List<ChallengeModel> challenges = allChallenges.values().stream()
                     .filter(challenge -> Objects.equals(challenge.getReceiver().getId(), receiverId))
+                    .sorted(Comparator.comparingLong(ChallengeModel::getTimestamp).reversed())
                     .collect(Collectors.toList());
             return new ChallengesResponse(true, null, challenges);
         } catch (RuntimeException e) {

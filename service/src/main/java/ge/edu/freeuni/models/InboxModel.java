@@ -1,6 +1,7 @@
 package ge.edu.freeuni.models;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class InboxModel {
@@ -35,5 +36,12 @@ public class InboxModel {
     public void addChallenges(List<ChallengeModel> challenges) {
         if(challenges != null)
             this.notificationModelList.addAll(challenges);
+    }
+
+    public void addNotifications(List<FriendRequestModel> friendRequests, List<NoteModel> notes, List<ChallengeModel> challenges) {
+        addFriendRequests(friendRequests);
+        addNoteModels(notes);
+        addChallenges(challenges);
+        this.notificationModelList.sort(Comparator.comparingLong(NotificationModel::getTimestamp).reversed());
     }
 }

@@ -3,7 +3,8 @@ package ge.edu.freeuni.enums;
 public enum QuestionType {
     QUESTION_RESPONSE(1),
     FILL_IN(2),
-    MULTIPLE_CHOICE(3);
+    MULTIPLE_CHOICE(3),
+    PICTURE_RESPONSE(4);
 
     private final int value;
 

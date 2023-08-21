@@ -21,6 +21,9 @@ ul {
 h1 {
     color: indigo;
 }
+h2 {
+    color: indigo;
+}
 input[type="text"],
 input[type="password"] {
     width: 100%;
@@ -45,6 +48,7 @@ button[type="submit"] {
 }
 button[type="submit"]:hover {
     background-color: #23527c;
+    transform: scale(1.02);
 }
 .search-user {
     position: fixed;
@@ -102,12 +106,13 @@ button[type="submit"]:hover {
 .quiz-card {
     width: 400px;
     padding: 20px;
-    background-color: #fff;
+    background-color: thistle;
     border: 1px solid #ddd;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
     transition: transform 0.2s;
     text-align: center;
+    border-radius: 10px;
 }
 .quiz-card:hover {
     transform: translateY(-5px);
@@ -123,10 +128,11 @@ button[type="submit"]:hover {
 .quiz-card a:hover {
     background-color: #E5E5E5;
     color: #555;
+    border-radius: 10px;
 }
 .quiz-details {
     padding: 20px;
-    background-color: #fff;
+    background-color: thistle;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     font-size: 25px;
@@ -174,11 +180,12 @@ button[type="submit"]:hover {
 }
 .start-quiz-btn:hover {
     background-color: #23527c;
+    transform: scale(1.02);
 }
 .send-challenge {
     max-width: 600px;
     padding: 20px;
-    background-color: #fff;
+    background-color: thistle;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -188,10 +195,11 @@ button[type="submit"]:hover {
     overflow-y: auto;
     border: 1px solid #ccc;
     padding: 10px;
-    background-color: #fff;
+    background-color: thistle;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
+    margin-bottom: 10px;
 }
 .friend-row {
     display: flex;
@@ -201,6 +209,7 @@ button[type="submit"]:hover {
     border: 1px solid #ddd;
     border-radius: 4px;
     transition: transform 0.2s;
+    background-color: lavenderblush;
 }
 .friend-row:hover {
     transform: translateY(-2px);
@@ -242,14 +251,18 @@ button[type="submit"]:hover {
     text-decoration: none;
     margin-top: 10px;
 }
-back-to-user-btn:hover,
-back-to-quiz-btn:hover {
+.back-to-user-btn:hover {
     background-color: #23527c;
+    transform: scale(1.02);
+}
+.back-to-quiz-btn:hover {
+    background-color: #23527c;
+    transform: scale(1.02);
 }
 .user-details {
     width: 700px;
     padding: 20px;
-    background-color: #fff;
+    background-color: thistle;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -275,4 +288,88 @@ back-to-quiz-btn:hover {
 }
 .send-request-btn:hover {
     background-color: #23527c;
+    transform: scale(1.02);
 }
+.quiz-question {
+    background-color: lavenderblush;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+.quiz-question-text {
+    font-size: 25px;
+    margin-bottom: 10px;
+    color: indigo;
+    font-weight: bold;
+    text-align: center;
+}
+.quiz-options {
+    margin-top: 10px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+}
+.quiz-option {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 20px;
+}
+.quiz-response-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+    font-size: 20px;
+}
+.quiz-image {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+}
+.finish-quiz-button {
+    background-color: indigo;
+    color: white;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+    margin-top: 20px;
+}
+.finish-quiz-button:hover {
+    background-color: #23527c;
+    transform: scale(1.02);
+}
+.quiz-container {
+    background-color: lavenderblush;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+.quiz-content {
+    max-width: 800px;
+    background-color: thistle;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    overflow-y: scroll;
+    max-height: 60vh;
+}
+
+
+
+

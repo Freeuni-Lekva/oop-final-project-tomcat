@@ -20,9 +20,11 @@ public class NotificationsService {
             ChallengesResponse challengeResponse = challengeService.getReceivedChallenges(userId);
 
             InboxModel inboxModel = new InboxModel();
-            inboxModel.addFriendRequests(allFriendRequestsResponse.getAllFriendRequests());
-            inboxModel.addNoteModels(mailResponse.getNoteModels());
-            inboxModel.addChallenges(challengeResponse.getChallenges());
+            inboxModel.addNotifications(
+                    allFriendRequestsResponse.getAllFriendRequests(),
+                    mailResponse.getNoteModels(),
+                    challengeResponse.getChallenges()
+            );
 
             return new NotificationsResponse(true, null, inboxModel);
         }catch(Exception e){
