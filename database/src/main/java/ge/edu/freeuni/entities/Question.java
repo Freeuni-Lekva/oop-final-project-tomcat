@@ -26,6 +26,12 @@ public class Question {
     @Column(name = "question", nullable = false)
     private String question;
 
+    @Column(name = "before_blank")
+    private String beforeBlank;
+
+    @Column(name = "after_blank")
+    private String afterBlank;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "question_type", nullable = false)
     private QuestionType questionType;
@@ -51,14 +57,17 @@ public class Question {
      * @param answers      all the answers associated with this question
      * @param imageUrl     the image URL associated with the question (for picture-response type)
      */
-    public Question(Quiz quiz, String question, QuestionType questionType, List<Answer> answers,
-                    String imageUrl) {
+    public Question(Quiz quiz, String question, String beforeBlank, String afterBlank, QuestionType questionType, List<Answer> answers, String imageUrl) {
         this.quiz = quiz;
         this.question = question;
+        this.beforeBlank = beforeBlank;
+        this.afterBlank = afterBlank;
         this.questionType = questionType;
         this.answers = answers;
         this.imageUrl = imageUrl;
     }
+
+
 
     /**
      * Gets the ID of the question.
@@ -166,6 +175,22 @@ public class Question {
      */
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
+    }
+
+    public String getBeforeBlank() {
+        return beforeBlank;
+    }
+
+    public void setBeforeBlank(String beforeBlank) {
+        this.beforeBlank = beforeBlank;
+    }
+
+    public String getAfterBlank() {
+        return afterBlank;
+    }
+
+    public void setAfterBlank(String afterBlank) {
+        this.afterBlank = afterBlank;
     }
 
     @Override

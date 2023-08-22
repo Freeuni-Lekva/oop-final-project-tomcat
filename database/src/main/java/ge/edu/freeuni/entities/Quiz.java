@@ -34,6 +34,18 @@ public class Quiz {
 
     @Column(name = "creation_timestamp")
     private Long creationTimestamp;
+
+    @Column(name = "randomize_questions")
+    private Integer randomizeQuestions;
+
+    @Column(name = "one_page")
+    private Integer onePage;
+
+    @Column(name = "immediate_correction")
+    private Integer immediateCorrection;
+
+    @Column(name = "practice_mode")
+    private Integer practiceMode;
     /**
      * Default constructor.
      */
@@ -47,11 +59,15 @@ public class Quiz {
      * @param owner     the owner of the quiz
      * @param questions the list of all questions of the quiz
      */
-    public Quiz(String name, String description, User owner, List<Question> questions) {
+    public Quiz(String name, String description, User owner, List<Question> questions, Integer randomizeQuestions, Integer onePage, Integer immediateCorrection, Integer practiceMode) {
         this.name = name;
         this.description = description;
         this.owner = owner;
         this.questions = questions;
+        this.randomizeQuestions = randomizeQuestions;
+        this.onePage = onePage;
+        this.immediateCorrection = immediateCorrection;
+        this.practiceMode = practiceMode;
         this.creationTimestamp = System.currentTimeMillis() / 1000L;
     }
 
@@ -151,6 +167,38 @@ public class Quiz {
 
     public void setCreationTimestamp(Long creationTimestamp) {
         this.creationTimestamp = creationTimestamp;
+    }
+
+    public Integer getRandomizeQuestions() {
+        return randomizeQuestions;
+    }
+
+    public void setRandomizeQuestions(Integer randomizeQuestions) {
+        this.randomizeQuestions = randomizeQuestions;
+    }
+
+    public Integer getOnePage() {
+        return onePage;
+    }
+
+    public void setOnePage(Integer onePage) {
+        this.onePage = onePage;
+    }
+
+    public Integer getImmediateCorrection() {
+        return immediateCorrection;
+    }
+
+    public void setImmediateCorrection(Integer immediateCorrection) {
+        this.immediateCorrection = immediateCorrection;
+    }
+
+    public Integer getPracticeMode() {
+        return practiceMode;
+    }
+
+    public void setPracticeMode(Integer practiceMode) {
+        this.practiceMode = practiceMode;
     }
 
     @Override

@@ -12,18 +12,22 @@ public class QuestionModel {
     private QuestionType questionType;
     private List<AnswerModel> answers;
     private String imageUrl;
+    private String beforeBlank;
+    private String afterBlank;
 
     public QuestionModel(Long id) {
         this.id = id;
     }
 
-    public QuestionModel(Long id, Long quizId, String question, QuestionType questionType, List<AnswerModel> answers, String imageUrl) {
+    public QuestionModel(Long id, Long quizId, String question, QuestionType questionType, List<AnswerModel> answers, String imageUrl, String beforeBlank, String afterBlank) {
         this.id = id;
         this.quizId = quizId;
         this.question = question;
         this.questionType = questionType;
         this.answers = answers;
         this.imageUrl = imageUrl;
+        this.beforeBlank = beforeBlank;
+        this.afterBlank = afterBlank;
     }
 
     public Long getId() {
@@ -83,6 +87,22 @@ public class QuestionModel {
         if (questionType != that.questionType) return false;
         if (!Objects.equals(answers, that.answers)) return false;
         return Objects.equals(imageUrl, that.imageUrl);
+    }
+
+    public String getBeforeBlank() {
+        return beforeBlank;
+    }
+
+    public void setBeforeBlank(String beforeBlank) {
+        this.beforeBlank = beforeBlank;
+    }
+
+    public String getAfterBlank() {
+        return afterBlank;
+    }
+
+    public void setAfterBlank(String afterBlank) {
+        this.afterBlank = afterBlank;
     }
 
     @Override
