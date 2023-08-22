@@ -1,9 +1,11 @@
 package ge.edu.freeuni.util;
 
 import ge.edu.freeuni.entities.*;
+import ge.edu.freeuni.enums.Bool;
 import ge.edu.freeuni.models.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class EntityToModelBridge {
@@ -76,7 +78,8 @@ public class EntityToModelBridge {
                 quizGame.getScore(),
                 quizGame.getMaxScore(),
                 quizGame.getStartTimestamp(),
-                quizGame.getFinishTimestamp()
+                quizGame.getFinishTimestamp(),
+                Objects.equals(Bool.TRUE.name(), quizGame.isPractice())
         );
     }
 
@@ -88,7 +91,8 @@ public class EntityToModelBridge {
                 quizGame.getScore(),
                 null,
                 quizGame.getStartTimestamp(),
-                quizGame.getFinishTimestamp()
+                quizGame.getFinishTimestamp(),
+                Objects.equals(Bool.TRUE.name(), quizGame.isPractice())
         );
     }
 

@@ -20,6 +20,9 @@
         <form id="createNewQuizForm" action="<%=contextPath%>/CreateQuiz" method="get">
             <button type="submit">Create quiz</button>
         </form>
+        <form id="historyForm" action="<%=contextPath%>/History" method="get">
+            <button type="submit">History</button>
+        </form>
         <form id="logoutForm" action="<%=contextPath%>/logout" method="post">
             <button type="submit">Logout</button>
         </form>

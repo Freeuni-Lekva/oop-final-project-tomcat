@@ -11,17 +11,17 @@ public class QuizGameModel {
     private Integer maxScore;
     private final Long startTimestamp;
     private Long finishTimestamp;
-
     private String duration;
-
-    public QuizGameModel(Long id, QuizModel quiz, UserModel user, Long startTimestamp) {
+    private boolean practice;
+    public QuizGameModel(Long id, QuizModel quiz, UserModel user, Long startTimestamp, boolean practice) {
         this.id = id;
         this.quiz = quiz;
         this.user = user;
         this.startTimestamp = startTimestamp;
+        this.practice = practice;
     }
 
-    public QuizGameModel(Long id, QuizModel quiz, UserModel user, Integer score, Integer maxScore, Long startTimestamp, Long finishTimestamp) {
+    public QuizGameModel(Long id, QuizModel quiz, UserModel user, Integer score, Integer maxScore, Long startTimestamp, Long finishTimestamp, boolean practice) {
         this.id = id;
         this.quiz = quiz;
         this.user = user;
@@ -29,6 +29,7 @@ public class QuizGameModel {
         this.maxScore = maxScore;
         this.startTimestamp = startTimestamp;
         this.finishTimestamp = finishTimestamp;
+        this.practice = practice;
     }
 
     public Long getId() {
@@ -79,23 +80,32 @@ public class QuizGameModel {
         this.duration = duration;
     }
 
+    public boolean isPractice() {
+        return practice;
+    }
+
+    public void setPractice(boolean practice) {
+        this.practice = practice;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        QuizGameModel gameModel = (QuizGameModel) o;
+        QuizGameModel that = (QuizGameModel) o;
 
-        if (!Objects.equals(id, gameModel.id)) return false;
-        if (!Objects.equals(quiz, gameModel.quiz)) return false;
-        if (!Objects.equals(user, gameModel.user)) return false;
-        if (!Objects.equals(score, gameModel.score)) return false;
-        if (!Objects.equals(maxScore, gameModel.maxScore)) return false;
-        if (!Objects.equals(startTimestamp, gameModel.startTimestamp))
+        if (practice != that.practice) return false;
+        if (!Objects.equals(id, that.id)) return false;
+        if (!Objects.equals(quiz, that.quiz)) return false;
+        if (!Objects.equals(user, that.user)) return false;
+        if (!Objects.equals(score, that.score)) return false;
+        if (!Objects.equals(maxScore, that.maxScore)) return false;
+        if (!Objects.equals(startTimestamp, that.startTimestamp))
             return false;
-        if (!Objects.equals(finishTimestamp, gameModel.finishTimestamp))
+        if (!Objects.equals(finishTimestamp, that.finishTimestamp))
             return false;
-        return Objects.equals(duration, gameModel.duration);
+        return Objects.equals(duration, that.duration);
     }
 
     @Override
@@ -108,6 +118,7 @@ public class QuizGameModel {
         result = 31 * result + (startTimestamp != null ? startTimestamp.hashCode() : 0);
         result = 31 * result + (finishTimestamp != null ? finishTimestamp.hashCode() : 0);
         result = 31 * result + (duration != null ? duration.hashCode() : 0);
+        result = 31 * result + (practice ? 1 : 0);
         return result;
     }
 
@@ -122,6 +133,7 @@ public class QuizGameModel {
                 ", startTimestamp=" + startTimestamp +
                 ", finishTimestamp=" + finishTimestamp +
                 ", duration='" + duration + '\'' +
+                ", practice=" + practice +
                 '}';
     }
 }

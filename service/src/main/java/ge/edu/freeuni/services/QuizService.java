@@ -12,6 +12,7 @@ import ge.edu.freeuni.models.QuizGameModel;
 import ge.edu.freeuni.models.QuizModel;
 import ge.edu.freeuni.providers.DAO;
 import ge.edu.freeuni.providers.DAOFactory;
+import ge.edu.freeuni.responses.AllQuizGamesResponse;
 import ge.edu.freeuni.responses.QuizGameResponse;
 import ge.edu.freeuni.responses.QuizResponse;
 import ge.edu.freeuni.responses.QuizzesResponse;
@@ -105,6 +106,19 @@ public class QuizService {
         } catch (RuntimeException e) {
             e.printStackTrace();
             return new QuizzesResponse(false, "Error while getting quizzes. Try again later", null);
+        }
+    }
+
+    public AllQuizGamesResponse getAllQuizGames(Long playerId) {
+        try {
+            List<QuizGameModel> quizGames = allGames.values().stream()
+                    .filter(game -> Objects.equals(game.getUser().getId(), playerId))
+                    .filter(game -> game.getFinishTimestamp() != null && !game.isPractice())
+                    .collect(Collectors.toList());
+            return new AllQuizGamesResponse(true, null, quizGames);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new AllQuizGamesResponse(false, "Error while getting games. Try again later", null);
         }
     }
 
