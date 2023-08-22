@@ -32,8 +32,8 @@ public class AcceptChallenge extends HttpServlet {
         if (response.isSuccess()) {
             QuizModel quizModel = response.getChallenge().getQuiz();
             long quizId = quizModel.getId();
-            String targetUrl = "/TakeQuiz?quizId=" + quizId;
-            servletRequest.getRequestDispatcher(targetUrl).forward(servletRequest, servletResponse);
+            String targetUrl = "quizdetails?id=" + quizId;
+            servletResponse.sendRedirect(targetUrl);
         } else {
             servletRequest.setAttribute("errorMessage", response.getErrorMessage());
             servletRequest.getRequestDispatcher("WEB-INF/ErrorPage.jsp").forward(servletRequest, servletResponse);

@@ -20,6 +20,13 @@
         h1 {
             color: indigo;
         }
+        h4 {
+            font-size: 12px;
+            margin-bottom: 3px;
+            text-align: center;
+            color: #6B6B6B;
+            font-style: italic;
+        }
         label, select, input, textarea {
             font-size: 16px;
             margin-bottom: 10px;
@@ -125,6 +132,7 @@
                     <label for="questionText${questionNumber}" style="color: indigo;">Question Text:</label>
                     <input type="text" id="questionText${questionNumber}" name="questionText${questionNumber}" required style="width: 100%; padding: 8px; font-size: 25px;">
                     <br>
+                    <h4>*separate all possible variations of the correct answer by |</h4>
                     <label for="answerText${questionNumber}" style="color: indigo;">Answer:</label>
                     <input type="text" id="answerText${questionNumber}" name="answerText${questionNumber}" required style="width: 100%; padding: 8px; font-size: 25px;">
                     <br>
@@ -136,6 +144,7 @@
                     <label for="beforeGap${questionNumber}" style="color: indigo;">Before Gap:</label>
                     <input type="text" id="beforeGap${questionNumber}" name="beforeGap${questionNumber}" required style="width: 100%; padding: 8px; font-size: 25px;">
                     <br>
+                    <h4>*separate all possible variations of the correct answer by |</h4>
                     <label for="answer${questionNumber}" style="color: indigo;">Answer:</label>
                     <input type="text" id="answer${questionNumber}" name="answer${questionNumber}" required style="width: 100%; padding: 8px; font-size: 25px;">
                     <br>
@@ -176,6 +185,7 @@
                     <label for="questionText${questionNumber}" style="color: indigo;">Question Text:</label>
                     <input type="text" id="questionText${questionNumber}" name="questionText${questionNumber}" required style="width: 100%; padding: 8px; font-size: 25px;">
                     <br>
+                    <h4>*separate all possible variations of the correct answer by |</h4>
                     <label for="answerText${questionNumber}" style="color: indigo;">Answer:</label>
                     <input type="text" id="answerText${questionNumber}" name="answerText${questionNumber}" required style="width: 100%; padding: 8px; font-size: 25px;">
                     <br>

@@ -164,8 +164,9 @@ public class ChallengeService {
     }
     public ChallengesResponse getReceivedChallenges(Long receiverId) {
         try {
-            List<ChallengeModel> challenges = allChallenges.values().stream()
+            List<ChallengeModel> challenges = challengeDAO.getAll().stream()
                     .filter(challenge -> Objects.equals(challenge.getReceiver().getId(), receiverId))
+                    .map(EntityToModelBridge::toChallengeModel)
                     .sorted(Comparator.comparingLong(ChallengeModel::getTimestamp).reversed())
                     .collect(Collectors.toList());
             return new ChallengesResponse(true, null, challenges);
@@ -183,6 +184,7 @@ public class ChallengeService {
         }
         try {
             challengeDAO.delete(challengeId);
+            allChallenges.remove(challengeId);
             return new ChallengeResponse(true,null,EntityToModelBridge.toChallengeModel(challengeInList.get(0)));
         } catch(Exception e){
             return new ChallengeResponse(false, "was unable to access the challenge",null);

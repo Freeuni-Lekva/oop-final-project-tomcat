@@ -10,6 +10,7 @@ import ge.edu.freeuni.provider.ServiceFactory;
 import ge.edu.freeuni.responses.QuizResponse;
 import ge.edu.freeuni.services.QuizService;
 import ge.edu.freeuni.services.UserService;
+import ge.edu.freeuni.util.StringUtils;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -86,6 +87,7 @@ public class CreateQuiz extends HttpServlet {
         QuestionType questionType;
         String questionText;
         List<AnswerModel> answerModels;
+        List<String> correctAnswers;
         String answer;
         int points;
         for (int i = 0; i < numberOfQuestions; i++) {
@@ -111,7 +113,10 @@ public class CreateQuiz extends HttpServlet {
                     questionModel.setQuestionType(questionType);
 
                     answerModels = new ArrayList<>();
-                    answerModels.add(new AnswerModel(null, null, answer, true, points));
+                    correctAnswers = StringUtils.splitAndTrim(answer);
+                    for (String correctAnswer : correctAnswers) {
+                        answerModels.add(new AnswerModel(null, null, correctAnswer, true, points));
+                    }
                     questionModel.setAnswers(answerModels);
                     break;
                 case FILL_IN:
@@ -126,7 +131,10 @@ public class CreateQuiz extends HttpServlet {
                     questionModel.setQuestionType(questionType);
 
                     answerModels = new ArrayList<>();
-                    answerModels.add(new AnswerModel(null, null, answer, true, points));
+                    correctAnswers = StringUtils.splitAndTrim(answer);
+                    for (String correctAnswer : correctAnswers) {
+                        answerModels.add(new AnswerModel(null, null, correctAnswer, true, points));
+                    }
                     questionModel.setAnswers(answerModels);
                     break;
                 case MULTIPLE_CHOICE:
@@ -158,7 +166,10 @@ public class CreateQuiz extends HttpServlet {
                     questionModel.setImageUrl(imageUrl);
 
                     answerModels = new ArrayList<>();
-                    answerModels.add(new AnswerModel(null, null, answer, true, points));
+                    correctAnswers = StringUtils.splitAndTrim(answer);
+                    for (String correctAnswer : correctAnswers) {
+                        answerModels.add(new AnswerModel(null, null, correctAnswer, true, points));
+                    }
                     questionModel.setAnswers(answerModels);
                     break;
                 default:
