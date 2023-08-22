@@ -19,7 +19,7 @@ body {
     flex-direction: column;
 }
 .notifications-list {
-    max-height: 550px;
+    max-height: 450px;
     overflow-y: auto;
 }
 .notification {
@@ -201,6 +201,9 @@ a {
     flex: 1;
 }
 .friend-request {
+    display: flex;
+}
+.challenge{
     display: flex;
 }
 button[type="submit"]:hover {

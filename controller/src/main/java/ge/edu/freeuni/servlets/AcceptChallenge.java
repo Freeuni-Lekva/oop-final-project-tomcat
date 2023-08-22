@@ -1,9 +1,9 @@
 package ge.edu.freeuni.servlets;
 
-
+import ge.edu.freeuni.models.QuizModel;
 import ge.edu.freeuni.provider.ServiceFactory;
-import ge.edu.freeuni.responses.ServiceActionResponse;
-import ge.edu.freeuni.services.FriendshipService;
+import ge.edu.freeuni.responses.ChallengeResponse;
+import ge.edu.freeuni.services.ChallengeService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,40 +12,32 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "AcceptFriendRequest", urlPatterns = "/AcceptFriendRequest")
-
-public class AcceptFriendRequest extends HttpServlet {
-    private final FriendshipService friendshipService = ServiceFactory.getInstance().getService(FriendshipService.class);
+@WebServlet(name = "AcceptChallenge", urlPatterns = "/AcceptChallenge")
+public class AcceptChallenge extends HttpServlet {
+    private final ChallengeService challengeService = ServiceFactory.getInstance().getService(ChallengeService.class);
 
     @Override
     public void doPost(HttpServletRequest servletRequest, HttpServletResponse servletResponse) throws ServletException, IOException {
         Long currentUserId = (Long) servletRequest.getSession().getAttribute("currentUserId");
 
-        String location = servletRequest.getParameter("location");
-        if (location == null || !(location.equals("Notifications") || location.equals("FriendRequests") || location.startsWith("user?username="))) {
-            servletRequest.setAttribute("errorMessage", "Invalid URL format");
-            servletRequest.getRequestDispatcher("WEB-INF/ErrorPage.jsp").forward(servletRequest, servletResponse);
-            return;
-        }
-
-        Long requestId = null;
+        Long challengeId = null;
 
         try {
-            requestId = Long.parseLong(servletRequest.getParameter("requestId"));
+             challengeId = Long.parseLong(servletRequest.getParameter("challengeId"));
         } catch (NumberFormatException e) {
             servletRequest.setAttribute("errorMessage", "Invalid URL format");
             servletRequest.getRequestDispatcher("WEB-INF/ErrorPage.jsp").forward(servletRequest, servletResponse);
-            return;
         }
-
-        ServiceActionResponse response = friendshipService.approveFriendshipRequest(currentUserId, requestId);
-
+        ChallengeResponse response = challengeService.deleteChallenge(challengeId);
         if (response.isSuccess()) {
-            servletResponse.sendRedirect(location);
+            QuizModel quizModel = response.getChallenge().getQuiz();
+            long quizId = quizModel.getId();
+            String targetUrl = "/TakeQuiz?quizId=" + quizId;
+            servletRequest.getRequestDispatcher(targetUrl).forward(servletRequest, servletResponse);
         } else {
             servletRequest.setAttribute("errorMessage", response.getErrorMessage());
             servletRequest.getRequestDispatcher("WEB-INF/ErrorPage.jsp").forward(servletRequest, servletResponse);
         }
-
     }
+
 }

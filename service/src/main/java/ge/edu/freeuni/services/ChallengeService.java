@@ -5,7 +5,6 @@ import ge.edu.freeuni.entities.Quiz;
 import ge.edu.freeuni.entities.QuizGame;
 import ge.edu.freeuni.entities.User;
 import ge.edu.freeuni.models.ChallengeModel;
-import ge.edu.freeuni.models.FriendRequestModel;
 import ge.edu.freeuni.providers.DAO;
 import ge.edu.freeuni.providers.DAOFactory;
 import ge.edu.freeuni.responses.ChallengeResponse;
@@ -177,4 +176,16 @@ public class ChallengeService {
         }
     }
 
+    public ChallengeResponse deleteChallenge(Long challengeId) {
+        List<Challenge> challengeInList = challengeDAO.getByField("id",challengeId);
+        if(challengeInList == null || challengeInList.isEmpty()){
+            return new ChallengeResponse(false,"the challenge could not be found",null);
+        }
+        try {
+            challengeDAO.delete(challengeId);
+            return new ChallengeResponse(true,null,EntityToModelBridge.toChallengeModel(challengeInList.get(0)));
+        } catch(Exception e){
+            return new ChallengeResponse(false, "was unable to access the challenge",null);
+        }
+    }
 }

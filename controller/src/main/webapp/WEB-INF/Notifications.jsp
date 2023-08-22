@@ -52,24 +52,28 @@
             if(notification instanceof ChallengeModel) {
                 ChallengeModel challenge = (ChallengeModel) notification;
     %>
-        <a href = "quizdetails?id=<%= challenge.getQuiz().getId() %>">
-            <div class="notification">
-                <p class="notification-label-main"><%= challenge.getSender().getUsername() %> sent you a challenge to the quiz: <%= challenge.getQuiz().getName() %></p>
-                <p class="notification-label-small"><%= challenge.getDatetime() %></p>
-            </div>
-            <div class="child">
-                <form id="acceptChallenge" action="AcceptChallenge" method="post">
-                    <input type="hidden" name="id" value="<%= challenge.getId() %>">
-                    <input type="hidden" name="location" value="<%= location %>">
-                    <button type="submit" style="font-size: 16px; background: #004500; margin-bottom: 3px;">Accept</button>
-                </form>
-                <form id="declineChallenge" action="DeclineChallenge" method="post">
-                    <input type="hidden" name="id" value="<%= challenge.getId() %>">
-                    <input type="hidden" name="location" value="<%= location %>">
-                    <button type="submit" style="font-size: 16px; background: #610000; margin-top: 3px;">Decline</button>
-                </form>
-            </div>
-        </a>
+        <div class="notification">
+            <a href="quizdetails?id=<%= challenge.getQuiz().getId() %>">
+                <div class="friend-request">
+                    <div class="child">
+                        <p class="notification-label-main"><%= challenge.getSender().getUsername() %> sent you a challenge to the quiz: <%= challenge.getQuiz().getName() %></p>
+                        <p class="notification-label-small"><%= challenge.getDatetime() %></p>
+                    </div>
+                    <div class="child">
+                        <form id="acceptChallenge" action="AcceptChallenge" method="post">
+                            <input type="hidden" name="challengeId" value="<%= challenge.getId() %>">
+                            <input type="hidden" name="location" value="<%= location %>">
+                            <button type="submit" style="font-size: 16px; background: #004500; margin-bottom: 3px;">Accept</button>
+                        </form>
+                        <form id="declineChallenge" action="DeclineChallenge" method="post">
+                            <input type="hidden" name="challengeId" value="<%= challenge.getId() %>">
+                            <input type="hidden" name="location" value="<%= location %>">
+                            <button type="submit" style="font-size: 16px; background: #610000; margin-top: 3px;">Decline</button>
+                        </form>
+                    </div>
+                </div>
+            </a>
+        </div>
     <%
             } else if (notification instanceof FriendRequestModel) {
                 FriendRequestModel friendRequest = (FriendRequestModel) notification;
