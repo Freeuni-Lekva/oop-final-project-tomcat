@@ -157,6 +157,7 @@ button[type="submit"]:hover {
 }
 .start-quiz-btn {
     display: inline-block;
+    margin-top: 10px;
     width: 100%;
     padding: 10px;
     background-color: #337ab7;

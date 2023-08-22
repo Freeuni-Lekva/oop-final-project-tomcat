@@ -7,7 +7,6 @@ import ge.edu.freeuni.entities.QuizGame;
 import ge.edu.freeuni.entities.User;
 import ge.edu.freeuni.enums.Bool;
 import ge.edu.freeuni.enums.QuestionType;
-import ge.edu.freeuni.models.AnswerModel;
 import ge.edu.freeuni.models.QuestionModel;
 import ge.edu.freeuni.models.QuizGameModel;
 import ge.edu.freeuni.models.QuizModel;
@@ -33,10 +32,12 @@ public class QuizService {
     private DAO<QuizGame> quizGameDAO = DAOFactory.getInstance().getDAO(QuizGame.class);
     private final Map<Long, QuizModel> allQuizzes;
     private final Map<Long, QuizGameModel> allGames;
+    private final Map<Long, QuizGameModel> practiceGames;
 
     public QuizService() {
         this.allQuizzes = getAllQuizzes();
         this.allGames = getAllQuizGames();
+        this.practiceGames = new HashMap<>();
     }
 
     private Map<Long, QuizModel> getAllQuizzes() {
@@ -174,7 +175,7 @@ public class QuizService {
         }
     }
 
-    public QuizGameResponse startQuiz(Long quizId, Long playerId) {
+    public QuizGameResponse startQuiz(Long quizId, Long playerId, boolean practice) {
         try {
             Quiz quiz = quizDAO.read(quizId);
             if (quiz == null) {
@@ -191,11 +192,16 @@ public class QuizService {
                     0,
                     0,
                     System.currentTimeMillis() / 1000L,
-                    null
+                    null,
+                    Bool.getByValue(practice).name()
             );
             Long gameId = (Long) quizGameDAO.create(quizGame);
             QuizGameModel gameModel = EntityToModelBridge.toQuizGameModel(quizGame, gameId);
-            allGames.put(gameId, gameModel);
+            if (practice) {
+                practiceGames.put(gameId, gameModel);
+            } else {
+                allGames.put(gameId, gameModel);
+            }
             if (Objects.equals(Bool.TRUE.name(), quiz.getRandomizeQuestions())) {
                 gameModel.getQuiz().setQuestions(shuffleQuestions(gameModel.getQuiz().getQuestions()));
             }
@@ -223,7 +229,7 @@ public class QuizService {
     public QuizGameResponse finishQuiz(Map<Long, String> questionsAnswers, Long quizGameId, Long playerId) {
         try {
             QuizGame quizGame = quizGameDAO.read(quizGameId);
-
+            Map<Long, QuizGameModel> games = Objects.equals(Bool.TRUE.name(), quizGame.isPractice()) ? practiceGames : allGames;
             if (!Objects.equals(playerId, quizGame.getPlayer().getId())) {
                 throw new RuntimeException("Invalid user credentials");
             }
@@ -249,13 +255,13 @@ public class QuizService {
             quizGame.setMaxScore(maxScore);
             quizGameDAO.update(quizGame);
 
-            QuizGameModel gameModel = allGames.get(quizGameId);
+            QuizGameModel gameModel = games.get(quizGameId);
             gameModel.setFinishTimestamp(finishTimestamp);
             gameModel.setScore(actualScore);
             gameModel.setMaxScore(maxScore);
             gameModel.setDuration(DatetimeUtil.getDuration(gameModel.getStartTimestamp(), finishTimestamp));
 
-            allGames.replace(gameModel.getId(), gameModel);
+            games.replace(gameModel.getId(), gameModel);
             return new QuizGameResponse(true, null, gameModel);
         } catch (RuntimeException e) {
             return new QuizGameResponse(false, "Error while finishing the quiz. Try again later", null);
@@ -264,11 +270,14 @@ public class QuizService {
 
     public QuizGameResponse getQuizGame(Long quizGameId) {
         try {
-            QuizGame quizGame = quizGameDAO.read(quizGameId);
-            QuizGameModel quizGameModel = EntityToModelBridge.toQuizGameModel(quizGame);
-            return new QuizGameResponse(true, null, quizGameModel);
+            QuizGameModel quizGame = allGames.get(quizGameId);
+            if (quizGame == null) {
+                quizGame = practiceGames.remove(quizGameId);
+                quizGameDAO.delete(quizGame.getId());
+            }
+            return new QuizGameResponse(true, null, quizGame);
         } catch (Exception e) {
-            return new QuizGameResponse(false, "Unable to load quiz results, please try again later", null);
+            return new QuizGameResponse(false, "Unable to load quiz results, Probably you are trying to access a game played in practice mode", null);
         }
     }
 
@@ -283,33 +292,4 @@ public class QuizService {
     public void setQuizGameDAO(DAO<QuizGame> quizGameDAO) {
         this.quizGameDAO = quizGameDAO;
     }
-
-
-//    public Quiz createQuizEntity(String randomizeQuestion, String onePage, String immediateCorrection, String practiceMode, String quizTitle, String quizDescription, Long currentUserId) {
-//        Quiz newQuiz = new Quiz();
-//        newQuiz.setOnePage(onePage);
-//        newQuiz.setImmediateCorrection(immediateCorrection);
-//        newQuiz.setPracticeMode(practiceMode);
-//        newQuiz.setRandomizeQuestions(randomizeQuestion);
-//        newQuiz.setDescription(quizDescription);
-//        newQuiz.setName(quizTitle);
-//
-//        List<User> userDAOByField = userDAO.getByField("id",currentUserId);
-//        if(userDAOByField == null || userDAOByField.isEmpty()){
-//            return null;
-//        }
-//        User owner = userDAOByField.get(0);
-//        newQuiz.setOwner(owner);
-//        return newQuiz;
-//    }
-//
-//    public QuizResponse createQuiz(Quiz quiz) {
-//        try{
-//            quizDAO.create(quiz);
-//            return new QuizResponse(true,null,EntityToModelBridge.toQuizModel(quiz));
-//        }catch(Exception e){
-//            return new QuizResponse(false,"the quiz could not be created,\n" +
-//                    "please try again later.",null);
-//        }
-//    }
 }

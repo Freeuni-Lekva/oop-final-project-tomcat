@@ -31,6 +31,17 @@
                 <input type="hidden" name="quizId" value="<%= quiz.getId()%>">
                 <button class="start-quiz-btn" type="submit">Start the Quiz</button>
             </form>
+            <%
+                if("TRUE".equals(quiz.isPracticeMode())) {
+            %>
+            <form action="TakeQuiz" method="post">
+                <input type="hidden" name="quizId" value="<%= quiz.getId()%>">
+                <input type="hidden" name="practice" value="<%= true%>">
+                <button class="start-quiz-btn" type="submit">Start the Quiz in Practice Mode</button>
+            </form>
+            <%
+                }
+            %>
             <form action="SendChallenge" method="get">
                 <input type="hidden" name="quizId" value="<%= quiz.getId()%>">
                 <button class="send-challenge-btn" type="submit">Send Challenge</button>

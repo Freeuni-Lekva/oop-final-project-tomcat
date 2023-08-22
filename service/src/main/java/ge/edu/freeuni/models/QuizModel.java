@@ -88,7 +88,7 @@ public class QuizModel {
         return Objects.equals(creationTimestamp, quizModel.creationTimestamp);
     }
 
-    public String getRandomizeQuestions() {
+    public String isRandomizeQuestions() {
         return randomizeQuestions;
     }
 
@@ -96,7 +96,7 @@ public class QuizModel {
         this.randomizeQuestions = randomizeQuestions;
     }
 
-    public String getOnePage() {
+    public String isOnePage() {
         return onePage;
     }
 
@@ -104,7 +104,7 @@ public class QuizModel {
         this.onePage = onePage;
     }
 
-    public String getImmediateCorrection() {
+    public String isImmediateCorrection() {
         return immediateCorrection;
     }
 
@@ -112,7 +112,7 @@ public class QuizModel {
         this.immediateCorrection = immediateCorrection;
     }
 
-    public String getPracticeMode() {
+    public String isPracticeMode() {
         return practiceMode;
     }
 

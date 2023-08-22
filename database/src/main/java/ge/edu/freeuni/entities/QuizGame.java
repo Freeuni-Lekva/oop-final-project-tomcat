@@ -33,6 +33,9 @@ public class QuizGame {
     @Column(name = "finish_timestamp")
     private Long finishTimestamp;
 
+    @Column(name = "practice")
+    private String practice;
+
     /**
      * Default constructor.
      */
@@ -48,13 +51,14 @@ public class QuizGame {
      * @param startTimestamp  the timestamp when the game started
      * @param finishTimestamp the timestamp when the game finished
      */
-    public QuizGame(Quiz quiz, User player, Integer score, Integer maxScore, Long startTimestamp, Long finishTimestamp) {
+    public QuizGame(Quiz quiz, User player, Integer score, Integer maxScore, Long startTimestamp, Long finishTimestamp, String practice) {
         this.quiz = quiz;
         this.player = player;
         this.score = score;
         this.maxScore = maxScore;
         this.startTimestamp = startTimestamp;
         this.finishTimestamp = finishTimestamp;
+        this.practice = practice;
     }
 
     /**
@@ -173,6 +177,14 @@ public class QuizGame {
         this.finishTimestamp = finishTimestamp;
     }
 
+    public String isPractice() {
+        return practice;
+    }
+
+    public void setPractice(String practice) {
+        this.practice = practice;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -187,7 +199,9 @@ public class QuizGame {
         if (!Objects.equals(maxScore, quizGame.maxScore)) return false;
         if (!Objects.equals(startTimestamp, quizGame.startTimestamp))
             return false;
-        return Objects.equals(finishTimestamp, quizGame.finishTimestamp);
+        if (!Objects.equals(finishTimestamp, quizGame.finishTimestamp))
+            return false;
+        return Objects.equals(practice, quizGame.practice);
     }
 
     @Override
@@ -199,6 +213,7 @@ public class QuizGame {
         result = 31 * result + (maxScore != null ? maxScore.hashCode() : 0);
         result = 31 * result + (startTimestamp != null ? startTimestamp.hashCode() : 0);
         result = 31 * result + (finishTimestamp != null ? finishTimestamp.hashCode() : 0);
+        result = 31 * result + (practice != null ? practice.hashCode() : 0);
         return result;
     }
 
@@ -212,6 +227,7 @@ public class QuizGame {
                 ", maxScore=" + maxScore +
                 ", startTimestamp=" + startTimestamp +
                 ", finishTimestamp=" + finishTimestamp +
+                ", practice='" + practice + '\'' +
                 '}';
     }
 }

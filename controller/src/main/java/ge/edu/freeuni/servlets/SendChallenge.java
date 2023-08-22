@@ -34,6 +34,7 @@ public class SendChallenge extends HttpServlet {
         } catch (NumberFormatException e) {
             httpServletRequest.setAttribute("errorMessage", "Invalid URL format");
             httpServletRequest.getRequestDispatcher("WEB-INF/ErrorPage.jsp").forward(httpServletRequest, httpServletResponse);
+            return;
         }
 
         AllFriendshipsResponse allFriendshipsResponse = friendshipService.getAllFriends(currentUserId);
@@ -67,6 +68,7 @@ public class SendChallenge extends HttpServlet {
         } catch (NumberFormatException e) {
             httpServletRequest.setAttribute("errorMessage", "Invalid URL format");
             httpServletRequest.getRequestDispatcher("WEB-INF/ErrorPage.jsp").forward(httpServletRequest, httpServletResponse);
+            return;
         }
 
         ChallengesResponse challengeResponse = challengeService.bulkCreateChallenges(senderUsername, receiverUsernames, quizId);

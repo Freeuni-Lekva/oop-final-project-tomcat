@@ -28,6 +28,7 @@ public class FriendRequest extends HttpServlet {
         } catch (NumberFormatException e) {
             request.setAttribute("errorMessage", "Invalid URL format");
             request.getRequestDispatcher("WEB-INF/ErrorPage.jsp").forward(request, response);
+            return;
         }
 
         ServiceActionResponse actionResponse = friendshipService.sendFriendshipRequest(senderUserId, receiverUserId);

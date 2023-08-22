@@ -33,7 +33,6 @@ public class QuizResults extends HttpServlet {
         } else {
             request.setAttribute("errorMessage", quizGameResponse.getErrorMessage());
             request.getRequestDispatcher("WEB-INF/ErrorPage.jsp").forward(request, response);
-            return;
         }
     }
 }

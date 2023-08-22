@@ -166,7 +166,7 @@ public class CreateQuiz extends HttpServlet {
                     RequestDispatcher quizDispatcher = request.getRequestDispatcher(
                             "WEB-INF/ErrorPage.jsp");
                     quizDispatcher.forward(request, response);
-
+                    return;
             }
 
             questionModelList.add(questionModel);

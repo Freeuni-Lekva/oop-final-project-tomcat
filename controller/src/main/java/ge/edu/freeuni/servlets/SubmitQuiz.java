@@ -31,6 +31,7 @@ public class SubmitQuiz extends HttpServlet {
         } catch (NumberFormatException e) {
             httpServletRequest.setAttribute("errorMessage", "Invalid URL format");
             httpServletRequest.getRequestDispatcher("WEB-INF/ErrorPage.jsp").forward(httpServletRequest, httpServletResponse);
+            return;
         }
 
         List<QuestionModel> questions = questionService.getQuestions(quizId);
@@ -41,8 +42,7 @@ public class SubmitQuiz extends HttpServlet {
                 String answer = httpServletRequest.getParameter("response_" + question.getId());
                 questionsAnswers.put(question.getId(), answer);
             } catch (NumberFormatException e) {
-                //httpServletRequest.setAttribute("errorMessage", "No answers inputted for the question: " + question.getQuestion());
-                httpServletRequest.setAttribute("errorMessage", "blaaa" + e.toString());
+                httpServletRequest.setAttribute("errorMessage", "No answers inputted for the question: " + question.getQuestion());
                 httpServletRequest.getRequestDispatcher("WEB-INF/ErrorPage.jsp").forward(httpServletRequest, httpServletResponse);
             }
         }

@@ -56,10 +56,10 @@ public class ModelToEntityBridge {
                     quiz.getDescription(),
                     null,
                     null,
-                    quiz.getRandomizeQuestions(),
-                    quiz.getOnePage(),
-                    quiz.getImmediateCorrection(),
-                    quiz.getPracticeMode()
+                    quiz.isRandomizeQuestions(),
+                    quiz.isOnePage(),
+                    quiz.isImmediateCorrection(),
+                    quiz.isPracticeMode()
             );
             List<Question> questions = quiz.getQuestions().stream()
                     .map(question -> ModelToEntityBridge.toQuestionEntity(question, newQuiz))

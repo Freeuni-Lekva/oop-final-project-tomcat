@@ -22,11 +22,10 @@ public class AcceptFriendRequest extends HttpServlet {
         Long currentUserId = (Long) servletRequest.getSession().getAttribute("currentUserId");
 
         String location = servletRequest.getParameter("location");
-        if (location == null || location.equals("Notifications") || location.equals("FriendRequests") || location.startsWith("user?username=")) {
-            // Valid
-        } else {
+        if (location == null || !(location.equals("Notifications") || location.equals("FriendRequests") || location.startsWith("user?username="))) {
             servletRequest.setAttribute("errorMessage", "Invalid URL format");
             servletRequest.getRequestDispatcher("WEB-INF/ErrorPage.jsp").forward(servletRequest, servletResponse);
+            return;
         }
 
         Long requestId = null;
@@ -36,6 +35,7 @@ public class AcceptFriendRequest extends HttpServlet {
         } catch (NumberFormatException e) {
             servletRequest.setAttribute("errorMessage", "Invalid URL format");
             servletRequest.getRequestDispatcher("WEB-INF/ErrorPage.jsp").forward(servletRequest, servletResponse);
+            return;
         }
 
         ServiceActionResponse response = friendshipService.approveFriendshipRequest(currentUserId, requestId);
