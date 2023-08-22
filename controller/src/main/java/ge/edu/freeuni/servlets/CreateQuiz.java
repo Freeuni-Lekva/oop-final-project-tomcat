@@ -9,7 +9,6 @@ import ge.edu.freeuni.responses.QuestionResponse;
 import ge.edu.freeuni.responses.QuizResponse;
 import ge.edu.freeuni.services.QuestionService;
 import ge.edu.freeuni.services.QuizService;
-import ge.edu.freeuni.services.UserService;
 import ge.edu.freeuni.util.ModelToEntityBridge;
 
 import javax.servlet.RequestDispatcher;
@@ -54,7 +53,6 @@ import java.util.stream.Collectors;
 public class CreateQuiz extends HttpServlet {
     private final QuestionService questionService = new QuestionService();
     private final QuizService quizService = new QuizService();
-    private final UserService userService = new UserService();
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -89,7 +87,13 @@ public class CreateQuiz extends HttpServlet {
         }
 
         List<QuestionModel> questionModelList = new ArrayList<>();
-        for(int i = 0 ; i< numberOfQuestions;i ++){
+        for(int i = 1 ; i< numberOfQuestions;i ++){
+            if(request.getParameter("questionTypeEnum"+i) == null){
+                request.setAttribute("errorMessage","you have to choose question type in question"+i);
+                RequestDispatcher quizDisptcher = request.getRequestDispatcher(
+                        "WEB-INF/CreateQuiz.jsp");
+                quizDisptcher.forward(request,response);
+            }
             questionType = QuestionType.getByValue(Integer.getInteger(request.getParameter("questionTypeEnum"+i)));
                 QuestionResponse questionResponse;
             if(questionType.equals(QuestionType.QUESTION_RESPONSE)){
@@ -105,8 +109,8 @@ public class CreateQuiz extends HttpServlet {
                 questionText = request.getParameter("questionText"+i);
                 Integer numOfPossibleAnswers = Integer.getInteger(request.getParameter("numberOfAnswers"+i));
                 List<String> answers = new ArrayList<>();
-                for( int j = 0 ;j < numOfPossibleAnswers; j++){
-                    answers.add((request.getParameter("multipleChiceAnswer"+i+"."+j)));
+                for( int j = 1 ;j < numOfPossibleAnswers; j++){
+                    answers.add((request.getParameter("option"+i+"_text"+j)));
                 }
                 Integer indexOfCorrectAnswer =Integer.getInteger(request.getParameter("indexOfCorrectAnswer"+i));
                 questionResponse = questionService.addMultipleChoiceQuestion(quiz,questionText, answers, indexOfCorrectAnswer);
@@ -116,7 +120,7 @@ public class CreateQuiz extends HttpServlet {
                 questionResponse = questionService.addImageResonseQuestion(quiz,questionText,answer);
             }
             if(!questionResponse.isSuccess()){
-                request.setAttribute("errorMessage",questionResponse.getErrorMessage());
+                request.setAttribute("errorMessage",questionResponse.getErrorMessage() + "(question "+i + ")");
                 RequestDispatcher quizDisptcher = request.getRequestDispatcher(
                         "WEB-INF/CreateQuiz.jsp");
                 quizDisptcher.forward(request,response);
@@ -135,6 +139,8 @@ public class CreateQuiz extends HttpServlet {
             RequestDispatcher quizDisptcher = request.getRequestDispatcher(
                     "WEB-INF/CreateQuiz.jsp");
             quizDisptcher.forward(request,response);
+        }else{
+            response.sendRedirect(request.getContextPath() + "/SecondServlet");
         }
     }
 }
