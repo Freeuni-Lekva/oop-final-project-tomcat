@@ -310,7 +310,7 @@ public class QuizService {
     }
 
 
-    public Quiz createQuizEntity(Integer randomizeQuestion, Integer onePage, Integer immediateCorrection, Integer practiceMode, String quizTitle, String quizDescription, Long currentUserId) {
+    public Quiz createQuizEntity(String randomizeQuestion, String onePage, String immediateCorrection, String practiceMode, String quizTitle, String quizDescription, Long currentUserId) {
         Quiz newQuiz = new Quiz();
         newQuiz.setOnePage(onePage);
         newQuiz.setImmediateCorrection(immediateCorrection);

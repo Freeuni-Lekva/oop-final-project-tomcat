@@ -36,16 +36,16 @@ public class Quiz {
     private Long creationTimestamp;
 
     @Column(name = "randomize_questions")
-    private Integer randomizeQuestions;
+    private String randomizeQuestions;
 
     @Column(name = "one_page")
-    private Integer onePage;
+    private String onePage;
 
     @Column(name = "immediate_correction")
-    private Integer immediateCorrection;
+    private String immediateCorrection;
 
     @Column(name = "practice_mode")
-    private Integer practiceMode;
+    private String practiceMode;
     /**
      * Default constructor.
      */
@@ -59,7 +59,7 @@ public class Quiz {
      * @param owner     the owner of the quiz
      * @param questions the list of all questions of the quiz
      */
-    public Quiz(String name, String description, User owner, List<Question> questions, Integer randomizeQuestions, Integer onePage, Integer immediateCorrection, Integer practiceMode) {
+    public Quiz(String name, String description, User owner, List<Question> questions, String randomizeQuestions, String onePage, String immediateCorrection, String practiceMode) {
         this.name = name;
         this.description = description;
         this.owner = owner;
@@ -169,35 +169,35 @@ public class Quiz {
         this.creationTimestamp = creationTimestamp;
     }
 
-    public Integer getRandomizeQuestions() {
+    public String getRandomizeQuestions() {
         return randomizeQuestions;
     }
 
-    public void setRandomizeQuestions(Integer randomizeQuestions) {
+    public void setRandomizeQuestions(String randomizeQuestions) {
         this.randomizeQuestions = randomizeQuestions;
     }
 
-    public Integer getOnePage() {
+    public String getOnePage() {
         return onePage;
     }
 
-    public void setOnePage(Integer onePage) {
+    public void setOnePage(String onePage) {
         this.onePage = onePage;
     }
 
-    public Integer getImmediateCorrection() {
+    public String getImmediateCorrection() {
         return immediateCorrection;
     }
 
-    public void setImmediateCorrection(Integer immediateCorrection) {
+    public void setImmediateCorrection(String immediateCorrection) {
         this.immediateCorrection = immediateCorrection;
     }
 
-    public Integer getPracticeMode() {
+    public String getPracticeMode() {
         return practiceMode;
     }
 
-    public void setPracticeMode(Integer practiceMode) {
+    public void setPracticeMode(String practiceMode) {
         this.practiceMode = practiceMode;
     }
 

@@ -2,6 +2,7 @@ package ge.edu.freeuni.servlets;
 
 import ge.edu.freeuni.entities.Question;
 import ge.edu.freeuni.entities.Quiz;
+import ge.edu.freeuni.enums.Bool;
 import ge.edu.freeuni.enums.QuestionType;
 import ge.edu.freeuni.models.QuestionModel;
 import ge.edu.freeuni.responses.QuestionResponse;
@@ -63,10 +64,10 @@ public class CreateQuiz extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Integer randomizeQuestion = Integer.getInteger(request.getParameter("randomizeQuestions"));
-        Integer onePage = Integer.getInteger(request.getParameter("onePage"));
-        Integer immediateCorrection = Integer.getInteger(request.getParameter("immediateCorrection"));
-        Integer practiceMode = Integer.getInteger(request.getParameter("practiceMode"));
+        String randomizeQuestion = request.getParameter("randomizeQuestions") == null ? Bool.FALSE.name() : Bool.TRUE.name();
+        String onePage = request.getParameter("onePage") == null ? Bool.FALSE.name() : Bool.TRUE.name();
+        String immediateCorrection = request.getParameter("immediateCorrection") == null ? Bool.FALSE.name() : Bool.TRUE.name();
+        String practiceMode = request.getParameter("practiceMode") == null ? Bool.FALSE.name() : Bool.TRUE.name();
 
         String quizTitle = request.getParameter("quizTitle");
         String quizDescription = request.getParameter("quizDescription");

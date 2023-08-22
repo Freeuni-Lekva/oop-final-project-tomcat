@@ -54,7 +54,7 @@ public class QuizServiceTest {
         quizModel.setDescription("A test quiz");
 
         List<QuestionModel> questions = new ArrayList<>();
-        questions.add(new QuestionModel(1L, 1L, "question", QuestionType.QUESTION_RESPONSE, new ArrayList<>(), null));
+        questions.add(new QuestionModel(1L, 1L, "question", QuestionType.QUESTION_RESPONSE, new ArrayList<>(), null, null, null));
         quizModel.setQuestions(questions);
 
         UserModel owner = new UserModel(1L, "username", "firstname", "lastname", "password");

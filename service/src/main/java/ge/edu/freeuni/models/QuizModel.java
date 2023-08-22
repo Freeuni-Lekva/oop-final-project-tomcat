@@ -9,11 +9,10 @@ public class QuizModel {
     private String description;
     private UserModel owner;
     private List<QuestionModel> questions;
-
-    private Integer randomizeQuestions;
-    private Integer onePage;
-    private Integer immediateCorrection;
-    private Integer practiceMode;
+    private String randomizeQuestions;
+    private String onePage;
+    private String immediateCorrection;
+    private String practiceMode;
     private final Long creationTimestamp;
 
     public QuizModel(Long id, Long creationTimestamp) {
@@ -21,7 +20,7 @@ public class QuizModel {
         this.creationTimestamp = creationTimestamp;
     }
 
-    public QuizModel(Long id, String name, String description, UserModel owner, List<QuestionModel> questions, Integer randomizeQuestions, Integer onePage, Integer immediateCorrection, Integer practiceMode, Long creationTimestamp) {
+    public QuizModel(Long id, String name, String description, UserModel owner, List<QuestionModel> questions, String randomizeQuestions, String onePage, String immediateCorrection, String practiceMode, Long creationTimestamp) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -90,35 +89,35 @@ public class QuizModel {
         return Objects.equals(creationTimestamp, quizModel.creationTimestamp);
     }
 
-    public Integer getRandomizeQuestions() {
+    public String getRandomizeQuestions() {
         return randomizeQuestions;
     }
 
-    public void setRandomizeQuestions(Integer randomizeQuestions) {
+    public void setRandomizeQuestions(String randomizeQuestions) {
         this.randomizeQuestions = randomizeQuestions;
     }
 
-    public Integer getOnePage() {
+    public String getOnePage() {
         return onePage;
     }
 
-    public void setOnePage(Integer onePage) {
+    public void setOnePage(String onePage) {
         this.onePage = onePage;
     }
 
-    public Integer getImmediateCorrection() {
+    public String getImmediateCorrection() {
         return immediateCorrection;
     }
 
-    public void setImmediateCorrection(Integer immediateCorrection) {
+    public void setImmediateCorrection(String immediateCorrection) {
         this.immediateCorrection = immediateCorrection;
     }
 
-    public Integer getPracticeMode() {
+    public String getPracticeMode() {
         return practiceMode;
     }
 
-    public void setPracticeMode(Integer practiceMode) {
+    public void setPracticeMode(String practiceMode) {
         this.practiceMode = practiceMode;
     }
 

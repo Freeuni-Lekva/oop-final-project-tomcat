@@ -168,9 +168,9 @@ public class DAOTest {
         assertNull(quiz);
 
         // test getAll
-        dao.create(new Quiz("name1", "description", owner, questions));
-        dao.create(new Quiz("name2", "description", owner, questions));
-        dao.create(new Quiz("name3", "description", owner, questions));
+        dao.create(new Quiz("name1", "description", owner, questions, null, null, null, null));
+        dao.create(new Quiz("name2", "description", owner, questions, null, null, null, null));
+        dao.create(new Quiz("name3", "description", owner, questions, null, null, null, null));
         List<Quiz> quizzes = dao.getAll();
         assertEquals(3, quizzes.size());
         quizzes.forEach(
@@ -255,7 +255,7 @@ public class DAOTest {
         Question question;
 
         // test create and read
-        Serializable questionId = dao.create(new Question(null, "question", QuestionType.QUESTION_RESPONSE, null, null));
+        Serializable questionId = dao.create(new Question(null, "question", null, null, QuestionType.QUESTION_RESPONSE, null, null));
         question = dao.read(questionId);
         assertEquals(QuestionType.QUESTION_RESPONSE, question.getQuestionType());
 
@@ -271,9 +271,9 @@ public class DAOTest {
         assertNull(question);
 
         // test getAll
-        dao.create(new Question(null, "question", QuestionType.QUESTION_RESPONSE, null, "imageUrl1"));
-        dao.create(new Question(null, "question", QuestionType.QUESTION_RESPONSE, null, "image url"));
-        dao.create(new Question(null, "question", QuestionType.QUESTION_RESPONSE, null, "image url"));
+        dao.create(new Question(null, "question", null, null, QuestionType.QUESTION_RESPONSE, null, "imageUrl1"));
+        dao.create(new Question(null, "question", null, null, QuestionType.QUESTION_RESPONSE, null, "image url"));
+        dao.create(new Question(null, "question", null, null, QuestionType.QUESTION_RESPONSE, null, "image url"));
         List<Question> questions = dao.getAll();
         assertEquals(3, questions.size());
         questions.forEach(
@@ -513,7 +513,7 @@ public class DAOTest {
         Serializable userId = userDAO.create(new User("username1", "firstname1", "lastname1", "password1"));
         User user = userDAO.read(userId);
 
-        Serializable quizId = quizDAO.create(new Quiz("name", "description", user, null));
+        Serializable quizId = quizDAO.create(new Quiz("name", "description", user, null, null, null, null, null));
         Quiz quiz = quizDAO.read(quizId);
 
         // test create and read
@@ -578,7 +578,7 @@ public class DAOTest {
         User user3 = userDAO.read(user3Id);
         Serializable user4Id = userDAO.create(new User("username4", "firstname4", "lastname4", "password4"));
         User user4 = userDAO.read(user4Id);
-        Serializable quizId = quizDAO.create(new Quiz("name", "description", user1, null));
+        Serializable quizId = quizDAO.create(new Quiz("name", "description", user1, null, null, null, null, null));
         Quiz quiz = quizDAO.read(quizId);
 
         // test create and read

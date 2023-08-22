@@ -55,7 +55,7 @@
     <textarea id="quizDescription" name="quizDescription" rows="4" cols="50" required></textarea><br>
 
     <label><input type="checkbox" name="randomizeQuestions"> Randomize Questions</label><br>
-    <label><input type="checkbox" name="onePageview"> One Page View</label><br>
+    <label><input type="checkbox" name="onePageView"> One Page View</label><br>
     <label><input type="checkbox" name="immediateCorrection"> Immediate Correction</label><br>
     <label><input type="checkbox" name="practiceMode"> Practice Mode</label><br>
 
