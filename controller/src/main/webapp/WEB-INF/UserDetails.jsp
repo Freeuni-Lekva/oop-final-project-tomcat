@@ -31,6 +31,7 @@
             String currentUsername = (String) session.getAttribute("currentUser");
             Boolean areFriends = (Boolean) request.getAttribute("areFriends");
             Long friendRequestId = (Long) request.getAttribute("friendRequestId");
+            Long receivedFriendRequestId = (Long) request.getAttribute("receivedFriendRequestId");
             if(!user.getUsername().equals(currentUsername)) {
                 if(!areFriends) {
                     if(friendRequestId != null) {
@@ -41,7 +42,22 @@
                 <button class="send-request-btn" type="submit">Cancel Friend Request</button>
             </form>
         <%
-                    } else {
+                } else if(receivedFriendRequestId!=null) {
+        %>
+            <div class="child">
+                <form id="acceptFriendRequest" action="AcceptFriendRequest" method="post">
+                    <input type="hidden" name="requestId" value="<%= receivedFriendRequestId %>">
+                    <input type="hidden" name="location" value="user?username=<%= user.getUsername() %>">
+                    <button type="submit" style="font-size: 16px; background: #004500; margin-bottom: 3px;">Accept Friend Request</button>
+                </form>
+                <form id="declineFriendRequest" action="RemoveFriendRequest" method="post">
+                    <input type="hidden" name="requestId" value="<%= receivedFriendRequestId %>">
+                    <input type="hidden" name="location" value="user?username=<%= user.getUsername() %>">
+                    <button type="submit" style="font-size: 16px; background: #610000; margin-top: 3px;">Decline Friend Request</button>
+                </form>
+            </div>
+        <%
+                } else {
         %>
             <form class="friend-request-form" action="FriendRequest" method="post">
                 <input type="hidden" name="receiverUsername" value="<%= user.getUsername() %>">

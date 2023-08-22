@@ -28,9 +28,11 @@ public class SearchUser extends HttpServlet {
         if (userResponse.isSuccess()) {
             boolean areFriends = friendshipService.areFriends(username, currentUser);
             Long friendRequestId = friendshipService.getFriendRequestId(currentUser, username);
+            Long receivedFriendRequestId = friendshipService.getFriendRequestId(username,currentUser);
             httpServletRequest.setAttribute("userdetails", userResponse.getUser());
             httpServletRequest.setAttribute("areFriends", areFriends);
             httpServletRequest.setAttribute("friendRequestId", friendRequestId);
+            httpServletRequest.setAttribute("receivedFriendRequestId",receivedFriendRequestId);
             httpServletRequest.getRequestDispatcher("WEB-INF/UserDetails.jsp").forward(httpServletRequest, httpServletResponse);
         } else {
             httpServletRequest.setAttribute("errorMessage", userResponse.getErrorMessage());

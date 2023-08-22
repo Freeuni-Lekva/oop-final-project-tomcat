@@ -22,7 +22,9 @@ public class AcceptFriendRequest extends HttpServlet {
         Long currentUserId = (Long) servletRequest.getSession().getAttribute("currentUserId");
 
         String location = servletRequest.getParameter("location");
-        if (location == null || !(location.equals("Notifications") || location.equals("FriendRequests"))) {
+        if (location == null || location.equals("Notifications") || location.equals("FriendRequests") || location.startsWith("user?username=")) {
+            // Valid
+        } else {
             servletRequest.setAttribute("errorMessage", "Invalid URL format");
             servletRequest.getRequestDispatcher("WEB-INF/ErrorPage.jsp").forward(servletRequest, servletResponse);
         }
