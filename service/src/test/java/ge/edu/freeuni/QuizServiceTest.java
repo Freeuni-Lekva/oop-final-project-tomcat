@@ -8,14 +8,17 @@ import ge.edu.freeuni.models.QuestionModel;
 import ge.edu.freeuni.models.QuizModel;
 import ge.edu.freeuni.models.UserModel;
 import ge.edu.freeuni.providers.DAO;
+import ge.edu.freeuni.providers.DAOFactory;
 import ge.edu.freeuni.responses.QuizResponse;
 import ge.edu.freeuni.responses.ServiceActionResponse;
 import ge.edu.freeuni.services.QuizService;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,9 +50,22 @@ public class QuizServiceTest {
         quizService.setQuizGameDAO(mockQuizGameDAO);
     }
 
+    @AfterAll
+    public static void cleanup() {
+        File dbFile = new File("quizdb.db");
+        if (dbFile.exists()) {
+            boolean deleted = dbFile.delete();
+            assertTrue(deleted);
+        }
+    }
+
     @Test
     public void testCreateValidQuiz() {
-        QuizModel quizModel = new QuizModel(1L, null);
+        DAO<User> userDAO = DAOFactory.getInstance().getDAO(User.class);
+        quizService.setUserDAO(userDAO);
+        Long ownerId = (Long) userDAO.create(new User("username", "firstname", "lastname", "password"));
+
+        QuizModel quizModel = new QuizModel(1L);
         quizModel.setName("Test Quiz");
         quizModel.setDescription("A test quiz");
 
@@ -61,7 +77,7 @@ public class QuizServiceTest {
         quizModel.setOwner(owner);
 
         when(mockQuizDAO.create(any(Quiz.class))).thenReturn(1L);
-        ServiceActionResponse response = quizService.createQuiz(quizModel);
+        ServiceActionResponse response = quizService.createQuiz(quizModel, ownerId);
         assertTrue(response.isSuccess());
         assertNull(response.getErrorMessage());
     }

@@ -1,27 +1,22 @@
 package ge.edu.freeuni.util;
 
-import ge.edu.freeuni.entities.*;
+import ge.edu.freeuni.entities.Answer;
+import ge.edu.freeuni.entities.Question;
+import ge.edu.freeuni.entities.Quiz;
+import ge.edu.freeuni.entities.User;
 import ge.edu.freeuni.enums.Bool;
-import ge.edu.freeuni.models.*;
-import ge.edu.freeuni.providers.DAOFactory;
+import ge.edu.freeuni.models.AnswerModel;
+import ge.edu.freeuni.models.QuestionModel;
+import ge.edu.freeuni.models.QuizModel;
+import ge.edu.freeuni.models.UserModel;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ModelToEntityBridge {
-    public static FriendRequest toFriendRequestEntity(FriendRequestModel request) {
-        return new FriendRequest(
-                toUserEntity(request.getSender()),
-                toUserEntity(request.getRecipient())
-        );
-    }
 
-    public static Answer toAnswerEntity(AnswerModel answer) {
+    public static Answer toAnswerEntity(AnswerModel answer, Question question) {
         try {
-            Question question = DAOFactory.getInstance().getDAO(Question.class).read(answer.getQuestionId());
-            if (question == null) {
-                return null;
-            }
             return new Answer(
                     question,
                     answer.getAnswer(),
@@ -29,80 +24,51 @@ public class ModelToEntityBridge {
                     answer.getPoints()
             );
         } catch (RuntimeException e) {
-            e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }
     }
 
-    public static Friendship toFriendshipEntity(FriendshipModel friendship) {
-        return new Friendship(
-                toUserEntity(friendship.getUser1()),
-                toUserEntity(friendship.getUser2())
-        );
-    }
-
-    public static Question toQuestionEntity(QuestionModel question) {
+    public static Question toQuestionEntity(QuestionModel question, Quiz quiz) {
         try {
-            Quiz quiz = DAOFactory.getInstance().getDAO(Quiz.class).read(question.getQuizId());
-            if (quiz == null) {
-                return null;
-            }
-            List<Answer> answers = question.getAnswers().stream()
-                    .map(ModelToEntityBridge::toAnswerEntity)
-                    .collect(Collectors.toList());
-            return new Question(
+            Question newQuestion = new Question(
                     quiz,
                     question.getQuestion(),
                     question.getBeforeBlank(),
                     question.getAfterBlank(),
                     question.getQuestionType(),
-                    answers,
+                    null,
                     question.getImageUrl()
-                    );
+            );
+            List<Answer> answers = question.getAnswers().stream()
+                    .map(answer -> ModelToEntityBridge.toAnswerEntity(answer, newQuestion))
+                    .collect(Collectors.toList());
+            newQuestion.setAnswers(answers);
+            return newQuestion;
         } catch (RuntimeException e) {
-            e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }
     }
 
     public static Quiz toQuizEntity(QuizModel quiz) {
         try {
-            List<Question> questions = quiz.getQuestions().stream()
-                    .map(ModelToEntityBridge::toQuestionEntity)
-                    .collect(Collectors.toList());
-            return new Quiz(
+            Quiz newQuiz = new Quiz(
                     quiz.getName(),
                     quiz.getDescription(),
-                    toUserEntity(quiz.getOwner()),
-                    questions,
+                    null,
+                    null,
                     quiz.getRandomizeQuestions(),
                     quiz.getOnePage(),
                     quiz.getImmediateCorrection(),
                     quiz.getPracticeMode()
             );
+            List<Question> questions = quiz.getQuestions().stream()
+                    .map(question -> ModelToEntityBridge.toQuestionEntity(question, newQuiz))
+                    .collect(Collectors.toList());
+            newQuiz.setQuestions(questions);
+            return newQuiz;
         } catch (RuntimeException e) {
-            e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }
-    }
-
-    public static QuizGame toQuizGameEntity(QuizGameModel quizGame) {
-        return new QuizGame(
-                toQuizEntity(quizGame.getQuiz()),
-                toUserEntity(quizGame.getUser()),
-                quizGame.getScore(),
-                quizGame.getStartTimestamp(),
-                quizGame.getFinishTimestamp()
-        );
-    }
-
-    public static Challenge toChallengeEntity(ChallengeModel challengeModel) {
-        return new Challenge(
-                toQuizEntity(challengeModel.getQuiz()),
-                toUserEntity(challengeModel.getSender()),
-                toUserEntity(challengeModel.getReceiver()),
-                challengeModel.getBestScore()
-        );
     }
 
     public static User toUserEntity(UserModel user) {

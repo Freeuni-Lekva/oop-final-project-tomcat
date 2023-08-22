@@ -23,7 +23,7 @@ public class Question {
     @JoinColumn(name = "quiz_id", referencedColumnName = "id")
     private Quiz quiz;
 
-    @Column(name = "question", nullable = false)
+    @Column(name = "question")
     private String question;
 
     @Column(name = "before_blank")
@@ -36,7 +36,7 @@ public class Question {
     @Column(name = "question_type", nullable = false)
     private QuestionType questionType;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
     private List<Answer> answers;
 

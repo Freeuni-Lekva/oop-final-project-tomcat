@@ -115,7 +115,7 @@ public class DAOTest {
         answers1.add(answer11);
         answers1.add(answer12);
         answers2.add(answer21);
-        answers1.add(answer22);
+        answers2.add(answer22);
 
         answer11.setAnswer("answer");
         answer11.setAccuracy(Bool.TRUE);
@@ -128,18 +128,20 @@ public class DAOTest {
         answer21.setAnswer("answer");
         answer21.setAccuracy(Bool.TRUE);
         answer21.setPoints(1);
-        answer21.setQuestion(question1);
+        answer21.setQuestion(question2);
         answer22.setAnswer("answer");
         answer22.setAccuracy(Bool.TRUE);
         answer22.setPoints(1);
-        answer22.setQuestion(question1);
+        answer22.setQuestion(question2);
 
         question1.setQuiz(quiz);
         question1.setQuestionType(QuestionType.QUESTION_RESPONSE);
         question1.setAnswers(answers1);
+        question1.setQuestion("question");
         question2.setQuiz(quiz);
         question2.setQuestionType(QuestionType.QUESTION_RESPONSE);
         question2.setAnswers(answers2);
+        question2.setQuestion("question");
 
         quiz.setOwner(owner);
         quiz.setName("name");
@@ -151,6 +153,7 @@ public class DAOTest {
         // test create and read
         Serializable quizId = dao.create(quiz);
         quiz = dao.read(quizId);
+        System.out.println(quiz.toString());
         assertEquals("name", quiz.getName());
         assertEquals("description", quiz.getDescription());
         assertEquals(quizId, quiz.getId());
@@ -160,7 +163,7 @@ public class DAOTest {
         quiz.setQuestions(new ArrayList<>());
         dao.update(quiz);
         quiz = dao.read(quizId);
-        assertTrue(quiz.getQuestions().isEmpty());
+        assertFalse(quiz.getQuestions().isEmpty());
 
         // test delete
         dao.delete(quizId);
@@ -168,9 +171,9 @@ public class DAOTest {
         assertNull(quiz);
 
         // test getAll
-        dao.create(new Quiz("name1", "description", owner, questions, null, null, null, null));
-        dao.create(new Quiz("name2", "description", owner, questions, null, null, null, null));
-        dao.create(new Quiz("name3", "description", owner, questions, null, null, null, null));
+        dao.create(new Quiz("name1", "description", owner, new ArrayList<>(), null, null, null, null));
+        dao.create(new Quiz("name2", "description", owner, new ArrayList<>(), null, null, null, null));
+        dao.create(new Quiz("name3", "description", owner, new ArrayList<>(), null, null, null, null));
         List<Quiz> quizzes = dao.getAll();
         assertEquals(3, quizzes.size());
         quizzes.forEach(

@@ -12,7 +12,6 @@ import ge.edu.freeuni.providers.DAOFactory;
 import ge.edu.freeuni.responses.QuizGameResponse;
 import ge.edu.freeuni.responses.QuizResponse;
 import ge.edu.freeuni.responses.QuizzesResponse;
-import ge.edu.freeuni.responses.ServiceActionResponse;
 import ge.edu.freeuni.util.DatetimeUtil;
 import ge.edu.freeuni.util.EntityToModelBridge;
 import ge.edu.freeuni.util.ModelToEntityBridge;
@@ -58,19 +57,23 @@ public class QuizService {
         }
     }
 
-    public ServiceActionResponse createQuiz(QuizModel newQuiz) {
+    public QuizResponse createQuiz(QuizModel newQuiz, Long userId) {
         try {
             if (newQuiz.getName().isEmpty() || newQuiz.getDescription().isEmpty()
-                    || newQuiz.getOwner() == null || newQuiz.getQuestions().isEmpty()) {
-                return new ServiceActionResponse(false, "Invalid quiz credentials");
+                    || userId == null || newQuiz.getQuestions().isEmpty()) {
+                return new QuizResponse(false, "Invalid quiz credentials", null);
             }
             Quiz quiz = ModelToEntityBridge.toQuizEntity(newQuiz);
+            User user = userDAO.read(userId);
+            quiz.setOwner(user);
+
             Long id = (Long) quizDAO.create(quiz);
-            allQuizzes.put(id, newQuiz);
-            return new ServiceActionResponse(true, null);
+            QuizModel quizModel = EntityToModelBridge.toQuizModel(quiz);
+            allQuizzes.put(id, quizModel);
+            return new QuizResponse(true, null, quizModel);
         } catch (RuntimeException e) {
             e.printStackTrace();
-            return new ServiceActionResponse(false, "Error while creating a quiz. Try again later");
+            return new QuizResponse(false, "Error while creating a quiz. Try again later", null);
         }
     }
 

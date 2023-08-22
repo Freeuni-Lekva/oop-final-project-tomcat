@@ -120,7 +120,7 @@ public class Answer {
      *
      * @return the score player gets if they guess the question correctly
      */
-    public int getPoints() {
+    public Integer getPoints() {
         return points;
     }
 
@@ -129,7 +129,7 @@ public class Answer {
      *
      * @param points the score player gets if they guess the question correctly
      */
-    public void setPoints(int points) {
+    public void setPoints(Integer points) {
         this.points = points;
     }
 

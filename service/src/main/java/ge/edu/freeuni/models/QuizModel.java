@@ -13,11 +13,10 @@ public class QuizModel {
     private String onePage;
     private String immediateCorrection;
     private String practiceMode;
-    private final Long creationTimestamp;
+    private Long creationTimestamp;
 
-    public QuizModel(Long id, Long creationTimestamp) {
+    public QuizModel(Long id) {
         this.id = id;
-        this.creationTimestamp = creationTimestamp;
     }
 
     public QuizModel(Long id, String name, String description, UserModel owner, List<QuestionModel> questions, String randomizeQuestions, String onePage, String immediateCorrection, String practiceMode, Long creationTimestamp) {

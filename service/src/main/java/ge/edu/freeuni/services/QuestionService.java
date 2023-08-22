@@ -32,14 +32,18 @@ public class QuestionService {
         newQuestion.setQuestionType(QuestionType.QUESTION_RESPONSE);
         newQuestion.setQuiz(quiz);
 
-        Answer answer1 = new Answer(newQuestion,answer, Bool.TRUE,null);
+        Answer answer1 = new Answer(newQuestion,answer, Bool.TRUE,1);
         List<Answer> answers = new ArrayList<>();
         answers.add(answer1);
 
         newQuestion.setAnswers(answers);
-
+        try {
+            questionDao.create(newQuestion);
             return new QuestionResponse(true,null, EntityToModelBridge.toQuestionModel(newQuestion));
-
+        }catch(Exception e){
+            return new QuestionResponse(false, "there was a problem with saving one of the questions,\n" +
+                    "please try again later",null);
+        }
     }
 
     public QuestionResponse addFillInQuestion(Quiz quiz, String beforeGap, String answer, String afterGap) {
@@ -65,9 +69,13 @@ public class QuestionService {
         answers.add(answer1);
 
         newQuestion.setAnswers(answers);
-
+        try {
+            questionDao.create(newQuestion);
             return new QuestionResponse(true,null, EntityToModelBridge.toQuestionModel(newQuestion));
-
+        }catch(Exception e){
+            return new QuestionResponse(false, "there was a problem with saving one of the questions,\n" +
+                    "please try again later",null);
+        }
 
     }
 
@@ -100,8 +108,13 @@ public class QuestionService {
         }
         question.setAnswers(answerList);
 
+        try{
+            questionDao.create(question);
             return new QuestionResponse(true,null,EntityToModelBridge.toQuestionModel(question));
-
+        }catch(Exception e){
+            return new QuestionResponse(false, "there was a problem with saving one of the questions,\n" +
+                    "please try again later",null);
+        }
     }
 
     public QuestionResponse addImageResonseQuestion(Quiz quiz, String imageURL, String answer) {
@@ -122,8 +135,12 @@ public class QuestionService {
         answers.add(answer1);
 
         newQuestion.setAnswers(answers);
-
+        try {
+            questionDao.create(newQuestion);
             return new QuestionResponse(true,null, EntityToModelBridge.toQuestionModel(newQuestion));
-
+        }catch(Exception e){
+            return new QuestionResponse(false, "there was a problem with saving one of the questions,\n" +
+                    "please try again later",null);
+        }
     }
 }
