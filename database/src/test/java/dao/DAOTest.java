@@ -520,7 +520,7 @@ public class DAOTest {
         Quiz quiz = quizDAO.read(quizId);
 
         // test create and read
-        Serializable quizGameId = dao.create(new QuizGame(quiz, user, 20, System.currentTimeMillis() - 20000, System.currentTimeMillis()));
+        Serializable quizGameId = dao.create(new QuizGame(quiz, user, 20, 20, System.currentTimeMillis() - 20000, System.currentTimeMillis()));
         quizGame = dao.read(quizGameId);
         assertEquals(quizGame.getQuiz().getId(), quizId);
 
@@ -536,9 +536,9 @@ public class DAOTest {
         assertNull(quizGame);
 
         // test getAll
-        dao.create(new QuizGame(quiz, user, 30, System.currentTimeMillis() - 30000, System.currentTimeMillis()));
-        dao.create(new QuizGame(quiz, user, 40, System.currentTimeMillis() - 30000, System.currentTimeMillis()));
-        dao.create(new QuizGame(quiz, user, 50, System.currentTimeMillis() - 30000, System.currentTimeMillis()));
+        dao.create(new QuizGame(quiz, user, 30, 30, System.currentTimeMillis() - 30000, System.currentTimeMillis()));
+        dao.create(new QuizGame(quiz, user, 40, 40, System.currentTimeMillis() - 30000, System.currentTimeMillis()));
+        dao.create(new QuizGame(quiz, user, 50, 50, System.currentTimeMillis() - 30000, System.currentTimeMillis()));
         List<QuizGame> quizGames = dao.getAll();
         assertEquals(3, quizGames.size());
         quizGames.forEach(

@@ -1,8 +1,12 @@
 package ge.edu.freeuni.services;
 
+import ge.edu.freeuni.entities.Answer;
+import ge.edu.freeuni.entities.Question;
 import ge.edu.freeuni.entities.Quiz;
 import ge.edu.freeuni.entities.QuizGame;
 import ge.edu.freeuni.entities.User;
+import ge.edu.freeuni.enums.Bool;
+import ge.edu.freeuni.enums.QuestionType;
 import ge.edu.freeuni.models.AnswerModel;
 import ge.edu.freeuni.models.QuestionModel;
 import ge.edu.freeuni.models.QuizGameModel;
@@ -77,7 +81,6 @@ public class QuizService {
         }
     }
 
-    //FIXME commented parts are actual implementations, hardcoded parts are for testing GUI
     public QuizResponse getQuiz(Long id) {
         try {
             Quiz quiz = quizDAO.read(id);
@@ -90,24 +93,6 @@ public class QuizService {
             e.printStackTrace();
             return new QuizResponse(false, "Error while getting the quiz. Try again later", null);
         }
-//        QuestionModel questionModel = new QuestionModel(1L);
-//        QuestionModel questionModel1 = new QuestionModel(2L);
-//        QuestionModel questionModel2 = new QuestionModel(2L);
-//        QuestionModel questionModel3 = new QuestionModel(2L);
-//        List<QuestionModel> list = new ArrayList<>();
-//        list.add(questionModel);
-//        list.add(questionModel1);
-//        list.add(questionModel2);
-//        list.add(questionModel3);
-//        QuizModel quizModel = new QuizModel(id, "World War II: Expert Edition",
-//                "\"Embark on a comprehensive journey through the pivotal events, strategies, " +
-//                        "and stories that defined World War II with our expert-level quiz. " +
-//                        "Test your historical knowledge as you delve into the intricacies of the most significant conflict in human history." +
-//                        " From the battlefronts to the home fronts, challenge yourself to answer questions about leaders, " +
-//                        "battles, innovations, and the global impact of World War II. Whether you're a history enthusiast or a scholar, " +
-//                        "this quiz will put your expertise to the ultimate test and uncover the depths of your understanding of World War II.\"",
-//                new UserModel(1L, "saba", "saba", "saba", "saba"), list, null);
-//        return new QuizResponse(true, null, quizModel);
     }
 
     public QuizzesResponse getAllQuizzes(Long ownerId) {
@@ -146,27 +131,6 @@ public class QuizService {
             e.printStackTrace();
             return new QuizzesResponse(false, "Error while getting quizzes. Try again later", null);
         }
-//        QuestionModel questionModel = new QuestionModel(1L);
-//        QuestionModel questionModel1 = new QuestionModel(2L);
-//        QuestionModel questionModel2 = new QuestionModel(2L);
-//        QuestionModel questionModel3 = new QuestionModel(2L);
-//        List<QuestionModel> list = new ArrayList<>();
-//        list.add(questionModel);
-//        list.add(questionModel1);
-//        list.add(questionModel2);
-//        list.add(questionModel3);
-//        QuizModel quizModel = new QuizModel(1L, "World War II: Expert Edition",
-//                "\"Embark on a comprehensive journey through the pivotal events, strategies, " +
-//                        "and stories that defined World War II with our expert-level quiz. " +
-//                        "Test your historical knowledge as you delve into the intricacies of the most significant conflict in human history." +
-//                        " From the battlefronts to the home fronts, challenge yourself to answer questions about leaders, " +
-//                        "battles, innovations, and the global impact of World War II. Whether you're a history enthusiast or a scholar, " +
-//                        "this quiz will put your expertise to the ultimate test and uncover the depths of your understanding of World War II.\"", null, list, null);
-//        QuizModel quizModel1 = new QuizModel(2L, "2 quiz", "SUPER QUIZ", null, list, null);
-//        List<QuizModel> quizModels = new ArrayList<>();
-//        quizModels.add(quizModel);
-//        quizModels.add(quizModel1);
-//        return new QuizzesResponse(true, null, quizModels);
     }
 
     public QuizzesResponse getMostRecentQuizzes() {
@@ -185,17 +149,6 @@ public class QuizService {
             e.printStackTrace();
             return new QuizzesResponse(false, "Error while getting quizzes. Try again later", null);
         }
-//        QuestionModel questionModel = new QuestionModel(1L);
-//        QuestionModel questionModel1 = new QuestionModel(2L);
-//        List<QuestionModel> list = new ArrayList<>();
-//        list.add(questionModel);
-//        list.add(questionModel1);
-//        QuizModel quizModel = new QuizModel(3L,"3 quiz", "SUPER QUIZ", null, list, null);
-//        QuizModel quizModel1 = new QuizModel(4L,"4 quiz", "SUPER QUIZ", null, list, null);
-//        List<QuizModel> quizModels = new ArrayList<>();
-//        quizModels.add(quizModel);
-//        quizModels.add(quizModel1);
-//        return new QuizzesResponse(true, null, quizModels);
     }
 
     public QuizzesResponse getMostRecentQuizzes(Long userId) {
@@ -207,7 +160,7 @@ public class QuizService {
             List<QuizModel> mostRecentQuizzes = allQuizzes.values().stream()
                     .filter(quiz -> Objects.equals(quiz.getOwner().getId(), userId))
                     .sorted(Comparator.comparing(QuizModel::getCreationTimestamp).reversed())
-                    .limit(NUM_OF_RECENT_QUIZZES)
+                    .limit(NUM_OF_RECENT_QUIZZES_OF_USER)
                     .collect(Collectors.toList());
 
             if (mostRecentQuizzes.isEmpty()) {
@@ -219,19 +172,6 @@ public class QuizService {
             e.printStackTrace();
             return new QuizzesResponse(false, e.getMessage(), null);
         }
-//        QuestionModel questionModel = new QuestionModel(1L);
-//        QuestionModel questionModel1 = new QuestionModel(2L);
-//        QuestionModel questionModel2 = new QuestionModel(3L);
-//        List<QuestionModel> list = new ArrayList<>();
-//        list.add(questionModel);
-//        list.add(questionModel1);
-//        list.add(questionModel2);
-//        QuizModel quizModel = new QuizModel(5L, "5 quiz", "SUPER QUIZ", null, list, null);
-//        QuizModel quizModel1 = new QuizModel(6L, "6 quiz", "SUPER QUIZ", null, list, null);
-//        List<QuizModel> quizModels = new ArrayList<>();
-//        quizModels.add(quizModel);
-//        quizModels.add(quizModel1);
-//        return new QuizzesResponse(true, null, quizModels);
     }
 
     public QuizGameResponse startQuiz(Long quizId, Long playerId) {
@@ -249,12 +189,16 @@ public class QuizService {
                     quiz,
                     player,
                     0,
+                    0,
                     System.currentTimeMillis() / 1000L,
                     null
             );
             Long gameId = (Long) quizGameDAO.create(quizGame);
             QuizGameModel gameModel = EntityToModelBridge.toQuizGameModel(quizGame, gameId);
             allGames.put(gameId, gameModel);
+            if (Objects.equals(Bool.TRUE.name(), quiz.getRandomizeQuestions())) {
+                gameModel.getQuiz().setQuestions(shuffleQuestions(gameModel.getQuiz().getQuestions()));
+            }
             return new QuizGameResponse(true, null, gameModel);
         } catch (RuntimeException e) {
             e.printStackTrace();
@@ -262,32 +206,50 @@ public class QuizService {
         }
     }
 
-    public QuizGameResponse finishQuiz(QuizGameModel gameModel, List<AnswerModel> answers) {
+    private List<QuestionModel> shuffleQuestions(List<QuestionModel> questions) {
+        List<QuestionModel> shuffledQuestions = new ArrayList<>(questions);
+
+        Random random = new Random();
+        for (int i = shuffledQuestions.size() - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            QuestionModel temp = shuffledQuestions.get(i);
+            shuffledQuestions.set(i, shuffledQuestions.get(j));
+            shuffledQuestions.set(j, temp);
+        }
+
+        return shuffledQuestions;
+    }
+
+    public QuizGameResponse finishQuiz(Map<Long, String> questionsAnswers, Long quizGameId, Long playerId) {
         try {
-            Map<Long, AnswerModel> correctAnswers = new HashMap<>();
+            QuizGame quizGame = quizGameDAO.read(quizGameId);
+
+            if (!Objects.equals(playerId, quizGame.getPlayer().getId())) {
+                throw new RuntimeException("Invalid user credentials");
+            }
+
             int maxScore = 0;
-            for (QuestionModel question : gameModel.getQuiz().getQuestions()) {
-                for (AnswerModel answer : question.getAnswers()) {
-                    if (answer.isCorrect()) {
-                        correctAnswers.put(answer.getId(), answer);
+            int actualScore = 0;
+            for (Question question : quizGame.getQuiz().getQuestions()) {
+                String ans = questionsAnswers.get(question.getId());
+                for (Answer answer : question.getAnswers()) {
+                    if (answer.getAccuracy().getValue()) {
                         maxScore += answer.getPoints();
+                        if ((question.getQuestionType() == QuestionType.MULTIPLE_CHOICE && Objects.equals(answer.getId(), Long.parseLong(ans)))
+                                || (question.getQuestionType() != QuestionType.MULTIPLE_CHOICE && Objects.equals(answer.getAnswer(), ans))) {
+                            actualScore += answer.getPoints();
+                        }
                     }
                 }
             }
 
-            int actualScore = 0;
-            for (AnswerModel answer : answers) {
-                if (correctAnswers.containsKey(answer.getId())) {
-                    actualScore += answer.getPoints();
-                }
-            }
-
-            QuizGame quizGame = quizGameDAO.read(gameModel.getId());
             long finishTimestamp = System.currentTimeMillis() / 1000L;
             quizGame.setFinishTimestamp(finishTimestamp);
             quizGame.setScore(actualScore);
+            quizGame.setMaxScore(maxScore);
             quizGameDAO.update(quizGame);
 
+            QuizGameModel gameModel = allGames.get(quizGameId);
             gameModel.setFinishTimestamp(finishTimestamp);
             gameModel.setScore(actualScore);
             gameModel.setMaxScore(maxScore);
@@ -297,6 +259,16 @@ public class QuizService {
             return new QuizGameResponse(true, null, gameModel);
         } catch (RuntimeException e) {
             return new QuizGameResponse(false, "Error while finishing the quiz. Try again later", null);
+        }
+    }
+
+    public QuizGameResponse getQuizGame(Long quizGameId) {
+        try {
+            QuizGame quizGame = quizGameDAO.read(quizGameId);
+            QuizGameModel quizGameModel = EntityToModelBridge.toQuizGameModel(quizGame);
+            return new QuizGameResponse(true, null, quizGameModel);
+        } catch (Exception e) {
+            return new QuizGameResponse(false, "Unable to load quiz results, please try again later", null);
         }
     }
 
@@ -313,31 +285,31 @@ public class QuizService {
     }
 
 
-    public Quiz createQuizEntity(String randomizeQuestion, String onePage, String immediateCorrection, String practiceMode, String quizTitle, String quizDescription, Long currentUserId) {
-        Quiz newQuiz = new Quiz();
-        newQuiz.setOnePage(onePage);
-        newQuiz.setImmediateCorrection(immediateCorrection);
-        newQuiz.setPracticeMode(practiceMode);
-        newQuiz.setRandomizeQuestions(randomizeQuestion);
-        newQuiz.setDescription(quizDescription);
-        newQuiz.setName(quizTitle);
-
-        List<User> userDAOByField = userDAO.getByField("id",currentUserId);
-        if(userDAOByField == null || userDAOByField.isEmpty()){
-            return null;
-        }
-        User owner = userDAOByField.get(0);
-        newQuiz.setOwner(owner);
-        return newQuiz;
-    }
-
-    public QuizResponse createQuiz(Quiz quiz) {
-        try{
-            quizDAO.create(quiz);
-            return new QuizResponse(true,null,EntityToModelBridge.toQuizModel(quiz));
-        }catch(Exception e){
-            return new QuizResponse(false,"the quiz could not be created,\n" +
-                    "please try again later.",null);
-        }
-    }
+//    public Quiz createQuizEntity(String randomizeQuestion, String onePage, String immediateCorrection, String practiceMode, String quizTitle, String quizDescription, Long currentUserId) {
+//        Quiz newQuiz = new Quiz();
+//        newQuiz.setOnePage(onePage);
+//        newQuiz.setImmediateCorrection(immediateCorrection);
+//        newQuiz.setPracticeMode(practiceMode);
+//        newQuiz.setRandomizeQuestions(randomizeQuestion);
+//        newQuiz.setDescription(quizDescription);
+//        newQuiz.setName(quizTitle);
+//
+//        List<User> userDAOByField = userDAO.getByField("id",currentUserId);
+//        if(userDAOByField == null || userDAOByField.isEmpty()){
+//            return null;
+//        }
+//        User owner = userDAOByField.get(0);
+//        newQuiz.setOwner(owner);
+//        return newQuiz;
+//    }
+//
+//    public QuizResponse createQuiz(Quiz quiz) {
+//        try{
+//            quizDAO.create(quiz);
+//            return new QuizResponse(true,null,EntityToModelBridge.toQuizModel(quiz));
+//        }catch(Exception e){
+//            return new QuizResponse(false,"the quiz could not be created,\n" +
+//                    "please try again later.",null);
+//        }
+//    }
 }

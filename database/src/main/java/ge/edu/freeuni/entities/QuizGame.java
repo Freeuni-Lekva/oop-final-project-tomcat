@@ -24,6 +24,8 @@ public class QuizGame {
 
     @Column(name = "score", nullable = false)
     private Integer score;
+    @Column(name = "max_score", nullable = false)
+    private Integer maxScore;
 
     @Column(name = "start_timestamp")
     private Long startTimestamp;
@@ -46,10 +48,11 @@ public class QuizGame {
      * @param startTimestamp  the timestamp when the game started
      * @param finishTimestamp the timestamp when the game finished
      */
-    public QuizGame(Quiz quiz, User player, Integer score, Long startTimestamp, Long finishTimestamp) {
+    public QuizGame(Quiz quiz, User player, Integer score, Integer maxScore, Long startTimestamp, Long finishTimestamp) {
         this.quiz = quiz;
         this.player = player;
         this.score = score;
+        this.maxScore = maxScore;
         this.startTimestamp = startTimestamp;
         this.finishTimestamp = finishTimestamp;
     }
@@ -126,6 +129,14 @@ public class QuizGame {
         this.score = score;
     }
 
+    public Integer getMaxScore() {
+        return maxScore;
+    }
+
+    public void setMaxScore(Integer maxScore) {
+        this.maxScore = maxScore;
+    }
+
     /**
      * Gets the timestamp when the game started.
      *
@@ -166,13 +177,29 @@ public class QuizGame {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         QuizGame quizGame = (QuizGame) o;
-        return score == quizGame.score && Objects.equals(id, quizGame.id) && Objects.equals(quiz, quizGame.quiz) && Objects.equals(player, quizGame.player) && Objects.equals(startTimestamp, quizGame.startTimestamp) && Objects.equals(finishTimestamp, quizGame.finishTimestamp);
+
+        if (!Objects.equals(id, quizGame.id)) return false;
+        if (!Objects.equals(quiz, quizGame.quiz)) return false;
+        if (!Objects.equals(player, quizGame.player)) return false;
+        if (!Objects.equals(score, quizGame.score)) return false;
+        if (!Objects.equals(maxScore, quizGame.maxScore)) return false;
+        if (!Objects.equals(startTimestamp, quizGame.startTimestamp))
+            return false;
+        return Objects.equals(finishTimestamp, quizGame.finishTimestamp);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, quiz, player, score, startTimestamp, finishTimestamp);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (quiz != null ? quiz.hashCode() : 0);
+        result = 31 * result + (player != null ? player.hashCode() : 0);
+        result = 31 * result + (score != null ? score.hashCode() : 0);
+        result = 31 * result + (maxScore != null ? maxScore.hashCode() : 0);
+        result = 31 * result + (startTimestamp != null ? startTimestamp.hashCode() : 0);
+        result = 31 * result + (finishTimestamp != null ? finishTimestamp.hashCode() : 0);
+        return result;
     }
 
     @Override
@@ -182,6 +209,7 @@ public class QuizGame {
                 ", quiz=" + quiz +
                 ", player=" + player +
                 ", score=" + score +
+                ", maxScore=" + maxScore +
                 ", startTimestamp=" + startTimestamp +
                 ", finishTimestamp=" + finishTimestamp +
                 '}';

@@ -41,8 +41,7 @@ public class TakeQuiz extends HttpServlet {
         if (quizResponse.isSuccess()) {
             QuizGameResponse quizGameResponse = quizService.startQuiz(quizId, playerId);
             if (quizGameResponse.isSuccess()) {
-                httpServletRequest.setAttribute("quizModel", quizResponse.getQuiz());
-                httpServletRequest.setAttribute("quizGameId", quizGameResponse.getQuizGame().getId());
+                httpServletRequest.setAttribute("quizGameModel", quizGameResponse.getQuizGame());
                 RequestDispatcher mailDispatcher = httpServletRequest.getRequestDispatcher("WEB-INF/TakeQuiz.jsp");
                 mailDispatcher.forward(httpServletRequest, httpServletResponse);
             } else {

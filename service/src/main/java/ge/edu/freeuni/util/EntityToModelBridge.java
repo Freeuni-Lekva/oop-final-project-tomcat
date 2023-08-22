@@ -74,7 +74,7 @@ public class EntityToModelBridge {
                 toQuizModel(quizGame.getQuiz()),
                 toUserModel(quizGame.getPlayer()),
                 quizGame.getScore(),
-                null,
+                quizGame.getMaxScore(),
                 quizGame.getStartTimestamp(),
                 quizGame.getFinishTimestamp()
         );

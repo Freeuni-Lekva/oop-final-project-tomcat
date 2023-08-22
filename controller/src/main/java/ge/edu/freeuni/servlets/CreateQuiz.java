@@ -51,7 +51,6 @@ import java.util.List;
 @WebServlet(name = "CreateQuiz", urlPatterns = "/CreateQuiz")
 public class CreateQuiz extends HttpServlet {
     private final QuizService quizService = ServiceFactory.getInstance().getService(QuizService.class);
-    private final UserService userService = ServiceFactory.getInstance().getService(UserService.class);
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -5,6 +5,7 @@ import ge.edu.freeuni.entities.Question;
 import ge.edu.freeuni.entities.Quiz;
 import ge.edu.freeuni.enums.Bool;
 import ge.edu.freeuni.enums.QuestionType;
+import ge.edu.freeuni.models.QuestionModel;
 import ge.edu.freeuni.providers.DAO;
 import ge.edu.freeuni.providers.DAOFactory;
 import ge.edu.freeuni.responses.QuestionResponse;
@@ -12,6 +13,7 @@ import ge.edu.freeuni.util.EntityToModelBridge;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class QuestionService {
     private DAO<Question> questionDao = DAOFactory.getInstance().getDAO(Question.class);
@@ -117,7 +119,7 @@ public class QuestionService {
         }
     }
 
-    public QuestionResponse addImageResonseQuestion(Quiz quiz, String imageURL, String answer) {
+    public QuestionResponse addImageResponseQuestion(Quiz quiz, String imageURL, String answer) {
         if(quiz == null){
             return new QuestionResponse(false, "there was a problem with quiz creation,\n" +
                     " try again later ", null);
@@ -142,5 +144,12 @@ public class QuestionService {
             return new QuestionResponse(false, "there was a problem with saving one of the questions,\n" +
                     "please try again later",null);
         }
+    }
+
+    public List<QuestionModel> getQuestions(Long quizId) {
+        List<Question> questions = questionDao.getByField("quiz_id", quizId);
+        return questions.stream()
+                .map(EntityToModelBridge::toQuestionModel)
+                .collect(Collectors.toList());
     }
 }
