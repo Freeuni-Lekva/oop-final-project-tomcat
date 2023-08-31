@@ -2,6 +2,7 @@ package ge.edu.freeuni.services;
 
 import ge.edu.freeuni.entities.Note;
 import ge.edu.freeuni.entities.User;
+import ge.edu.freeuni.enums.Bool;
 import ge.edu.freeuni.models.NoteModel;
 import ge.edu.freeuni.providers.DAO;
 import ge.edu.freeuni.providers.DAOFactory;
@@ -18,13 +19,17 @@ public class NoteService {
     private final UserService userService = new UserService();
 
 
-    public NoteResponse getNoteById(Long noteId) {
+    public NoteResponse getNoteById(Long noteId, boolean markAsSeen) {
         try {
             List<Note> notes = noteDAO.getByField("id", noteId);
             if (notes == null || notes.isEmpty() || notes.get(0) == null) {
                 throw new Exception();
             }
             Note note = notes.get(0);
+            if (markAsSeen) {
+                note.setSeen(Bool.TRUE.name());
+                noteDAO.update(note);
+            }
             NoteModel noteModel = EntityToModelBridge.toNoteModel(note);
             return new NoteResponse(true, null, noteModel);
         } catch (Exception e) {

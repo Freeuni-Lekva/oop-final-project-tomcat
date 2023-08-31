@@ -31,6 +31,7 @@
             font-style: italic;
         }
         li {
+            margin-top: 5px;
             border-radius: 10px;
             background-color: lavenderblush;
         }

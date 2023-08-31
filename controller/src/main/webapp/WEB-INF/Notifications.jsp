@@ -103,9 +103,9 @@
                 NoteModel note = (NoteModel) notification;
     %>
         <a href = "Note?noteId=<%= note.getId() %>">
-            <div class="notification">
+            <div class="notification" style="<%=note.getSeen().equals("TRUE") ? "background-color: #d7d7d7;" : ""%>">
                 <p class="notification-label-main"><%= note.getFrom().getUsername() %> sent you a note: <%= note.getSubject() %></p>
-                <p class="notification-label-small"><%= note.getDatetime() %></p>
+                <p class="notification-label-small" style="<%=note.getSeen().equals("TRUE") ? "color: black;" : ""%>"><%= note.getDatetime() %></p>
             </div>
         </a>
     <%

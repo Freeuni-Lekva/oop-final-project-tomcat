@@ -9,6 +9,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <style><%@include file="css/styles.css"%></style>
     <meta charset="UTF-8">
     <title>Create Quiz</title>
     <style>
@@ -32,6 +33,10 @@
             margin-bottom: 10px;
             padding: 5px;
         }
+        label {
+            font-weight: bold;
+            color: indigo;
+        }
         button {
             font-size: 18px;
             padding: 10px 20px;
@@ -41,24 +46,32 @@
             cursor: pointer;
         }
         #questionsContainer {
-            margin-top: 20px;
         }
         .questionDiv {
             border: 1px solid indigo;
             padding: 15px;
             margin-bottom: 20px;
-            background-color: #f9f9f9;
+            background-color: lavenderblush;
+        }
+        #addQuestionBtn {
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        #addQuestionBtn:hover {
+            background-color: #23527c;
+            transform: scale(1.02);
         }
     </style>
 </head>
 <body>
+<jsp:include page="UserFooter.jsp" />
+<jsp:include page="SearchUser.jsp" />
+<div class="create-quiz">
 <h1>Create Quiz</h1>
-<form action="CreateQuiz" method="post">
-    <label for="quizTitle">Quiz Title:</label>
-    <input type="text" id="quizTitle" name="quizTitle" required><br>
+<form action="CreateQuiz" method="post" style="overflow-y: scroll;overflow-x: hidden;">
+    <input type="text" id="quizTitle" name="quizTitle" style="width: 97.3%;" placeholder="Title" required>
 
-    <label for="quizDescription">Quiz Description:</label>
-    <textarea id="quizDescription" name="quizDescription" rows="4" cols="50" required></textarea><br>
+    <textarea id="quizDescription" name="quizDescription" rows="4" cols="50" style="width: 97.9%;border-radius: 5px;font-family: Arial, sans-serif;" placeholder="Description" required></textarea>
     <input type="hidden" id="numberOfQuestions" name="numberOfQuestions" value="1">
 
     <label><input type="checkbox" name="randomizeQuestions"> Randomize Questions</label><br>
@@ -66,14 +79,14 @@
     <label><input type="checkbox" name="immediateCorrection"> Immediate Correction</label><br>
     <label><input type="checkbox" name="practiceMode"> Practice Mode</label><br>
 
-    <button type="button" id="addQuestionBtn">Add Question</button>
-
     <div id="questionsContainer">
+    <br>
     </div>
+    <button type="button" id="addQuestionBtn">Add Question</button>
 
     <button type="submit">Submit</button>
 </form>
-
+</div>
 <script>
     const addQuestionBtn = document.getElementById("addQuestionBtn");
     const questionsContainer = document.getElementById("questionsContainer");
@@ -87,7 +100,7 @@
         questionDiv.className = "questionDiv";
         questionDiv.innerHTML = `
                                     <h3 style="color: indigo;">Question ${questionCount + 1}</h3>
-                                    <label for="questionTypeEnum${questionNum}" style="color: indigo;">Question Type:</label>
+                                    <label for="questionTypeEnum${questionNum}" style="color: indigo;font-weight: bold;">Question Type:</label>
                                     <select id="questionTypeEnum${questionNum}" name="questionTypeEnum${questionNum}" style="font-size: 16px;">
                                         <option value="" selected disabled>Select a question type</option>
                                         <option value="1">Question-Response</option>
@@ -129,38 +142,29 @@
         switch (parseInt(questionType)) {
             case 1:
                 return `
-                    <label for="questionText${questionNumber}" style="color: indigo;">Question Text:</label>
-                    <input type="text" id="questionText${questionNumber}" name="questionText${questionNumber}" required style="width: 100%; padding: 8px; font-size: 25px;">
+                    <input type="text" id="questionText${questionNumber}" name="questionText${questionNumber}" required placeholder="Question Text" style="width: 98%; padding: 8px; font-size: 25px;">
                     <br>
                     <h4>*separate all possible variations of the correct answer by |</h4>
-                    <label for="answerText${questionNumber}" style="color: indigo;">Answer:</label>
-                    <input type="text" id="answerText${questionNumber}" name="answerText${questionNumber}" required style="width: 100%; padding: 8px; font-size: 25px;">
+                    <input type="text" id="answerText${questionNumber}" name="answerText${questionNumber}" required placeholder="Answer" style="width: 98%; padding: 8px; font-size: 25px;">
                     <br>
-                    <label for="points${questionNumber}" style="color: indigo;">Points:</label>
-                    <input type="number" id="points${questionNumber}" name="points${questionNumber}" required style="width: 100%; padding: 8px; font-size: 25px;">
+                    <input type="number" id="points${questionNumber}" name="points${questionNumber}" required placeholder="Points" style="width: 98%; padding: 8px; font-size: 25px;">
                 `;
             case 2:
                 return `
-                    <label for="beforeGap${questionNumber}" style="color: indigo;">Before Gap:</label>
-                    <input type="text" id="beforeGap${questionNumber}" name="beforeGap${questionNumber}" required style="width: 100%; padding: 8px; font-size: 25px;">
+                    <input type="text" id="beforeGap${questionNumber}" name="beforeGap${questionNumber}" required placeholder="Before Gap" style="width: 98%; padding: 8px; font-size: 25px;">
                     <br>
                     <h4>*separate all possible variations of the correct answer by |</h4>
-                    <label for="answer${questionNumber}" style="color: indigo;">Answer:</label>
-                    <input type="text" id="answer${questionNumber}" name="answer${questionNumber}" required style="width: 100%; padding: 8px; font-size: 25px;">
+                    <input type="text" id="answer${questionNumber}" name="answer${questionNumber}" required placeholder="Answer" style="width: 98%; padding: 8px; font-size: 25px;">
                     <br>
-                    <label for="afterGap${questionNumber}" style="color: indigo;">After Gap:</label>
-                    <input type="text" id="afterGap${questionNumber}" name="afterGap${questionNumber}" required style="width: 100%; padding: 8px; font-size: 25px;">
+                    <input type="text" id="afterGap${questionNumber}" name="afterGap${questionNumber}" required placeholder="After Gap" style="width: 98%; padding: 8px; font-size: 25px;">
                     <br>
-                    <label for="points${questionNumber}" style="color: indigo;">Points:</label>
-                    <input type="number" id="points${questionNumber}" name="points${questionNumber}" required style="width: 100%; padding: 8px; font-size: 25px;">
+                    <input type="number" id="points${questionNumber}" name="points${questionNumber}" required placeholder="Points" style="width: 98%; padding: 8px; font-size: 25px;">
                 `;
             case 3:
                 return `
-                    <label for="questionText${questionNumber}" style="color: indigo;">Question Text:</label>
-                    <input type="text" id="questionText${questionNumber}" name="questionText${questionNumber}" required style="width: 100%; padding: 8px; font-size: 25px;">
+                    <input type="text" id="questionText${questionNumber}" name="questionText${questionNumber}" required placeholder="Question Text" style="width: 98%; padding: 8px; font-size: 25px;">
                     <br>
-                    <label for="numOfOptions${questionNumber}" style="color: indigo;">Number of Options:</label>
-                    <input type="number" id="numOfOptions${questionNumber}" name="numOfOptions${questionNumber}" required style="width: 100%; padding: 8px; font-size: 25px;">
+                    <input type="number" id="numOfOptions${questionNumber}" name="numOfOptions${questionNumber}" required placeholder="Number of Options" style="width: 98%; padding: 8px; font-size: 25px;">
                     <div id="optionsContainer${questionNumber}">
                         <label for="options${questionNumber}" style="color: indigo;">Options:</label>
                         <br>
@@ -174,23 +178,18 @@
                         </select>
                     </div>
                     <br>
-                    <label for="points${questionNumber}" style="color: indigo;">Points:</label>
-                    <input type="number" id="points${questionNumber}" name="points${questionNumber}" required style="width: 100%; padding: 8px; font-size: 25px;">
+                    <input type="number" id="points${questionNumber}" name="points${questionNumber}" required placeholder="Points" style="width: 98%; padding: 8px; font-size: 25px;">
                 `;
             case 4:
                 return `
-                    <label for="questionText${questionNumber}" style="color: indigo;">Image url:</label>
-                    <input type="text" id="imageUrl${questionNumber}" name="imageUrl${questionNumber}" required style="width: 100%; padding: 8px; font-size: 25px;">
+                    <input type="text" id="imageUrl${questionNumber}" name="imageUrl${questionNumber}" required placeholder="Image URL" style="width: 98%; padding: 8px; font-size: 25px;">
                     <br>
-                    <label for="questionText${questionNumber}" style="color: indigo;">Question Text:</label>
-                    <input type="text" id="questionText${questionNumber}" name="questionText${questionNumber}" required style="width: 100%; padding: 8px; font-size: 25px;">
+                    <input type="text" id="questionText${questionNumber}" name="questionText${questionNumber}" required placeholder="Question Text" style="width: 98%; padding: 8px; font-size: 25px;">
                     <br>
                     <h4>*separate all possible variations of the correct answer by |</h4>
-                    <label for="answerText${questionNumber}" style="color: indigo;">Answer:</label>
-                    <input type="text" id="answerText${questionNumber}" name="answerText${questionNumber}" required style="width: 100%; padding: 8px; font-size: 25px;">
+                    <input type="text" id="answerText${questionNumber}" name="answerText${questionNumber}" required placeholder="Answer" style="width: 98%; padding: 8px; font-size: 25px;">
                     <br>
-                    <label for="points${questionNumber}" style="color: indigo;">Points:</label>
-                    <input type="number" id="points${questionNumber}" name="points${questionNumber}" required style="width: 100%; padding: 8px; font-size: 25px;">
+                    <input type="number" id="points${questionNumber}" name="points${questionNumber}" required placeholder="Points" style="width: 98%; padding: 8px; font-size: 25px;">
                 `;
             default:
                 return "";
@@ -201,7 +200,7 @@
 
         for (let i = 1; i <= numOfOptions; i++) {
             optionsHtml += `
-                <input type="text" id="option${questionNumber}_text${i}" name="option${questionNumber}_text${i}" placeholder="Option ${i}" style="width: 100%; padding: 8px; font-size: 16px;">
+                <input type="text" id="option${questionNumber}_text${i}" name="option${questionNumber}_text${i}" placeholder="Option ${i}" style="width: 98%; padding: 8px; font-size: 16px;">
                 <br>
             `;
         }

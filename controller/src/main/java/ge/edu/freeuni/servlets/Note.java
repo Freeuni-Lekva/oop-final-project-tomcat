@@ -1,5 +1,6 @@
 package ge.edu.freeuni.servlets;
 
+import ge.edu.freeuni.enums.Bool;
 import ge.edu.freeuni.responses.NoteResponse;
 import ge.edu.freeuni.services.NoteService;
 
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * the user sees the whole content of the note, there should be a "reply" bytton on the screen
@@ -22,7 +24,7 @@ public class Note extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
         Long noteId = Long.parseLong(httpServletRequest.getParameter("noteId"));
-        NoteResponse noteResponse = noteService.getNoteById(noteId);
+        NoteResponse noteResponse = noteService.getNoteById(noteId, true);
         if(noteResponse.isSuccess()){
             httpServletRequest.setAttribute("noteSender",noteResponse.getNoteModel().getFrom().getUsername());
             httpServletRequest.setAttribute("noteSubject",noteResponse.getNoteModel().getSubject());

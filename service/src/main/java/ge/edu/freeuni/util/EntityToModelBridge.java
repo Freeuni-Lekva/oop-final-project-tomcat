@@ -126,8 +126,8 @@ public class EntityToModelBridge {
                 EntityToModelBridge.toUserModel(note.getFrom()),
                 EntityToModelBridge.toUserModel(note.getTo()),
                 note.getMessage(),
-                note.getSubject()
-
+                note.getSubject(),
+                note.getSeen()
         );
     }
 }

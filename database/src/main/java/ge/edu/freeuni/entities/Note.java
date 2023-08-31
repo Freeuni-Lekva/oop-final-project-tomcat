@@ -1,6 +1,8 @@
 package ge.edu.freeuni.entities;
 
 
+import ge.edu.freeuni.enums.Bool;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -33,6 +35,9 @@ public class Note {
     @Column(name = "timestamp")
     private Long timestamp;
 
+    @Column(name = "seen")
+    private String seen;
+
     /**
      * Default constructor.
      */
@@ -46,6 +51,7 @@ public class Note {
         this.subject = subject;
         this.message = message;
         this.timestamp = System.currentTimeMillis() / 1000L;
+        this.seen = Bool.FALSE.name();
     }
 
     /**
@@ -149,17 +155,40 @@ public class Note {
         this.subject = subject;
     }
 
+    public String getSeen() {
+        return seen;
+    }
+
+    public void setSeen(String seen) {
+        this.seen = seen;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Note note = (Note) o;
-        return Objects.equals(id, note.id) && Objects.equals(from, note.from) && Objects.equals(to, note.to) && Objects.equals(message, note.message) && Objects.equals(timestamp, note.timestamp);
+
+        if (!Objects.equals(id, note.id)) return false;
+        if (!Objects.equals(from, note.from)) return false;
+        if (!Objects.equals(to, note.to)) return false;
+        if (!Objects.equals(subject, note.subject)) return false;
+        if (!Objects.equals(message, note.message)) return false;
+        if (!Objects.equals(timestamp, note.timestamp)) return false;
+        return Objects.equals(seen, note.seen);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, from, to, message, timestamp);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (from != null ? from.hashCode() : 0);
+        result = 31 * result + (to != null ? to.hashCode() : 0);
+        result = 31 * result + (subject != null ? subject.hashCode() : 0);
+        result = 31 * result + (message != null ? message.hashCode() : 0);
+        result = 31 * result + (timestamp != null ? timestamp.hashCode() : 0);
+        result = 31 * result + (seen != null ? seen.hashCode() : 0);
+        return result;
     }
 
     @Override
@@ -168,8 +197,10 @@ public class Note {
                 "id=" + id +
                 ", from=" + from +
                 ", to=" + to +
+                ", subject='" + subject + '\'' +
                 ", message='" + message + '\'' +
                 ", timestamp=" + timestamp +
+                ", seen='" + seen + '\'' +
                 '}';
     }
 }
